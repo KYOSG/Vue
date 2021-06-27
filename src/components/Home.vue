@@ -29,13 +29,13 @@ export default {
   name: "Home",
   methods:{
     Home:function (){
-      window.location.href='/Login';
+      this.$router.push('/Home');
     },
     Login:function (){
-      window.location.href='/Login';
+      this.$router.push('/Login');
     },
     Signup:function (){
-      window.location.href='/Home';
+      this.$router.push('/Signup');
     }
 
   }

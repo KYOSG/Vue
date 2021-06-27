@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Login from "@/components/Login";
-import Home from "@/views/Home";
+import Login from "@/views/Login";
+import Home from "@/components/Home";
 
 
 

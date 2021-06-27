@@ -26,11 +26,8 @@
         </el-radio-group>
       </div>
       <!--登陆按钮-->
-
-        <el-form-item class="button">
-          <el-button type="primary">登陆</el-button>
-        </el-form-item>
-
+      <el-button class="login_button" type="primary">登陆</el-button>
+      <el-button class="reset_button" type="primary">清空</el-button>
     </el-form>
   </div>
 </div>
@@ -101,9 +98,15 @@ img {
 }
 
 
-.button{
-  padding-top: 5%;
-  padding-left: 1%;
+.login_button{
+  position: absolute;
+  top:270px;
+}
+
+.reset_button{
+  position: absolute;
+  top:270px;
+  left:280px;
 }
 
 .id_box{
