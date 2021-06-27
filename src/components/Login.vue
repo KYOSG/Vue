@@ -6,19 +6,31 @@
     </div>
     <!--登录表单-->
     <el-form :model="loginform" class="form">
-
+      <!--用户名-->
       <el-form-item >
         <el-input v-model="loginform.username" placeholder="请输入用户名"
                   prefix-icon="el-icon-user-solid"></el-input>
       </el-form-item>
+      <!--密码-->
       <el-form-item >
         <el-input v-model="loginform.password" placeholder="请输入密码" type="password"
                   prefix-icon="el-icon-key"></el-input>
       </el-form-item>
+      <!--身份选择-->
+      <div class="id_box" >
+        <el-radio-group v-model="Choice" size="small">
+          <el-radio-button label="学生"></el-radio-button>
+          <el-radio-button label="老师"></el-radio-button>
+          <el-radio-button label="管理员"></el-radio-button>
 
-      <el-form-item class="button">
-        <el-button type="primary">登陆</el-button>
-      </el-form-item>
+        </el-radio-group>
+      </div>
+      <!--登陆按钮-->
+
+        <el-form-item class="button">
+          <el-button type="primary">登陆</el-button>
+        </el-form-item>
+
     </el-form>
   </div>
 </div>
@@ -33,10 +45,13 @@ export default {
       loginform:{
         username:'',
         password:''
-      }
+      },
+      Choice:'学生'
     }
   }
 }
+
+
 </script>
 
 <style scoped>
@@ -48,7 +63,7 @@ export default {
 
 .login_box{
   width: 450px;
-  height: 300px;
+  height: 350px;
   background-color: #E8E8E8;
   border-radius: 15px;
   position: absolute;
@@ -81,10 +96,18 @@ img {
 .form{
   padding-left: 22%;
   padding-right: 20%;
-  padding-top: 23%;
+  padding-top: 20%;
 
 }
+
+
 .button{
+  padding-top: 5%;
   padding-left: 1%;
 }
+
+.id_box{
+  padding-left: 13%;
+}
+
 </style>
