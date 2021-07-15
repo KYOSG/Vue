@@ -7,13 +7,14 @@ export default {
             labelPosition: 'right',
             studentData: {
                 name: '',
+                password:'',
                 score: '',
                 type: '',
                 year: '',
                 subject: [''],
             },
 
-            cities: subjectOptions
+            subjects: subjectOptions
         };
     }
 }
