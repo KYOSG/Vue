@@ -21,9 +21,9 @@
 
 }
 
-.From-Box{
-    width: 450px;
-    height: 350px;
+.From-Background{
+    width: 500px;
+    height: 600px;
     background-color: #E8E8E8;
     border-radius: 15px;
     position: absolute;
@@ -34,9 +34,16 @@
 
 }
 .From{
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,  -50%);
+    position: absolute;
+    top: 10%;
+    padding-left: 15%;
+    padding-right: 20%;
+}
+.fromItem{
+    padding-right: 9%;
+}
 
-
+.checkBox{
+    padding-top: 5%;
+    padding-left: 5px;
 }

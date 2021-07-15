@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import '../assets/css/Home.css';
+import '../assets/css/home.css';
 export default {
   name: "Home",
   methods:{
