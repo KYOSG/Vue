@@ -23,7 +23,7 @@
 
 .From-Background{
     width: 500px;
-    height: 600px;
+    height: 400px;
     background-color: #E8E8E8;
     border-radius: 15px;
     position: absolute;
@@ -37,13 +37,26 @@
     position: absolute;
     top: 10%;
     padding-left: 15%;
-    padding-right: 20%;
+    padding-right: 15%;
 }
+
 .fromItem{
-    padding-right: 9%;
+    padding-right: 4%;
 }
 
 .checkBox{
     padding-top: 5%;
     padding-left: 5px;
+}
+
+.submit_button{
+    position: absolute;
+    top:310px;
+    right: 300px;
+}
+
+.clear_button{
+    position: absolute;
+    top:310px;
+    right: 150px;
 }
