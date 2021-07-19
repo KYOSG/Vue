@@ -4,7 +4,7 @@
     <div class="head">
     <el-form-item class="head_button">
       <el-button @click="Home" class="button">首页</el-button>
-      <el-button class="button">联系我们</el-button>
+      <el-button @click="Test" class="button">联系我们</el-button>
       <el-button class="button">关于我们</el-button>
     </el-form-item>
       <div class="up">
@@ -36,8 +36,10 @@ export default {
     },
     Signup:function (){
       this.$router.push('/Signup');
+    },
+    Test:function (){
+      this.$router.push('/searchSchool')
     }
-
   }
 }
 
