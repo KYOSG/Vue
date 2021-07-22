@@ -1,67 +1,75 @@
-.background {
-    width: 100%;
-    height: 100%;
-    background: url("~@/img/Background.jpg") center center no-repeat;
-    background-size: 100% 100%;
-    position: absolute;
+.background
+{
+    width:100%;
+    height:100%;
+    background:url(~@/img/Background.jpg) center center no-repeat;
+    background-size:100% 100%;
+    position:absolute;
 }
 
-.CheckBoxBackground{
-
-    height: 370px;
-    background-color: #E8E8E8;
-    border-radius: 15px;
-    position: absolute;
-    top: 10%;
-    right: 3%;
-    left: 3%;
+.CheckBoxBackground
+{
+    height:370px;
+    background-color:#E8E8E8;
+    border-radius:15px;
+    position:absolute;
+    top:10%;
+    right:3%;
+    left:3%;
 }
 
-.title{
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translate(-50%,  -50%);
+.title
+{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translate(-50%,-50%);
 }
 
-.cityChange{
-    position: absolute;
-    top: 0.3rem;
-    right: 3%;
-    left: 3%;
+.cityChange
+{
+    position:absolute;
+    top:.3rem;
+    right:3%;
+    left:3%;
 }
 
-.chargeChange{
-    position: absolute;
-    top: 2rem;
-    right: 3%;
-    left: 3%;
+.chargeChange
+{
+    position:absolute;
+    top:2rem;
+    right:3%;
+    left:3%;
 }
 
-.typeChange{
-    position: absolute;
-    top: 3rem;
-    right: 3%;
-    left: 3%;
+.typeChange
+{
+    position:absolute;
+    top:3rem;
+    right:3%;
+    left:3%;
 }
 
-.layerChange{
-    position: absolute;
-    top: 4rem;
-    right: 3%;
-    left: 3%;
+.layerChange
+{
+    position:absolute;
+    top:4rem;
+    right:3%;
+    left:3%;
 }
 
-.featureChange{
-    position: absolute;
-    top: 5rem;
-    right: 3%;
-    left: 3%;
-
+.featureChange
+{
+    position:absolute;
+    top:5rem;
+    right:3%;
+    left:3%;
 }
-.FeatureS{
-    position: absolute;
-    top: 6rem;
-    right: 3%;
-    left: 3%;
+
+.FeatureS
+{
+    position:absolute;
+    top:6rem;
+    right:3%;
+    left:3%;
 }
