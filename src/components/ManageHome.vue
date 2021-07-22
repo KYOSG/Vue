@@ -22,8 +22,8 @@
                           <span>人员管理</span>
                         </template>
                         <el-menu-item-group>
-                          <el-menu-item index="1-1">学生信息</el-menu-item>
-                          <el-menu-item index="1-2">指导老师信息</el-menu-item>
+                          <el-menu-item >学生信息</el-menu-item>
+                          <el-menu-item >指导老师信息</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                     </el-menu>
