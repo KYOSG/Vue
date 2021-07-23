@@ -70,7 +70,7 @@
   </div>
 </template>
 
-<script type="text/javascript" src="../../assets/Js/searchSchool.js">
+<script type="text/javascript" src="../../assets/Js/schoolSel.js">
 
 </script>
 
