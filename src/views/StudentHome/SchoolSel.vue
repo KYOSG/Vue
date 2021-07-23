@@ -1,5 +1,5 @@
 <template>
-<div class="Background">
+<div>
   <el-container>
     <el-header>
       <div class="CheckBoxBackground">
@@ -70,7 +70,7 @@
   </div>
 </template>
 
-<script type="text/javascript" src="../../../assets/Js/searchSchool.js">
+<script type="text/javascript" src="../../assets/Js/searchSchool.js">
 
 </script>
 

@@ -7,12 +7,13 @@
             mode="horizontal"
             background-color="#023047"
             text-color="#fff"
-            active-text-color="#ffd04b">
-          <el-menu-item index="1">个人主页</el-menu-item>
+            active-text-color="#ffd04b"
+            :router="true">
+          <el-menu-item index="/StudentWelcome">个人主页</el-menu-item>
           <el-submenu index="2">
-            <template #title>志愿填报</template>
-            <el-menu-item index="2-1">院校库</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
+            <template #title  > 志愿填报</template>
+            <el-menu-item index="/SchoolSel">院校选择</el-menu-item>
+            <el-menu-item index="/MajorSel">专业选择</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
             <el-submenu index="2-4">
               <template #title>选项4</template>

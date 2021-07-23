@@ -18,15 +18,26 @@
                         active-text-color="#FED766"
                         class="menu"
                         :collapse="isCollapse"
-                        :collapse-transition="false">
-                      <el-submenu index="1">
+                        :collapse-transition="false"
+                        :router="true">
+                      <el-submenu index="0">
                         <template #title>
                           <i class="el-icon-user-solid"></i>
-                          <span>人员管理</span>
+                          <span>用户管理</span>
                         </template>
                         <el-menu-item-group>
-                          <el-menu-item index="1" class="el-icon-user">学生信息</el-menu-item>
-                          <el-menu-item index="2" class="el-icon-s-custom" >指导老师信息</el-menu-item>
+                          <el-menu-item index="/StudentInf" class="el-icon-user">学生信息</el-menu-item>
+                          <el-menu-item index="/TeacherInf" class="el-icon-s-custom" >指导老师信息</el-menu-item>
+                        </el-menu-item-group>
+                      </el-submenu>
+                      <el-submenu index="2">
+                        <template #title>
+                          <i class="el-icon-user-solid"></i>
+                          <span>院校管理</span>
+                        </template>
+                        <el-menu-item-group>
+                          <el-menu-item index="/SchoolInf" class="el-icon-user">院校信息</el-menu-item>
+
                         </el-menu-item-group>
                       </el-submenu>
                     </el-menu>
@@ -48,6 +59,10 @@ export default {
     }
   },
   methods:{
+    logout(){
+      window.sessionStorage.clear()
+      this.$router.push('/Login')
+    },
     toggleCollapse(){
       this.isCollapse = !this.isCollapse
     }
@@ -59,6 +74,7 @@ export default {
 .title{
   align-content: center;
   display: flex;
+  margin-top: 10px;
 }
 
 
