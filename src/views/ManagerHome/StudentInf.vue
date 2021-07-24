@@ -30,8 +30,14 @@
       <el-table-column label="高考分数" prop="st_mark"></el-table-column>
       <el-table-column label="电话" prop="st_mobile"></el-table-column>
       <el-table-column label="操作" >
-        <el-tooltip effect="dark" content="编辑" placement="top" :enterable="false">
-          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+        <el-tooltip effect="dark"
+                    content="编辑"
+                    placement="top"
+                    :enterable="false">
+          <el-button type="primary"
+                     icon="el-icon-edit"
+                     size="mini"
+                     @click="showEditDialog()"></el-button>
         </el-tooltip>
         <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
           <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
@@ -52,16 +58,31 @@
 <!--添加学生信息编辑对话框-->
     <el-dialog
         title="学生信息编辑"
-        v-model="dialogVisible"
-        width="30%">
-      <span>这是一段信息</span>
+        width="50%"
+        v-model="editDialogVisible"
+        @close="editDialogClosed">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
+        <el-form-item label="用户名">
+          <el-input v-model="editForm.st_name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="st_email">
+          <el-input v-model="editForm.st_email" ></el-input>
+        </el-form-item>
+        <el-form-item label="高考分数">
+          <el-input v-model="editForm.st_mark " disabled></el-input>
+        </el-form-item>
+        <el-form-item label="手机" prop="st_mobile">
+          <el-input v-model="editForm.st_mobile" ></el-input>
+        </el-form-item>
+      </el-form>
       <template #footer>
     <span class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      <el-button @click="editDialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="editDialogInfo">确 定</el-button>
     </span>
       </template>
     </el-dialog>
+
   </el-card>
 </template>
 
@@ -90,7 +111,19 @@ export default {
           "st_mobile": "12236468825",
       }],
       total: 0,
-      dialogVisible: false
+      editDialogVisible: false,
+      editForm:{},
+      editFormRules:{
+        st_email:[
+          { required: true, message: '请输入用户邮箱', trigger: 'blur'},
+         // { validator: checkEmail, tigger: 'blur'},
+        ],
+        st_mobile:[
+          { required: true, message: '请输入用户手机', trigger: 'blur'},
+          //{ validator: checkMobile, tigger: 'blur'},
+        ]
+
+      }
     }
   },
   created() {
@@ -116,6 +149,31 @@ export default {
       this.queryInfo.pageSum = newPage
       this.getStudentList()
     },
+    async showEditDialog(){
+      this.editDialogVisible = true
+      /*
+      const {data: res} = await this.$http.get('studentList/' + id)
+
+
+      if (res.meta.status !== 200){
+        return this.$message.error('查询用户信息失败')
+      }
+      this.editForm = res.data
+      */
+    },
+    editDialogClosed(){
+      this.$refs.editFormRef.resetFields()
+    },
+    editDialogInfo(){
+      this.$refs.editFormRef.validate(valid=>{
+        if(!valid){
+          return
+        }
+        else{
+          this.editDialogVisible = false
+        }
+      })
+    }
   }
 }
 </script>
