@@ -8,7 +8,10 @@ import ManagerWelcome from "@/views/ManagerHome/ManagerWelcome";
 import StudentHome from"@/components/StudentHome"
 import StudentInf from "@/views/ManagerHome/StudentInf";
 import TeacherInf from "@/views/ManagerHome/TeacherInf";
-import StudentWelcome from "@/views/StudentHome/StudentWelcome";
+import StudentWelcome from "@/views/StudentHome/StudentWelcome"
+import SchoolInf from "@/views/ManagerHome/SchoolInf";
+import Data from "@/views/StudentHome/Data";
+
 const routes = [{
   path: '/',
   redirect: '/StudentHome'
@@ -27,7 +30,13 @@ const routes = [{
     path: '/Signup',
     name: 'Signup',
     component: Signup
-  }, {
+  },
+  {
+    path: '/Data',
+    component: Data,
+  },
+  //管理员界面
+  {
     path: '/ManagerHome',
     name: 'ManagerHome',
     component: ManagerHome,
@@ -41,8 +50,12 @@ const routes = [{
     },{
       path: '/TeacherInf',
       component: TeacherInf,
-    }]
+    },{
+      path: '/SchoolInf',
+      component: SchoolInf,
+    },]
   },
+    //学生界面
   {
     path: '/StudentHome',
     name: 'StudentHome',
@@ -54,8 +67,9 @@ const routes = [{
     },{
       path: '/SchoolSel',
       component: SchoolSel,
-    }]
+    },]
   }
+  //老师界面
   ]
 
 const router = createRouter({

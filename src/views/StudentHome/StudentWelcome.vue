@@ -1,5 +1,6 @@
 <template>
-学生界面欢迎页面
+卷起来！！
+
 </template>
 
 <script>
