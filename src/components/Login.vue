@@ -5,14 +5,14 @@
       <img src="../assets/logo.png" alt="">
     </div>
     <!--登录表单-->
-    <el-form :model="loginform" class="form">
+    <el-form :model="loginform" class="form" rules="loginFormRules">
       <!--用户名-->
-      <el-form-item >
+      <el-form-item prop="username">
         <el-input v-model="loginform.username" placeholder="请输入用户名"
                   prefix-icon="el-icon-user-solid"></el-input>
       </el-form-item>
       <!--密码-->
-      <el-form-item >
+      <el-form-item prop="password">
         <el-input v-model="loginform.password" placeholder="请输入密码" type="password"
                   prefix-icon="el-icon-key"></el-input>
       </el-form-item>
@@ -43,7 +43,28 @@ export default {
         username:'',
         password:''
       },
+      //数据验证
+      loginFormRules:{
+        username: [
+          { required: true, message:"请输入用户名",trigger:"blur" },
+          { min: 3, max: 10, message: "长度在3-10个字符之间"}
+        ],
+        password: [
+          { required: true, message:"请输入用密码",trigger:"blur" },
+        ]
+      },
       Choice:'学生'
+    }
+  },
+  methods:{
+    login(){
+      this.$refs.loginFromRef.validate( async valid => {
+        if (!valid) return;
+        const {Data: res} = await this.$http.post("login", this.loginform);
+        if (res.meta.status !== 200) return console.log("登录失败");
+        console.log("登录成功");
+        console.log(valid);
+      })
     }
   }
 }

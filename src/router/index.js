@@ -14,7 +14,7 @@ import Data from "@/views/StudentHome/Data";
 
 const routes = [{
   path: '/',
-  redirect: '/StudentHome'
+  redirect: '/Home'
 },
   {
     path: '/Login',
