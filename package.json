@@ -11,6 +11,7 @@
     "core-js": "^3.15.2",
     "element-plus": "^1.0.2-beta.28",
     "lib-flexible": "^0.3.2",
+    "qs": "^6.5.2",
     "vue": "^3.1.5",
     "vue-router": "^4.0.10",
     "vuex": "^4.0.0-0"

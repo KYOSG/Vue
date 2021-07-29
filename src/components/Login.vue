@@ -56,9 +56,10 @@ export default {
          if (!valid)
            return;
         const {Data: res} = await this.$http.post("login", this.loginForm);
-        if (res.meta.status !== 200) return this.$message.error("登录失败！");
+        if (res.meta.status !== 200)
+          return this.$message.error("登录失败！");
         this.$message.success("登录成功！");
-
+        this.router.push("/StudentHome");
         //window.sessionStorage.setItem("token", res.data.token);
         //在此处进行身份识别和跳转到对应的页面
         /*
