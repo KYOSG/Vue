@@ -48,7 +48,7 @@
 
     <el-row>
        <el-button type="primary" class="submit_button">提交</el-button>
-      <el-button type="primary" class="clear_button">清空</el-button>
+      <el-button type="primary" class="clear_button" @click="resetLoginForm">清空</el-button>
     </el-row>
 
   </div>
@@ -56,8 +56,95 @@
 </div>
 </template>
 
-<script type="text/javascript" src="../assets/Js/signUp.js">
+<script>
+import { defineComponent, ref } from 'vue'
+//const subjectOptions = ['物理', '化学', '生物', '政治','历史','地理'];
+export default {
+  name: "Signup",
+  data() {
+    return {
+      labelPosition: 'right',
+      studentData: {
+        name: ref(''),
+        number:ref(''),
+        password:ref(''),
+        score: ref(''),
+        type: ref(''),
+        year: ref(''),
+        subject: [''],
+      },
+
+      // subjects: subjectOptions
+    };
+  },
+  methods:{
+    resetLoginForm(){
+      this.$refs.loginFormRef.resetFields();
+    },
+  }
+}
 </script>
 
 <style scoped>
+.Background
+{
+  width:100%;
+  height:100vh;
+  background:url(~@/img/Background.jpg) center center no-repeat;
+  background-size:100% 100%;
+  position:absolute;
+}
+
+.Title
+{
+  text-align:center;
+  font-family:"Microsoft YaHei UI", serif;
+  font-size:50px;
+  color:#F0F8FF;
+  text-shadow:
+      -1px -1px 0 #4f4d57,
+      1px -1px 0 #4f4d57,
+      -1px 1px 0 #4f4d57,
+      1px 1px 0 #4f4d57,
+      0 2px 2px rgba(0,0,0,0.6);
+}
+
+.From-Background
+{
+  width:500px;
+  height:400px;
+  background-color:#E8E8E8;
+  border-radius:15px;
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+
+.From
+{
+  position:absolute;
+  top:10%;
+  padding-left:15%;
+  padding-right:15%;
+}
+
+.fromItem
+{
+  padding-right:4%;
+}
+
+.submit_button
+{
+  position:absolute;
+  top:310px;
+  right:300px;
+}
+
+.clear_button
+{
+  position:absolute;
+  top:310px;
+  right:150px;
+}
 </style>

@@ -5,29 +5,20 @@
       <img src="../assets/logo.png" alt="">
     </div>
     <!--登录表单-->
-    <el-form :model="loginform" class="form" rules="loginFormRules">
+    <el-form :model="loginForm" class="form" rules="loginFormRules" ref="loginFormRef">
       <!--用户名-->
       <el-form-item prop="username">
-        <el-input v-model="loginform.username" placeholder="请输入用户名"
+        <el-input v-model="loginForm.username" placeholder="请输入用户名"
                   prefix-icon="el-icon-user-solid"></el-input>
       </el-form-item>
       <!--密码-->
       <el-form-item prop="password">
-        <el-input v-model="loginform.password" placeholder="请输入密码" type="password"
+        <el-input v-model="loginForm.password" placeholder="请输入密码" type="password"
                   prefix-icon="el-icon-key"></el-input>
       </el-form-item>
-      <!--身份选择-->
-      <div class="id_box" >
-        <el-radio-group v-model="Choice" size="small">
-          <el-radio-button label="学生"></el-radio-button>
-          <el-radio-button label="老师"></el-radio-button>
-          <el-radio-button label="管理员"></el-radio-button>
-
-        </el-radio-group>
-      </div>
       <!--登陆按钮-->
-      <el-button class="login_button" type="primary">登陆</el-button>
-      <el-button class="reset_button" type="primary">清空</el-button>
+      <el-button class="login_button" type="primary" @click="login">登陆</el-button>
+      <el-button class="reset_button" type="primary" @click="resetLoginForm">清空</el-button>
     </el-form>
   </div>
 </div>
@@ -39,7 +30,7 @@ export default {
   name: "Login",
   data(){
     return{
-      loginform:{
+      loginForm:{
         username:'',
         password:''
       },
@@ -53,17 +44,31 @@ export default {
           { required: true, message:"请输入用密码",trigger:"blur" },
         ]
       },
-      Choice:'学生'
     }
   },
   methods:{
+    resetLoginForm(){
+      this.$refs.loginFormRef.resetFields();
+    },
+
     login(){
       this.$refs.loginFromRef.validate( async valid => {
-        if (!valid) return;
-        const {Data: res} = await this.$http.post("login", this.loginform);
-        if (res.meta.status !== 200) return console.log("登录失败");
-        console.log("登录成功");
-        console.log(valid);
+         if (!valid)
+           return;
+        const {Data: res} = await this.$http.post("login", this.loginForm);
+        if (res.meta.status !== 200) return this.$message.error("登录失败！");
+        this.$message.success("登录成功！");
+
+        //window.sessionStorage.setItem("token", res.data.token);
+        //在此处进行身份识别和跳转到对应的页面
+        /*
+        if (this.loginForm.UID === 0)
+        this.router.push("/ManagerHome");
+        if (this.loginForm.UID === 1)
+        this.router.push("/StudentHome");
+        if (this.loginForm.UID === 2)
+        this.router.push("/TeacherHome");
+        */
       })
     }
   }
@@ -128,10 +133,6 @@ img {
   position: absolute;
   top:270px;
   left:280px;
-}
-
-.id_box{
-  padding-left: 13%;
 }
 
 </style>
