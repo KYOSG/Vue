@@ -76,4 +76,62 @@
 
 <style scoped>
 
+.CheckBoxBackground
+{
+  height:370px;
+  background-color:#E8E8E8;
+  border-radius:15px;
+  position:absolute;
+  top:10%;
+  right:3%;
+  left:3%;
+}
+
+.cityChange
+{
+  position:absolute;
+  top:.3rem;
+  right:3%;
+  left:3%;
+}
+
+.chargeChange
+{
+  position:absolute;
+  top:2rem;
+  right:3%;
+  left:3%;
+}
+
+.typeChange
+{
+  position:absolute;
+  top:3rem;
+  right:3%;
+  left:3%;
+}
+
+.layerChange
+{
+  position:absolute;
+  top:4rem;
+  right:3%;
+  left:3%;
+}
+
+.featureChange
+{
+  position:absolute;
+  top:5rem;
+  right:3%;
+  left:3%;
+}
+
+.FeatureS
+{
+  position:absolute;
+  top:6rem;
+  right:3%;
+  left:3%;
+}
 </style>

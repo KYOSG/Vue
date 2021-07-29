@@ -2,7 +2,7 @@
 
 </template>
 
-<script type="text/javascript" src="../assets/Js/teacherHome.js">
+<script>
 
 </script>
 
