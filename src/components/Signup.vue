@@ -5,32 +5,40 @@
 </div>
   <div class="From-Background">
 <div class="From">
-  <el-form :label-position="labelPosition" label-width="80px" >
-    <!--姓名-->
-   <el-form-item label="姓名" class="fromItem" >
-      <el-input v-model="studentData.st_name" clearable></el-input>
+  <el-form :model="signUpForm" :label-position="labelPosition" label-width="80px" ref="signUpFormRef">
+    <!--用户名-->
+    <el-form-item label="用户名" class="fromItem" prop="username">
+      <el-input v-model="signUpForm.username" clearable></el-input>
     </el-form-item>
     <!--姓名-->
-    <el-form-item label="高考分数" class="fromItem" >
-      <el-input v-model="studentData.st_mark" clearable></el-input>
+   <el-form-item label="姓名" class="fromItem" prop="st_name">
+      <el-input v-model="signUpForm.st_name" clearable></el-input>
     </el-form-item>
-    <!--姓名-->
-    <el-form-item label="电话" class="fromItem" >
-      <el-input v-model="studentData.st_mobile" clearable></el-input>
-    </el-form-item>
-    <!--姓名-->
-    <el-form-item label="用户名" class="fromItem" >
-      <el-input v-model="studentData.username" clearable></el-input>
-    </el-form-item>
-    <!--姓名-->
-
     <!--密码-->
-    <el-form-item label="密码" class="fromItem">
-    <el-input v-model="studentData.password"
-              type="password"
-              prefix-icon="el-icon-key"
-              show-password clearable></el-input>
+    <el-form-item label="密码" class="fromItem" prop="password">
+      <el-input v-model="signUpForm.password"
+                type="password"
+                prefix-icon="el-icon-key"
+                show-password clearable></el-input>
     </el-form-item>
+    <!--确认密码-->
+    <el-form-item label="确认密码" class="fromItem" prop="password">
+      <el-input v-model="signUpForm.password"
+                type="password"
+                prefix-icon="el-icon-key"
+                show-password clearable></el-input>
+    </el-form-item>
+    <!--分数-->
+    <el-form-item label="高考分数" class="fromItem" prop="st_mark">
+      <el-input v-model="signUpForm.st_mark" clearable></el-input>
+    </el-form-item>
+    <!--电话-->
+    <el-form-item label="电话" class="fromItem" prop="st_mobile">
+      <el-input v-model="signUpForm.st_mobile" clearable></el-input>
+    </el-form-item>
+
+
+
 
     <!--高考选课
     <el-form-item label="所选科目">
@@ -49,7 +57,7 @@
 
     <el-row>
        <el-button type="primary" class="submit_button" @click="submit">提交</el-button>
-      <el-button type="primary" class="clear_button" @click="resetLoginForm">清空</el-button>
+      <el-button type="primary" class="clear_button" @click="resetSignUpForm">清空</el-button>
     </el-row>
 
   </div>
@@ -65,34 +73,31 @@ export default {
   data() {
     return {
       labelPosition: 'right',
-      studentData: {
+      signUpForm: {
         st_name: ref(''),
         st_mark: ref(''),
         st_mobile: ref(''),
         password:ref(''),
-
-        token: ref('editor'),
+        token: ref('student'),
       },
 
       // subjects: subjectOptions
     };
   },
   methods:{
-    resetLoginForm(){
-      this.$refs.loginFormRef.resetFields();
+    resetSignUpForm(){
+      this.$refs.signUpFormRef.resetFields();
     },
+
     submit(){
       this.$http({
         method:'post',
-        url:'/queryUser',
-        data: this.loginForm
+        url:'/SignUp',
+        data: this.signUpForm
       }).then(res=>{
-        if (res.data.info.code === 0)
-          this.$message.success("登录成功！");
-        else
-          return this.$message.error("登录失败！");
-        if (res.data.data.token === "admin")
-          this.$router.push("/ManagerHome");
+        if (res.data.info.code !== 200)
+          return this.$message.error(res.data.info.message);
+        this.$message.success("注册成功！");
       })
     }
   }
@@ -121,12 +126,13 @@ export default {
       -1px 1px 0 #4f4d57,
       1px 1px 0 #4f4d57,
       0 2px 2px rgba(0,0,0,0.6);
+  top:70px
 }
 
 .From-Background
 {
   width:500px;
-  height:400px;
+  height:500px;
   background-color:#E8E8E8;
   border-radius:15px;
   position:absolute;
@@ -151,14 +157,14 @@ export default {
 .submit_button
 {
   position:absolute;
-  top:310px;
+  top:430px;
   right:300px;
 }
 
 .clear_button
 {
   position:absolute;
-  top:310px;
+  top:430px;
   right:150px;
 }
 </style>
