@@ -78,6 +78,7 @@ const router = createRouter({
 })
 
 //导航守卫
+//开启前先做白名单
 /*
 router.beforeEach((to, from, next) => {
   if (to.path === '/login')

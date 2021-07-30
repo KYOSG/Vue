@@ -9,6 +9,7 @@
             text-color="#fff"
             active-text-color="#ffd04b"
             :router="true">
+          <el-button type="info" @click="logout">退出</el-button>
           <el-menu-item index="/StudentWelcome">个人主页</el-menu-item>
           <el-submenu index="2">
             <template #title  > 志愿填报</template>
@@ -41,8 +42,11 @@ export default {
     };
   },
   methods: {
+    logout(){
+      window.sessionStorage.clear()
+      this.$router.push('/Home')
+    },
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
     }
   }
 }

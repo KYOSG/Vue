@@ -52,19 +52,18 @@ export default {
     },
 
     login(){
-      this.$refs.loginFormRef.validate( async valid => {
-         if (!valid)
-           return;
-        let loginForm = this.loginForm;
-        const {Data: res} = await this.$http({
-          method:"post",
-          url:"",
-          data:{loginForm},
-      })
-        if (res.meta.status !== 200)
+      this.$http({
+        method:'post',
+        url:'/queryUser',
+        data: this.loginForm
+      }).then(res=>{
+        if (res.data.info.code === 0)
+           this.$message.success("登录成功！");
+        else
           return this.$message.error("登录失败！");
-        this.$message.success("登录成功！");
-        this.router.push("/StudentHome");
+
+      })
+      this.$router.push("/StudentHome");
         //window.sessionStorage.setItem("token", res.data.token);
         //在此处进行身份识别和跳转到对应的页面
         /*
@@ -75,7 +74,6 @@ export default {
         if (this.loginForm.UID === 2)
         this.router.push("/TeacherHome");
         */
-      })
     }
   }
 }

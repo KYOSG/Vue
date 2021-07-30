@@ -61,7 +61,7 @@ export default {
   methods:{
     logout(){
       window.sessionStorage.clear()
-      this.$router.push('/Login')
+      this.$router.push('/Home')
     },
     toggleCollapse(){
       this.isCollapse = !this.isCollapse
