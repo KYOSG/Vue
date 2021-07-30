@@ -33,13 +33,13 @@
         <el-tooltip effect="dark"
                     content="编辑"
                     placement="top"
-                    :enterable="false">
+                    :enterable= false>
           <el-button type="primary"
                      icon="el-icon-edit"
                      size="mini"
-                     @click="showEditDialog()"></el-button>
+                     @click="showEditDialog"></el-button>
         </el-tooltip>
-        <el-tooltip effect="dark" content="删除" placement="top" :enterable="false" @click="removeSt">
+        <el-tooltip effect="dark" content="删除" placement="top" :enterable=false @click="removeSt">
           <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
         </el-tooltip>
       </el-table-column>
@@ -64,29 +64,28 @@ export default {
   name: "StudentInt",
   data(){
     //邮箱验证规则
-    var checkEmail = (rule,value,cb) => {
+    const checkEmail = (rule, value, cb) => {
       //邮箱验证正则表达式
       const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
 
-      if(regEmail.test(value)){
+      if (regEmail.test(value)) {
         return cb()
       }
 
       cb(new Error('请正确输入邮箱'))
-    }
+    };
 
-    var checkMobile = (rule,value,cb) =>{
+    const checkMobile = (rule, value, cb) => {
       const regMobile = /^(0｜86｜17951)?(13[0-9]|15[0123456789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
 
-      if (regMobile.test(value)){
+      if (regMobile.test(value)) {
         return cb()
       }
 
       cb(new Error('请正确输入电话号码'))
-    }
+    };
 
     return{
-
       //用户列表
       queryInfo:{
         query:'',
@@ -122,9 +121,7 @@ export default {
       }
     }
   },
-  created() {
-    this.getStudentList()
-  },
+
   methods:{
     async getStudentList(){
       const { data: res }  = await this.$http.get('studentList', {
@@ -145,7 +142,7 @@ export default {
       this.queryInfo.pageSum = newPage
       this.getStudentList()
     },
-    async showEditDialog(){
+    showEditDialog(){
       this.editDialogVisible = true
       /*
       const {data: res} = await this.$http.get('studentList/' + id)

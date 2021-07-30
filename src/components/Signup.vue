@@ -8,13 +8,21 @@
   <el-form :label-position="labelPosition" label-width="80px" >
     <!--姓名-->
    <el-form-item label="姓名" class="fromItem" >
-      <el-input v-model="studentData.name" clearable></el-input>
+      <el-input v-model="studentData.st_name" clearable></el-input>
     </el-form-item>
-
-    <!--考号-->
-    <el-form-item label="考生号" class="fromItem">
-      <el-input v-model="studentData.number" clearable></el-input>
+    <!--姓名-->
+    <el-form-item label="高考分数" class="fromItem" >
+      <el-input v-model="studentData.st_mark" clearable></el-input>
     </el-form-item>
+    <!--姓名-->
+    <el-form-item label="电话" class="fromItem" >
+      <el-input v-model="studentData.st_mobile" clearable></el-input>
+    </el-form-item>
+    <!--姓名-->
+    <el-form-item label="用户名" class="fromItem" >
+      <el-input v-model="studentData.username" clearable></el-input>
+    </el-form-item>
+    <!--姓名-->
 
     <!--密码-->
     <el-form-item label="密码" class="fromItem">
@@ -24,13 +32,6 @@
               show-password clearable></el-input>
     </el-form-item>
 
-    <!--毕业时间-->
-    <el-form-item label="毕业时间" class="formItem">
-        <el-date-picker
-            v-model="studentData.year"
-            type="year">
-        </el-date-picker>
-    </el-form-item>
     <!--高考选课
     <el-form-item label="所选科目">
       <el-checkbox-group
@@ -47,7 +48,7 @@
 </div>
 
     <el-row>
-       <el-button type="primary" class="submit_button">提交</el-button>
+       <el-button type="primary" class="submit_button" @click="submit">提交</el-button>
       <el-button type="primary" class="clear_button" @click="resetLoginForm">清空</el-button>
     </el-row>
 
@@ -65,13 +66,12 @@ export default {
     return {
       labelPosition: 'right',
       studentData: {
-        name: ref(''),
-        number:ref(''),
+        st_name: ref(''),
+        st_mark: ref(''),
+        st_mobile: ref(''),
         password:ref(''),
-        score: ref(''),
-        type: ref(''),
-        year: ref(''),
-        subject: [''],
+
+        token: ref('editor'),
       },
 
       // subjects: subjectOptions
@@ -81,6 +81,20 @@ export default {
     resetLoginForm(){
       this.$refs.loginFormRef.resetFields();
     },
+    submit(){
+      this.$http({
+        method:'post',
+        url:'/queryUser',
+        data: this.loginForm
+      }).then(res=>{
+        if (res.data.info.code === 0)
+          this.$message.success("登录成功！");
+        else
+          return this.$message.error("登录失败！");
+        if (res.data.data.token === "admin")
+          this.$router.push("/ManagerHome");
+      })
+    }
   }
 }
 </script>

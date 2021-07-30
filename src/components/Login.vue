@@ -61,15 +61,18 @@ export default {
            this.$message.success("登录成功！");
         else
           return this.$message.error("登录失败！");
-
+        if (res.data.data.token === "admin")
+          this.$router.push("/ManagerHome");
+        else if (res.data.data.token === "editor")
+          this.$router.push("/StudentHome");
       })
-      this.$router.push("/StudentHome");
+      //this.$router.push("/StudentHome");
         //window.sessionStorage.setItem("token", res.data.token);
         //在此处进行身份识别和跳转到对应的页面
         /*
-        if (this.loginForm.UID === 0)
+        if (this.loginForm.token === "admin")
         this.router.push("/ManagerHome");
-        if (this.loginForm.UID === 1)
+        if (this.loginForm.UID === editor)
         this.router.push("/StudentHome");
         if (this.loginForm.UID === 2)
         this.router.push("/TeacherHome");
