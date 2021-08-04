@@ -38,10 +38,9 @@ export default {
       loginFormRules:{
         username: [
           { required: true, message:"请输入用户名",trigger:"blur" },
-          { min: 3, max: 10, message: "长度在3-10个字符之间"}
         ],
         password: [
-          { required: true, message:"请输入用密码",trigger:"blur" },
+          { required: true, message:"请输入密码",trigger:"blur" },
         ]
       },
     }
@@ -54,18 +53,19 @@ export default {
     login(){
       this.$http({
         method:'post',
-        url:'/Login',
+        url:'Login',
         data: this.loginForm
       }).then(res=>{
         if (res.data.info.code !== 200)
           return this.$message.error(res.data.info.message);
           this.$message.success("登录成功！");
-        //在此处进行身份识别和跳转到对应的页面
-        if (res.data.data.token === "admin")
+          window.sessionStorage.setItem("token",res.data.token)
+        //在此处进行身份识别和跳转到对应的页面 cx
+        if (res.data.data.identity === "admin")
           this.$router.push("/ManagerHome");
-        else if (res.data.data.token === "student")
+        else if (res.data.data.identity === "student")
           this.$router.push("/StudentHome");
-        else if (res.data.data.token === "teacher")
+        else if (res.data.data.identity === "teacher")
           this.$router.push("/TeacherHome");
       })
       //this.$router.push("/StudentHome");

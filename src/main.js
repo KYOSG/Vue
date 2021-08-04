@@ -6,10 +6,22 @@ import installElementPlus from './plugins/element'
 import './assets/css/global.css'
 import 'lib-flexible'
 import axios from 'axios';
+import promise from "q";
 
 const app = createApp(App)
 app.config.globalProperties.$http = axios;
-axios.defaults.baseURL = 'http://localhost:8085/';
+axios.defaults.baseURL = 'http://localhost:8080/';
+axios.interceptors.request.use(
+    config=>{
+        let token = sessionStorage.getItem('token')
+        if (!config.headers.hasOwnProperty('token') && token){
+            config.headers.token = token;
+        }
+        return config;
+    },
+    error => {
+        return promise.reject(error);
+    });
 //axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';//配置请求头信息。
 //axios.defaults.headers.common['accessToken'] = 'FA4C308D5E8F6409E01344ADDAEB4C71';
 
