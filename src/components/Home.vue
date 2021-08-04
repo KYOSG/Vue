@@ -38,7 +38,7 @@ export default {
       this.$router.push('/Signup');
     },
     Test:function (){
-      this.$router.push('/searchSchool')
+     // this.$router.push('/searchSchool')
     }
   }
 }

@@ -1,4 +1,4 @@
-<template>
+<template slot-scope="scope">
   <!--面包屑导航-->
   <el-breadcrumb separator-class="el-icon-arrow-right">
     <el-breadcrumb-item :to="{ path: '/ManagerHome' }">首页</el-breadcrumb-item>
@@ -10,7 +10,7 @@
 <!--搜索-->
 <el-row :gutter="20">
   <el-col :span="7">
-    <el-input placeholder="请输入内容"
+    <el-input placeholder="请输入用户名"
     v-model="queryInfo.query"
               clearable @clear="getStudentList">
       <template #append @click="getStudentList">
@@ -37,7 +37,7 @@
           <el-button type="primary"
                      icon="el-icon-edit"
                      size="mini"
-                     @click="showEditDialog"></el-button>
+                     @click="showEditDialog(scope.studentList.id)"></el-button>
         </el-tooltip>
         <el-tooltip effect="dark" content="删除" placement="top" :enterable=false @click="removeSt">
           <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
@@ -56,6 +56,34 @@
         :total="total">
     </el-pagination>
 <!--添加学生信息编辑对话框-->
+    <el-dialog
+        title="学生信息编辑"
+        v-model="editDialogVisible"
+        width="30%"
+        :before-close="editDialogClosed">
+      <el-form-item label="活动名称">
+        <el-input v-model="studentList.st_name"></el-input>
+
+      </el-form-item> <el-form-item label="活动名称">
+      <el-input v-model="studentList.st_email"></el-input>
+
+    </el-form-item> <el-form-item label="活动名称">
+      <el-input v-model="studentList.st_name"></el-input>
+
+    </el-form-item> <el-form-item label="活动名称">
+      <el-input v-model="studentList.st_name"></el-input>
+
+    </el-form-item> <el-form-item label="活动名称">
+      <el-input v-model="studentList.st_name"></el-input>
+
+    </el-form-item>
+      <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="editDialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
+    </span>
+      </template>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -107,7 +135,9 @@ export default {
       }],
       total: 0,
       editDialogVisible: false,
-      editForm:{},
+      editForm:{
+
+      },
       editFormRules:{
         st_email:[
           { required: true, message: '请输入用户邮箱', trigger: 'blur'},
@@ -121,29 +151,45 @@ export default {
       }
     }
   },
-
-  methods:{
-    async getStudentList(){
-      const { data: res }  = await this.$http.get('studentList', {
-        params: this.queryInfo
-      })
-      if (res.meta.status !==200){
-        return this.$message.error('获取学生列表失败')
+  mounted() {
+    this.$http({
+      method:'get',
+      url:'studentList',
+      params:this.studentList
+    }).then(res=>{
+      if (res.data.status !==200){
+        this.$message.error('获取学生列表失败');
       }
-      this.studentList = res.data.studentList
-      this.total = res.data.total
-    },
+      this.studentList = res.data.studentList;
+      this.total = res.data.total;
 
+    })
+  },
+  methods:{
+    getStudentList(){
+      this.$http({
+        method:'get',
+        url:'studentList',
+        params:this.studentList
+      }).then(res=>{
+        this.$message.error('获取学生列表失败');
+        if (res.data.status ===200){
+          this.studentList = res.data.studentList;
+          this.total = res.data.total;
+        }
+      })
+    },
     handleSizeChange(newSize){
-      this.queryInfo.pageSize = newSize
-      this.getStudentList()
+      this.queryInfo.pageSize = newSize;
+      this.getStudentList();
     },
     handleCurrentChange(newPage){
-      this.queryInfo.pageSum = newPage
-      this.getStudentList()
+      this.queryInfo.pageSum = newPage;
+      this.getStudentList();
     },
-    showEditDialog(){
-      this.editDialogVisible = true
+    showEditDialog(id){
+      console.log(id);
+      this.editDialogVisible = true;
       /*
       const {data: res} = await this.$http.get('studentList/' + id)
 
