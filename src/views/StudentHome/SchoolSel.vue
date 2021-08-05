@@ -1,5 +1,4 @@
 <template>
-<div>
   <el-container>
     <el-header>
       <div class="CheckBoxBackground">
@@ -62,16 +61,45 @@
 
       </div>
     </el-header>
-    <el-main>
-      <router-view></router-view>
-    </el-main>
-  </el-container>
 
-  </div>
+      <!--院校列表-->
+    <el-card class="result">
+      <el-table
+         :data="schoolList"
+         border stripe
+         highlight-current-row
+         style="width: 98%">
+       <el-table-column label="序号" type="index" width="50px"></el-table-column>
+       <el-table-column label="院校名称" prop="st_name"></el-table-column>
+       <el-table-column label="直属部门" prop="st_email"></el-table-column>
+       <el-table-column label="学历层次" prop="st_mark"></el-table-column>
+       <el-table-column label="院校特性" prop="st_mobile"></el-table-column>
+    </el-table>
+    </el-card>
+      <!--分页-->
+
+
+  </el-container>
 </template>
 
 <script type="text/javascript" src="../../assets/Js/schoolSel.js">
+export default {
+  name: "StudentInt",
+  data() {
+    return {
+      //用户列表
+      queryInfo: {
+        query: '',
+        pageSum: '',
+        pageSize: '',
+      },
+      schoolList: [],
+      total: 0,
+      editDialogVisible: false,
 
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -79,7 +107,7 @@
 .CheckBoxBackground
 {
   height:370px;
-  background-color:#E8E8E8;
+  background-color: #54D7BCFF;
   border-radius:15px;
   position:absolute;
   top:10%;
@@ -133,5 +161,9 @@
   top:6rem;
   right:3%;
   left:3%;
+}
+.result{
+
+  top: 50%;
 }
 </style>

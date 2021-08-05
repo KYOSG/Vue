@@ -17,6 +17,22 @@
         <el-button icon="el-icon-search"></el-button>
       </template>
     </el-input>
+<div class="editButton">
+  <el-tooltip effect="dark"
+              content="编辑"
+              placement="top"
+              :enterable= false>
+    <el-button type="primary"
+               icon="el-icon-edit"
+               size="mini"
+               @click="showEditDialog"
+               class="edit"></el-button>
+  </el-tooltip>
+  <el-tooltip effect="dark" content="删除" placement="top" :enterable=false @click="removeSt">
+    <el-button type="danger" icon="el-icon-delete" size="mini" class="del"></el-button>
+  </el-tooltip>
+</div>
+
   </el-col>
 </el-row>
     <!--用户列表-->
@@ -29,20 +45,6 @@
       <el-table-column label="邮箱" prop="st_email"></el-table-column>
       <el-table-column label="高考分数" prop="st_mark"></el-table-column>
       <el-table-column label="电话" prop="st_mobile"></el-table-column>
-      <el-table-column label="操作" >
-        <el-tooltip effect="dark"
-                    content="编辑"
-                    placement="top"
-                    :enterable= false>
-          <el-button type="primary"
-                     icon="el-icon-edit"
-                     size="mini"
-                     @click="showEditDialog(scope.studentList.id)"></el-button>
-        </el-tooltip>
-        <el-tooltip effect="dark" content="删除" placement="top" :enterable=false @click="removeSt">
-          <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
-        </el-tooltip>
-      </el-table-column>
     </el-table>
 
     <!--分页-->
@@ -79,8 +81,8 @@
     </el-form-item>
       <template #footer>
     <span class="dialog-footer">
-      <el-button @click="editDialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
+      <el-button @click="editDialogClosed">取 消</el-button>
+      <el-button type="primary" @click="editDialogClosed">确 定</el-button>
     </span>
       </template>
     </el-dialog>
@@ -117,22 +119,10 @@ export default {
       //用户列表
       queryInfo:{
         query:'',
-        pageSum: 1,
-        pageSize: 1,
+        pageSum: '',
+        pageSize: '',
       },
-      studentList: [{
-        "id": 25,
-        "st_name": "张三",
-        "st_email": "zsdasdad@asda.com",
-        "st_mark": "610",
-        "st_mobile": "12236468825",
-      },{
-          "id": 26,
-          "st_name": "里斯本",
-          "st_email": "zsdasdad@asda.com",
-          "st_mark": "610",
-          "st_mobile": "12236468825",
-      }],
+      studentList: [],
       total: 0,
       editDialogVisible: false,
       editForm:{
@@ -162,7 +152,6 @@ export default {
       }
       this.studentList = res.data.studentList;
       this.total = res.data.total;
-
     })
   },
   methods:{
@@ -201,7 +190,8 @@ export default {
       */
     },
     editDialogClosed(){
-      this.$refs.editFormRef.resetFields()
+      this.editDialogVisible = false;
+      //this.$refs.editFormRef.resetFields()
     },
     editDialogInfo(){
       this.$refs.editFormRef.validate(async valid => {
@@ -239,12 +229,16 @@ export default {
              message: '已取消删除'
            });
          });
-
       }
   }
 }
 </script>
 
 <style>
+.editButton{
+ position: absolute;
+  top: 7%;
+  left: 30%;
+}
 
 </style>

@@ -53,17 +53,20 @@ export default {
     login(){
       this.$http({
         method:'post',
-        url:'Login',
+        url:'/User/Login',
         data: this.loginForm
       }).then(res=>{
         if (res.data.info.code !== 200)
           return this.$message.error(res.data.info.message);
           this.$message.success("登录成功！");
           window.sessionStorage.setItem("token",res.data.token)
-        //在此处进行身份识别和跳转到对应的页面
+        //在此处进行身份识别和跳转到对应的页面。
+
+
+
         if (res.data.data.identity === "admin")
           this.$router.push("/ManagerHome");
-        else if (res.data.data.identity === "student")
+        else if (res.data.data.identity === "editor")
           this.$router.push("/StudentHome");
         else if (res.data.data.identity === "teacher")
           this.$router.push("/TeacherHome");

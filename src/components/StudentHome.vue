@@ -1,5 +1,5 @@
 <template>
-    <el-container class="stHome-container">
+  <el-container class="stHome-container">
       <el-header class="header">
         <el-menu
             :default-active="activeIndex2"
@@ -9,12 +9,13 @@
             text-color="#fff"
             active-text-color="#ffd04b"
             :router="true">
-          <el-button type="info" @click="logout">退出</el-button>
+          <el-button type="info" @click="logout" class="signOutButton">退出</el-button>
           <el-menu-item index="/StudentWelcome">个人主页</el-menu-item>
           <el-submenu index="2">
             <template #title  > 志愿填报</template>
-            <el-menu-item index="/SchoolSel">院校选择</el-menu-item>
-            <el-menu-item index="/MajorSel">专业选择</el-menu-item>
+            <el-menu-item index="/SchoolSel">院校查询</el-menu-item>
+            <el-menu-item index="/MajorSel">专业查询</el-menu-item>
+            <el-menu-item index="/MajorSel">指导老师</el-menu-item>
             <el-menu-item index="/Data">高考信息可视化</el-menu-item>
             <el-submenu index="2-4">
               <template #title>选项4</template>
@@ -26,10 +27,17 @@
         </el-menu>
       </el-header>
       <el-main class="main">
-        <!--路由占位符-->
-        <router-view></router-view>
+        <div>
+          <div>
+            <!--路由占位符-->
+            <router-view></router-view>
+          </div>
+        </div>
+
       </el-main>
     </el-container>
+
+
 </template>
 
 
@@ -63,5 +71,20 @@ export default {
 }
 .main{
   background-color: #8ECAE6;
+}
+.signOutButton{
+  position: absolute;
+  top: 14%;
+  right: 4px;
+}
+.secBackground{
+  width: 95%;
+  height: 90%;
+  background-color: #E8E8E8;
+  border-radius: 15px;
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  transform: translate(-50%,  -50%);
 }
 </style>

@@ -92,12 +92,13 @@ export default {
     submit(){
       this.$http({
         method:'post',
-        url:'/SignUp',
+        url:'/User/SignUp',
         data: this.signUpForm
       }).then(res=>{
         if (res.data.info.code !== 200)
           return this.$message.error(res.data.info.message);
         this.$message.success("注册成功！");
+        this.$router.push("/Login");
       })
     }
   }
