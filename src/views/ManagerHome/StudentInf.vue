@@ -94,7 +94,7 @@ export default {
   name: "StudentInt",
   data(){
     //邮箱验证规则
-    const checkEmail = (rule, value, cb) => {
+    const checkUsername = (rule, value, cb) => {
       //邮箱验证正则表达式
       const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
 
@@ -131,7 +131,7 @@ export default {
       editFormRules:{
         st_email:[
           { required: true, message: '请输入用户邮箱', trigger: 'blur'},
-          { validator: checkEmail, tigger: 'blur'},
+          { validator: checkUsername(), tigger: 'blur'},
         ],
         st_mobile:[
           { required: true, message: '请输入用户手机', trigger: 'blur'},

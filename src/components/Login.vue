@@ -5,10 +5,11 @@
       <img src="../assets/logo.png" alt="">
     </div>
     <!--登录表单-->
-    <el-form :model="loginForm" class="form" rules="loginFormRules" ref="loginFormRef">
+    <el-form :model="loginForm" class="form" :rules="loginFormRules" ref="loginFormRef">
       <!--用户名-->
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" placeholder="请输入用户名"
+        <el-input v-model="loginForm.username"
+                  placeholder="请输入用户名"
                   prefix-icon="el-icon-user-solid"></el-input>
       </el-form-item>
       <!--密码-->
@@ -28,7 +29,20 @@
 <script>
 export default {
   name: "Login",
+
   data(){
+    const checkUsername = (rule, value, cb) => {
+      const regUsername = /^[_a-zA-Z0-9]+$/;
+      if (value === '' || value === undefined || value == null) {
+        cb();
+      } else {
+        if (!regUsername.test(value)) {
+          cb(new Error('仅由英文字母，数字以及下划线组成'));
+        } else {
+          cb();
+        }
+      }
+    }
     return{
       loginForm:{
         username:'',
@@ -38,6 +52,7 @@ export default {
       loginFormRules:{
         username: [
           { required: true, message:"请输入用户名",trigger:"blur" },
+          { validator: checkUsername,trigger:"blur"}
         ],
         password: [
           { required: true, message:"请输入密码",trigger:"blur" },

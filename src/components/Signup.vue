@@ -5,7 +5,7 @@
 </div>
   <div class="From-Background">
 <div class="From">
-  <el-form :model="signUpForm" :label-position="labelPosition" label-width="80px" ref="signUpFormRef">
+  <el-form :model="signUpForm" :label-position="labelPosition" label-width="80px" ref="signUpFormRef" :rules="signUpFromRules">
     <!--用户名-->
     <el-form-item label="用户名" class="fromItem" prop="username">
       <el-input v-model="signUpForm.username" clearable></el-input>
@@ -28,18 +28,14 @@
                 prefix-icon="el-icon-key"
                 show-password clearable></el-input>
     </el-form-item>
-    <!--分数-->
-    <el-form-item label="高考分数" class="fromItem" prop="st_mark">
-      <el-input v-model="signUpForm.st_mark" clearable></el-input>
+    <!--位次-->
+    <el-form-item label="高考位次" class="fromItem" prop="st_rank">
+      <el-input v-model="signUpForm.st_rank" clearable></el-input>
     </el-form-item>
-    <!--电话-->
+    <!--考号-->
     <el-form-item label="电话" class="fromItem" prop="st_mobile">
       <el-input v-model="signUpForm.st_mobile" clearable></el-input>
     </el-form-item>
-
-
-
-
     <!--高考选课
     <el-form-item label="所选科目">
       <el-checkbox-group
@@ -66,35 +62,79 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+
 //const subjectOptions = ['物理', '化学', '生物', '政治','历史','地理'];
 export default {
   name: "Signup",
   data() {
+    const checkUsername = (rule, value, callback) => {
+      if (!/^[a-zA-Z][a-zA-Z0-9]{3,14}$/.test(value)) {
+        callback(new Error('用户名由英文字母和数字组成的4-15位字符，以字母开头'))
+      }
+    }
+
+    const checkst_number = (rule, value, callback) => {
+      if (!/^[0-9]*^\d{14}$/.test(value)) {
+        callback(new Error('请正确输入考生号'))
+      }
+    }
+
+    const checkst_rank = (rule, value, callback) => {
+      if (!/^[0-9]*^\d{0,6}$/.test(value)) {
+        callback(new Error('请正确高考位次'))
+      }
+    }
+
+    const checkPassword = (rule, value, callback) => {
+      if (!/^(?=.*[A-Z])[A-Za-z\d]{7,19}$/.test(value)) {
+        callback(new Error('请输入6-20位英文字母或数字且必须有至少一个大写字母'))
+      }
+    }
     return {
       labelPosition: 'right',
       signUpForm: {
-        st_name: ref(''),
-        st_mark: ref(''),
-        st_mobile: ref(''),
-        password:ref(''),
-        token: ref('student'),
+        username: "st_" + '',
+        st_name: '',
+        st_rank: '',
+        st_number: '',
+        password: '',
+        token: '',
       },
+      signUpFromRules: {
+        username: [
+          {required: true, message: "请输入用户名", trigger: "blur"},
+          {validator: checkUsername, trigger: "blur"},
+          {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'},
 
+        ],
+        password: [
+          {required: true, message: "请输入密码", trigger: "blur"},
+          {validator: checkPassword, trigger: "blur"}
+        ],
+        st_rank: [
+          {required: true, message: "请输入高考位次", trigger: "blur"},
+          {validator: checkst_rank, trigger: "blur"}
+        ],
+        st_number: [
+          {required: true, message: "请输入考号", trigger: "blur"},
+          {validator: checkst_number, trigger: "blur"}
+        ],
+      },
       // subjects: subjectOptions
-    };
+    }
   },
-  methods:{
-    resetSignUpForm(){
+  methods: {
+    resetSignUpForm() {
       this.$refs.signUpFormRef.resetFields();
     },
+//数据验证
 
-    submit(){
+    submit() {
       this.$http({
-        method:'post',
-        url:'/User/SignUp',
+        method: 'post',
+        url: '/User/SignUp',
         data: this.signUpForm
-      }).then(res=>{
+      }).then(res => {
         if (res.data.info.code !== 200)
           return this.$message.error(res.data.info.message);
         this.$message.success("注册成功！");
@@ -102,7 +142,7 @@ export default {
       })
     }
   }
-}
+};
 </script>
 
 <style scoped>
