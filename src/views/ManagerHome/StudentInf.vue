@@ -32,7 +32,6 @@
     <el-button type="danger" icon="el-icon-delete" size="mini" class="del"></el-button>
   </el-tooltip>
 </div>
-
   </el-col>
 </el-row>
     <!--用户列表-->
@@ -93,28 +92,6 @@
 export default {
   name: "StudentInt",
   data(){
-    //邮箱验证规则
-    const checkUsername = (rule, value, cb) => {
-      //邮箱验证正则表达式
-      const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
-
-      if (regEmail.test(value)) {
-        return cb()
-      }
-
-      cb(new Error('请正确输入邮箱'))
-    };
-
-    const checkMobile = (rule, value, cb) => {
-      const regMobile = /^(0｜86｜17951)?(13[0-9]|15[0123456789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
-
-      if (regMobile.test(value)) {
-        return cb()
-      }
-
-      cb(new Error('请正确输入电话号码'))
-    };
-
     return{
       //用户列表
       queryInfo:{
@@ -125,20 +102,6 @@ export default {
       studentList: [],
       total: 0,
       editDialogVisible: false,
-      editForm:{
-
-      },
-      editFormRules:{
-        st_email:[
-          { required: true, message: '请输入用户邮箱', trigger: 'blur'},
-          { validator: checkUsername(), tigger: 'blur'},
-        ],
-        st_mobile:[
-          { required: true, message: '请输入用户手机', trigger: 'blur'},
-          { validator: checkMobile, tigger: 'blur'},
-        ]
-
-      }
     }
   },
   mounted() {

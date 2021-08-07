@@ -61,8 +61,10 @@ export default {
     }
   },
   methods:{
-    resetLoginForm(){
+    resetLoginForm(loginForm){
+      console.log(loginForm)
       this.$refs.loginFormRef.resetFields();
+
     },
 
     login(){

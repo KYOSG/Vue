@@ -1,109 +1,249 @@
 <template>
   <el-container>
     <el-header>
-      <div class="CheckBoxBackground">
-        <div class="cityChange">
-          <div>此处要改成联级选择器</div>
-          <!--城市-->
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllCi" @change="handleCheckAllChangeCity">全选</el-checkbox>
-
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChangeCity">
-            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-          </el-checkbox-group>
-        </div>
-        <div style="margin: 15px 0;"></div>
-
-        <div class="chargeChange">
-          <!--主管部门-->
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllCh" @change="handleCheckAllChangeCharge">全选</el-checkbox>
-
-          <el-checkbox-group v-model="checkedChargers" @change="handleCheckedChargeChange">
-            <el-checkbox v-for="Charge in Charges" :label="Charge" :key="Charge">{{Charge}}</el-checkbox>
-          </el-checkbox-group>
-        </div>
-        <div style="margin: 15px 0;"></div>
-        <div class="typeChange">
-          <!--院校类型-->
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllTy" @change="handleCheckAllChangeType">全选</el-checkbox>
-
-          <el-checkbox-group v-model="checkedTypes" @change="handleCheckedTypeChange">
-            <el-checkbox v-for="Type in Types" :label="Type" :key="Type">{{Type}}</el-checkbox>
-          </el-checkbox-group>
-        </div>
-        <div style="margin: 15px 0;"></div>
-        <div class="layerChange">
-
-          <!--学历层次-->
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllLa" @change="handleCheckAllChangeLayer">全选</el-checkbox>
-
-          <el-checkbox-group v-model="checkedLayers" @change="handleCheckedLayerChange">
-            <el-checkbox v-for="Layer in Layers" :label="Layer" :key="Layer">{{Layer}}</el-checkbox>
-          </el-checkbox-group>
-        </div>
-        <div style="margin: 15px 0;"></div>
-        <div class="featureChange">
-
-          <!--院校特性-->
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllFe" @change="handleCheckAllChangeFeature">全选</el-checkbox>
-
-          <el-checkbox-group v-model="checkedFeatures" @change="handleCheckedFeatureChange">
-            <el-checkbox v-for="Feature in Features" :label="Feature" :key="Feature">{{Feature}}</el-checkbox>
-          </el-checkbox-group>
-        </div>
-
-
-        <el-radio-group v-model="FeatureS" class="FeatureS">
-          <el-radio label="1">民办高校</el-radio>
-          <el-radio label="2">独立学院</el-radio>
-          <el-radio label="3">中外合作办学</el-radio>
-          <el-radio label="4">内地与港澳台合作办学</el-radio>
-        </el-radio-group>
-
-      </div>
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/StudentHome' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>志愿填报</el-breadcrumb-item>
+        <el-breadcrumb-item>院校查询</el-breadcrumb-item>
+      </el-breadcrumb>
     </el-header>
+    <el-main>
+      <el-card>
+        <!--所在地-->
+        <div class="schoolPosition">
+          <span class="demonstration">院校所在地 </span>
+          <el-cascader
+              placeholder="试试搜索：北京"
+              :options="options"
+              v-model="value"
+              :props="{ multiple: true }"
+              filterable
+              @change="vvv"></el-cascader>
+        </div>
+        <!--等级-->
+      </el-card>
 
-      <!--院校列表-->
-    <el-card class="result">
-      <el-table
-         :data="schoolList"
-         border stripe
-         highlight-current-row
-         style="width: 98%">
-       <el-table-column label="序号" type="index" width="50px"></el-table-column>
-       <el-table-column label="院校名称" prop="st_name"></el-table-column>
-       <el-table-column label="直属部门" prop="st_email"></el-table-column>
-       <el-table-column label="学历层次" prop="st_mark"></el-table-column>
-       <el-table-column label="院校特性" prop="st_mobile"></el-table-column>
-    </el-table>
-    </el-card>
-      <!--分页-->
-
+    </el-main>
 
   </el-container>
 </template>
 
-<script type="text/javascript" src="../../assets/Js/schoolSel.js">
+<script>
 export default {
-  name: "StudentInt",
-  data() {
+  name: "StudentInf",
+  data(){
     return {
-      //用户列表
-      queryInfo: {
-        query: '',
-        pageSum: '',
-        pageSize: '',
-      },
-      schoolList: [],
-      total: 0,
-      editDialogVisible: false,
-
+      options: [{
+        value: 'zhinan',
+        label: '指南',
+        children: [{
+          value: 'shejiyuanze',
+          label: '设计原则',
+          children: [{
+            value: 'yizhi',
+            label: '一致',
+          }, {
+            value: 'fankui',
+            label: '反馈'
+          }, {
+            value: 'xiaolv',
+            label: '效率'
+          }, {
+            value: 'kekong',
+            label: '可控'
+          }]
+        }, {
+          value: 'daohang',
+          label: '导航',
+          children: [{
+            value: 'cexiangdaohang',
+            label: '侧向导航'
+          }, {
+            value: 'dingbudaohang',
+            label: '顶部导航'
+          }]
+        }]
+      }, {
+        value: 'zujian',
+        label: '组件',
+        children: [{
+          value: 'basic',
+          label: 'Basic',
+          children: [{
+            value: 'layout',
+            label: 'Layout 布局'
+          }, {
+            value: 'color',
+            label: 'Color 色彩'
+          }, {
+            value: 'typography',
+            label: 'Typography 字体'
+          }, {
+            value: 'icon',
+            label: 'Icon 图标'
+          }, {
+            value: 'button',
+            label: 'Button 按钮'
+          }]
+        }, {
+          value: 'form',
+          label: 'Form',
+          children: [{
+            value: 'radio',
+            label: 'Radio 单选框'
+          }, {
+            value: 'checkbox',
+            label: 'Checkbox 多选框'
+          }, {
+            value: 'input',
+            label: 'Input 输入框'
+          }, {
+            value: 'input-number',
+            label: 'InputNumber 计数器'
+          }, {
+            value: 'select',
+            label: 'Select 选择器'
+          }, {
+            value: 'cascader',
+            label: 'Cascader 级联选择器'
+          }, {
+            value: 'switch',
+            label: 'Switch 开关'
+          }, {
+            value: 'slider',
+            label: 'Slider 滑块'
+          }, {
+            value: 'time-picker',
+            label: 'TimePicker 时间选择器'
+          }, {
+            value: 'date-picker',
+            label: 'DatePicker 日期选择器'
+          }, {
+            value: 'datetime-picker',
+            label: 'DateTimePicker 日期时间选择器'
+          }, {
+            value: 'upload',
+            label: 'Upload 上传'
+          }, {
+            value: 'rate',
+            label: 'Rate 评分'
+          }, {
+            value: 'form',
+            label: 'Form 表单'
+          }]
+        }, {
+          value: 'data',
+          label: 'Data',
+          children: [{
+            value: 'table',
+            label: 'Table 表格'
+          }, {
+            value: 'tag',
+            label: 'Tag 标签'
+          }, {
+            value: 'progress',
+            label: 'Progress 进度条'
+          }, {
+            value: 'tree',
+            label: 'Tree 树形控件'
+          }, {
+            value: 'pagination',
+            label: 'Pagination 分页'
+          }, {
+            value: 'badge',
+            label: 'Badge 标记'
+          }]
+        }, {
+          value: 'notice',
+          label: 'Notice',
+          children: [{
+            value: 'alert',
+            label: 'Alert 警告'
+          }, {
+            value: 'loading',
+            label: 'Loading 加载'
+          }, {
+            value: 'message',
+            label: 'Message 消息提示'
+          }, {
+            value: 'message-box',
+            label: 'MessageBox 弹框'
+          }, {
+            value: 'notification',
+            label: 'Notification 通知'
+          }]
+        }, {
+          value: 'navigation',
+          label: 'Navigation',
+          children: [{
+            value: 'menu',
+            label: 'NavMenu 导航菜单'
+          }, {
+            value: 'tabs',
+            label: 'Tabs 标签页'
+          }, {
+            value: 'breadcrumb',
+            label: 'Breadcrumb 面包屑'
+          }, {
+            value: 'dropdown',
+            label: 'Dropdown 下拉菜单'
+          }, {
+            value: 'steps',
+            label: 'Steps 步骤条'
+          }]
+        }, {
+          value: 'others',
+          label: 'Others',
+          children: [{
+            value: 'dialog',
+            label: 'Dialog 对话框'
+          }, {
+            value: 'tooltip',
+            label: 'Tooltip 文字提示'
+          }, {
+            value: 'popover',
+            label: 'Popover 弹出框'
+          }, {
+            value: 'card',
+            label: 'Card 卡片'
+          }, {
+            value: 'carousel',
+            label: 'Carousel 走马灯'
+          }, {
+            value: 'collapse',
+            label: 'Collapse 折叠面板'
+          }]
+        }]
+      }, {
+        value: 'ziyuan',
+        label: '资源',
+        children: [{
+          value: 'axure',
+          label: 'Axure Components'
+        }, {
+          value: 'sketch',
+          label: 'Sketch Templates'
+        }, {
+          value: 'jiaohu',
+          label: '组件交互文档'
+        }]
+      }],
+      checkboxGroup1: [''],
+      cities: ['211', '985'],
+      value:[]
     }
-  }
+  },
+  methods:{
+    vvv(value){
+      console.log(value)
+    }
 }
+
+}
+
 </script>
 
 <style scoped>
-
 .CheckBoxBackground
 {
   height:370px;
@@ -163,7 +303,7 @@ export default {
   left:3%;
 }
 .result{
-
+  position: absolute;
   top: 50%;
 }
 </style>
