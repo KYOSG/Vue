@@ -7,43 +7,81 @@
         <el-breadcrumb-item>院校查询</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
-    <el-main>
+
       <el-card>
+
         <el-button @click="test">test</el-button>
-        <!--所在地-->
-        <div class="schoolPosition">
-          <span class="demonstration">院校所在地 </span>
-          <el-cascader
-              placeholder="试试搜索：北京"
-              :options="options"
-              :props="{ multiple: true }"
-              filterable
-              @change="checkedData"
-              collapse-tags
-              ref="cascadeAddr"
-              clearable></el-cascader>
-        </div>
-        <!--985/211-->
-        <div>
-          <el-checkbox-group v-model="checkedForm.Level">
-            <el-checkbox-button v-for="level in level" :label="level" :key="level">{{level}}</el-checkbox-button>
-          </el-checkbox-group>
-        </div>
+
+        <el-space direction="vertical"  alignment="flex-start" >
+          <!--所在地-->
+          <div class="schoolPosition">
+            <span class="demonstration">院校所在地 </span>
+            <el-cascader
+                placeholder="试试搜索：北京"
+                :options="options"
+                :props="{ multiple: true }"
+                filterable
+                collapse-tags
+                ref="cascadeAddr"
+                clearable></el-cascader>
+          </div>
+          <!--主管部门-->
+          <div>
+            <el-radio-group v-model="Manage">
+              <el-radio-button label="全部"></el-radio-button>
+              <el-radio-button label="教育部"></el-radio-button>
+              <el-radio-button label="其他部委"></el-radio-button>
+              <el-radio-button label="地方"></el-radio-button>
+              <el-radio-button label="军校"></el-radio-button>
+            </el-radio-group>
+          </div>
+
+          <!--985/211-->
+          <div>
+            <el-radio-group v-model="Level">
+              <el-radio-button label="全部"></el-radio-button>
+              <el-radio-button label="985院校"></el-radio-button>
+              <el-radio-button label="211院校"></el-radio-button>
+            </el-radio-group>
+          </div>
+          <!--层级-->
+          <div>
+            <el-radio-group v-model="Layer">
+              <el-radio-button label="全部"></el-radio-button>
+              <el-radio-button label="本科"></el-radio-button>
+              <el-radio-button label="高职（专科）"></el-radio-button>
+            </el-radio-group>
+          </div>
+          <!--特性-->
+          <div>
+            <el-space :size="10" :spacer="spacer">
+              <el-radio-group v-model="Features">
+                <el-radio-button label="全部"></el-radio-button>
+                <el-radio-button label="一流大学建设高校"></el-radio-button>
+                <el-radio-button label="一流学科建设高校"></el-radio-button>
+                <el-radio-button label="其他院校"></el-radio-button>
+              </el-radio-group>
+              <el-switch v-model="switchVal" active-color="#13ce66" inactive-color="#ff4949">是否有研究生院制度</el-switch>
+            </el-space>
+            </div>
+        </el-space>
+
       </el-card>
 
-    </el-main>
+
 
   </el-container>
 </template>
 
 <script>
-const levelOptions = ['985','211']
+import { h } from 'vue'
+import { ElDivider } from 'element-plus'
 export default {
   name: "StudentInf",
 
   data() {
-
     return {
+      spacer: h(ElDivider, { direction: 'vertical' }),
       props: {multiple: true},
       options:[
         {
@@ -503,10 +541,13 @@ export default {
             {label: "铁门关市",value: 3118},
 
           ],},],//不要打开！！！
-      level: levelOptions,
-      checkedForm:{
-        Level:[],
-      }
+
+      switchVal: false,
+      Position: [],
+      Manage: '全部',
+      Level:'全部',
+      Layer:'全部',
+      Features: '全部',
     }
   },
   methods:{
@@ -514,22 +555,31 @@ export default {
       this.$http({
         method:'post',
         url:'/User/Login',
-        data: this.checkedForm
+
       }).then(res=>{
         if (res.data.info.code !== 200)
           return this.$message.error(res.data.info.message);
-
       })
     },
 
-    checkedData() {
-      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
-       if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
-           console.log(this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label)
+    submit(){
+      this.post();
     },
 
     test(){
-      console.log(this.checkedForm)
+      //给位置数组赋值方便后端接收数据
+      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
+        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
+        {
+          this.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
+        }
+
+      console.log(this.Position)
+      console.log(this.Manage)
+      console.log(this.Level)
+      console.log(this.Layer)
+      console.log(this.Features)
+      console.log(this.switchVal)
     },
   }
 
@@ -538,66 +588,5 @@ export default {
 </script>
 
 <style scoped>
-.CheckBoxBackground
-{
-  height:370px;
-  background-color: #54D7BCFF;
-  border-radius:15px;
-  position:absolute;
-  top:10%;
-  right:3%;
-  left:3%;
-}
 
-.cityChange
-{
-  position:absolute;
-  top:.3rem;
-  right:3%;
-  left:3%;
-}
-
-.chargeChange
-{
-  position:absolute;
-  top:2rem;
-  right:3%;
-  left:3%;
-}
-
-.typeChange
-{
-  position:absolute;
-  top:3rem;
-  right:3%;
-  left:3%;
-}
-
-.layerChange
-{
-  position:absolute;
-  top:4rem;
-  right:3%;
-  left:3%;
-}
-
-.featureChange
-{
-  position:absolute;
-  top:5rem;
-  right:3%;
-  left:3%;
-}
-
-.FeatureS
-{
-  position:absolute;
-  top:6rem;
-  right:3%;
-  left:3%;
-}
-.result{
-  position: absolute;
-  top: 50%;
-}
 </style>
