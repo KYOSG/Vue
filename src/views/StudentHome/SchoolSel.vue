@@ -11,7 +11,7 @@
       <el-card>
 
         <el-button @click="test">test</el-button>
-
+        <el-button @click="submit">test</el-button>
         <el-space direction="vertical"  alignment="flex-start" >
           <!--所在地-->
           <div class="schoolPosition">
@@ -542,8 +542,6 @@ export default {
 
           ],},],//不要打开！！！
 
-
-
       position: {
         Position:[]
       },
@@ -559,13 +557,9 @@ export default {
       features: {
         Features: '全部',
       },
-
       switchVal:{
         SwitchVal: false,
       }
-
-
-
     }
   },
   methods:{
