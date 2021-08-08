@@ -27,7 +27,7 @@
           </div>
           <!--主管部门-->
           <div>
-            <el-radio-group v-model="Manage">
+            <el-radio-group v-model="manage.Manage">
               <el-radio-button label="全部"></el-radio-button>
               <el-radio-button label="教育部"></el-radio-button>
               <el-radio-button label="其他部委"></el-radio-button>
@@ -38,7 +38,7 @@
 
           <!--985/211-->
           <div>
-            <el-radio-group v-model="Level">
+            <el-radio-group v-model="level.Level">
               <el-radio-button label="全部"></el-radio-button>
               <el-radio-button label="985院校"></el-radio-button>
               <el-radio-button label="211院校"></el-radio-button>
@@ -46,7 +46,7 @@
           </div>
           <!--层级-->
           <div>
-            <el-radio-group v-model="Layer">
+            <el-radio-group v-model="layer.Layer">
               <el-radio-button label="全部"></el-radio-button>
               <el-radio-button label="本科"></el-radio-button>
               <el-radio-button label="高职（专科）"></el-radio-button>
@@ -55,13 +55,13 @@
           <!--特性-->
           <div>
             <el-space :size="10" :spacer="spacer">
-              <el-radio-group v-model="Features">
+              <el-radio-group v-model="features.Features">
                 <el-radio-button label="全部"></el-radio-button>
                 <el-radio-button label="一流大学建设高校"></el-radio-button>
                 <el-radio-button label="一流学科建设高校"></el-radio-button>
                 <el-radio-button label="其他院校"></el-radio-button>
               </el-radio-group>
-              <el-switch v-model="switchVal" active-color="#13ce66" inactive-color="#ff4949">是否有研究生院制度</el-switch>
+              <el-switch v-model="switchVal.SwitchVal" active-color="#13ce66" inactive-color="#ff4949">是否有研究生院制度</el-switch>
             </el-space>
             </div>
         </el-space>
@@ -542,43 +542,115 @@ export default {
 
           ],},],//不要打开！！！
 
-      switchVal: false,
-      Position: [],
-      Manage: '全部',
-      Level:'全部',
-      Layer:'全部',
-      Features: '全部',
+
+
+      position: {
+        Position:[]
+      },
+      manage: {
+        Manage: '全部',
+      },
+      level: {
+        Level:'全部',
+      },
+      layer: {
+        Layer:'全部',
+      },
+      features: {
+        Features: '全部',
+      },
+
+      switchVal:{
+        SwitchVal: false,
+      }
+
+
+
     }
   },
   methods:{
-    post(){
+    post_position(){
+      //给位置数组赋值方便后端接收数据
+      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
+        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
+        {
+          this.position.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
+        }
+
       this.$http({
         method:'post',
-        url:'/User/Login',
+        url:'/User/',
 
       }).then(res=>{
         if (res.data.info.code !== 200)
           return this.$message.error(res.data.info.message);
       })
     },
-
+    post_manage(){
+      this.$http({
+        method:'post',
+        url:'/User/',
+        data: this.manage
+      }).then(res=>{
+        if (res.data.info.code !== 200)
+          return this.$message.error(res.data.info.message);
+      })
+    },
+    post_level(){
+      this.$http({
+        method:'post',
+        url:'/User/',
+        data: this.level
+      }).then(res=>{
+        if (res.data.info.code !== 200)
+          return this.$message.error(res.data.info.message);
+      })
+    },
+    post_layer(){
+      this.$http({
+        method:'post',
+        url:'/User/',
+        data: this.layer
+      }).then(res=>{
+        if (res.data.info.code !== 200)
+          return this.$message.error(res.data.info.message);
+      })
+    },
+    post_features(){
+      this.$http({
+        method:'post',
+        url:'/User/',
+        data: this.features
+      }).then(res=>{
+        if (res.data.info.code !== 200)
+          return this.$message.error(res.data.info.message);
+      })
+    },
+    post_switchVal(){
+      this.$http({
+        method:'post',
+        url:'/User/',
+        data: this.switchVal
+      }).then(res=>{
+        if (res.data.info.code !== 200)
+          return this.$message.error(res.data.info.message);
+      })
+    },
     submit(){
-      this.post();
+      this.post_position()
+      this.post_manage()
+      this.post_level()
+      this.post_layer()
+      this.post_features()
+      this.post_switchVal()
     },
 
     test(){
-      //给位置数组赋值方便后端接收数据
-      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
-        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
-        {
-          this.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
-        }
-
-      console.log(this.Position)
-      console.log(this.Manage)
-      console.log(this.Level)
-      console.log(this.Layer)
-      console.log(this.Features)
+      console.log(this.position)
+      console.log(this.manage)
+      console.log(this.level)
+      console.log(this.layer)
+      console.log(this.features)
       console.log(this.switchVal)
     },
   }
