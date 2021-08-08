@@ -8,7 +8,7 @@
   <el-form :model="signUpForm" :label-position="labelPosition" label-width="80px" ref="signUpFormRef" :rules="signUpFromRules">
     <!--用户名-->
     <el-form-item label="用户名" class="fromItem" prop="username">
-      <el-input v-model="signUpForm.username" clearable></el-input>
+      <el-input v-model="signUpForm.Username" clearable></el-input>
     </el-form-item>
     <!--姓名-->
    <el-form-item label="姓名" class="fromItem" prop="st_name">
@@ -22,8 +22,8 @@
                 show-password clearable></el-input>
     </el-form-item>
     <!--确认密码-->
-    <el-form-item label="确认密码" class="fromItem" prop="password">
-      <el-input v-model="signUpForm.password"
+    <el-form-item label="确认密码" class="fromItem" prop="checkPass">
+      <el-input v-model="checkPass"
                 type="password"
                 prefix-icon="el-icon-key"
                 show-password clearable></el-input>
@@ -86,14 +86,25 @@ export default {
     }
 
     const checkPassword = (rule, value, callback) => {
-      if (!/^(?=.*[A-Z])[A-Za-z\d]{7,19}$/.test(value)) {
+      if (!/^(?=.*[A-Z])[A-Za-z\d]{6,20}$/.test(value)) {
         callback(new Error('请输入6-20位英文字母或数字且必须有至少一个大写字母'))
       }
     }
+    const checkPassword2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.signUpForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
       labelPosition: 'right',
+      Username: '',
+      checkPass:'',
       signUpForm: {
-        username: "st_" + '',
+        username: "st_" + this.Username,
         st_name: '',
         st_rank: '',
         st_number: '',
@@ -110,6 +121,9 @@ export default {
         password: [
           {required: true, message: "请输入密码", trigger: "blur"},
           {validator: checkPassword, trigger: "blur"}
+        ],
+        checkPass:[
+          { validator: checkPassword2, trigger: 'blur' }
         ],
         st_rank: [
           {required: true, message: "请输入高考位次", trigger: "blur"},

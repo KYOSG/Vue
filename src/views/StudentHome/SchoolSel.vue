@@ -7,70 +7,76 @@
         <el-breadcrumb-item>院校查询</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
-
       <el-card>
-
-        <el-button @click="test">test</el-button>
-        <el-button @click="submit">test</el-button>
-        <el-space direction="vertical"  alignment="flex-start" >
-          <!--所在地-->
-          <div class="schoolPosition">
-            <span class="demonstration">院校所在地 </span>
-            <el-cascader
-                placeholder="试试搜索：北京"
-                :options="options"
-                :props="{ multiple: true }"
-                filterable
-                collapse-tags
-                ref="cascadeAddr"
-                clearable></el-cascader>
-          </div>
-          <!--主管部门-->
-          <div>
-            <el-radio-group v-model="manage.Manage">
-              <el-radio-button label="全部"></el-radio-button>
-              <el-radio-button label="教育部"></el-radio-button>
-              <el-radio-button label="其他部委"></el-radio-button>
-              <el-radio-button label="地方"></el-radio-button>
-              <el-radio-button label="军校"></el-radio-button>
-            </el-radio-group>
-          </div>
-
-          <!--985/211-->
-          <div>
-            <el-radio-group v-model="level.Level">
-              <el-radio-button label="全部"></el-radio-button>
-              <el-radio-button label="985院校"></el-radio-button>
-              <el-radio-button label="211院校"></el-radio-button>
-            </el-radio-group>
-          </div>
-          <!--层级-->
-          <div>
-            <el-radio-group v-model="layer.Layer">
-              <el-radio-button label="全部"></el-radio-button>
-              <el-radio-button label="本科"></el-radio-button>
-              <el-radio-button label="高职（专科）"></el-radio-button>
-            </el-radio-group>
-          </div>
-          <!--特性-->
-          <div>
-            <el-space :size="10" :spacer="spacer">
-              <el-radio-group v-model="features.Features">
-                <el-radio-button label="全部"></el-radio-button>
-                <el-radio-button label="一流大学建设高校"></el-radio-button>
-                <el-radio-button label="一流学科建设高校"></el-radio-button>
-                <el-radio-button label="其他院校"></el-radio-button>
-              </el-radio-group>
-              <el-switch v-model="switchVal.SwitchVal" active-color="#13ce66" inactive-color="#ff4949">是否有研究生院制度</el-switch>
-            </el-space>
+        <div>
+          <el-space direction="vertical"  alignment="flex-start" >
+            <el-button @click="test">test</el-button>
+            <el-button @click="submit">submit</el-button>
+            <!--所在地-->
+            <div class="schoolPosition">
+              <span class="demonstration">院校所在地 </span>
+              <el-cascader
+                  placeholder="试试搜索：北京"
+                  :options="options"
+                  :props="{ multiple: true }"
+                  filterable
+                  collapse-tags
+                  ref="cascadeAddr"
+                  clearable></el-cascader>
             </div>
-        </el-space>
+            <!--主管部门-->
+            <div>
+              <span class="demonstration">主管部门 </span>
+              <el-radio-group v-model="manage.Manage">
+                <el-radio-button label="全部"></el-radio-button>
+                <el-radio-button label="教育部"></el-radio-button>
+                <el-radio-button label="其他部委"></el-radio-button>
+                <el-radio-button label="地方"></el-radio-button>
+                <el-radio-button label="军校"></el-radio-button>
+              </el-radio-group>
+            </div>
+
+            <!--985/211-->
+            <div>
+              <span class="demonstration">是否为985/211院校 </span>
+              <el-radio-group v-model="level.Level">
+                <el-radio-button label="全部"></el-radio-button>
+                <el-radio-button label="985院校"></el-radio-button>
+                <el-radio-button label="211院校"></el-radio-button>
+              </el-radio-group>
+            </div>
+            <!--层级-->
+            <div>
+              <span class="demonstration">院校层级 </span>
+              <el-radio-group v-model="layer.Layer">
+                <el-radio-button label="全部"></el-radio-button>
+                <el-radio-button label="本科"></el-radio-button>
+                <el-radio-button label="高职（专科）"></el-radio-button>
+              </el-radio-group>
+            </div>
+            <!--特性-->
+            <div>
+              <span class="demonstration">院校特点 </span>
+              <el-space :size="10" :spacer="spacer">
+                <el-radio-group v-model="features.Features">
+                  <el-radio-button label="全部"></el-radio-button>
+                  <el-radio-button label="一流大学建设高校"></el-radio-button>
+                  <el-radio-button label="一流学科建设高校"></el-radio-button>
+                  <el-radio-button label="其他院校"></el-radio-button>
+                </el-radio-group>
+                <el-switch v-model="Switch" active-color="#13ce66" inactive-color="#ff4949" active-text="是否有研究生院制度"></el-switch>
+              </el-space>
+            </div>
+          </el-space>
+        </div>
+
 
       </el-card>
 
 
 
   </el-container>
+
 </template>
 
 <script>
@@ -541,10 +547,10 @@ export default {
             {label: "铁门关市",value: 3118},
 
           ],},],//不要打开！！！
-
       position: {
         Position:[]
       },
+      Switch: false,
       manage: {
         Manage: '全部',
       },
@@ -558,7 +564,7 @@ export default {
         Features: '全部',
       },
       switchVal:{
-        SwitchVal: false,
+        SwitchVal: '',
       }
     }
   },
@@ -574,7 +580,7 @@ export default {
       this.$http({
         method:'post',
         url:'/User/',
-
+        data: this.position
       }).then(res=>{
         if (res.data.info.code !== 200)
           return this.$message.error(res.data.info.message);
@@ -621,6 +627,11 @@ export default {
       })
     },
     post_switchVal(){
+      if(this.Switch === true)
+        this.switchVal.SwitchVal = 'T'
+      else
+        this.switchVal.SwitchVal = 'F'
+
       this.$http({
         method:'post',
         url:'/User/',
@@ -630,6 +641,7 @@ export default {
           return this.$message.error(res.data.info.message);
       })
     },
+
     submit(){
       this.post_position()
       this.post_manage()
@@ -640,6 +652,25 @@ export default {
     },
 
     test(){
+      if(this.Switch === true)
+        this.switchVal.SwitchVal = 'T'
+      else
+        this.switchVal.SwitchVal = 'F'
+      //给位置数组赋值方便后端接收数据
+      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
+        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
+        {
+          this.position.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
+        }
+
+      this.$http({
+        method:'post',
+        url:'/User/',
+        data: this.position
+      }).then(res=>{
+        if (res.data.info.code !== 200)
+          return this.$message.error(res.data.info.message);
+      })
       console.log(this.position)
       console.log(this.manage)
       console.log(this.level)
