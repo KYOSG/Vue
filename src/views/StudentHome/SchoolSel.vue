@@ -9,78 +9,82 @@
     </el-header>
       <el-card>
         <div>
-          <el-space direction="vertical"  alignment="flex-start" >
-            <el-button @click="test">test</el-button>
-            <el-button @click="submit">submit</el-button>
-            <el-button @click="getSchoolList">submit</el-button>
-            <!--所在地-->
-            <div class="schoolPosition">
-              <el-space wrap :size="33">
-               <span class="demonstration">院校所在地 </span>
-               <el-cascader
-                    placeholder="试试搜索：北京"
-                    :options="options"
-                    :props="{ multiple: true }"
-                    filterable
-                    collapse-tags
-                    ref="cascadeAddr"
-                    clearable></el-cascader>
+          <el-space>
+            <el-space direction="vertical"  alignment="flex-start" >
+              <el-button @click="test">test</el-button>
+              <el-button @click="submit">submit</el-button>
+              <!--所在地-->
+              <div class="schoolPosition">
+                <el-space wrap :size="33">
+                 <span class="demonstration">院校所在地 </span>
+                 <el-cascader
+                      placeholder="试试搜索：北京"
+                      :options="options"
+                      :props="{ multiple: true }"
+                      filterable
+                      collapse-tags
+                      ref="cascadeAddr"
+                      clearable
+                      @change="submit"></el-cascader>
 
-              </el-space>
-
-
-            </div>
-            <!--主管部门-->
-            <div>
-              <el-space wrap :size="43">
-                <span class="demonstration">主管部门 </span>
-                <el-radio-group v-model="selForm.Manage">
-                  <el-radio-button label="全部"></el-radio-button>
-                  <el-radio-button label="教育部"></el-radio-button>
-                  <el-radio-button label="其他部委"></el-radio-button>
-                  <el-radio-button label="地方"></el-radio-button>
-                  <el-radio-button label="军校"></el-radio-button>
-                </el-radio-group>
-              </el-space>
-            </div>
-
-            <!--985/211-->
-            <div>
-              <el-space wrap :size="20">
-                <span class="demonstration">985/211院校 </span>
-                <el-radio-group v-model="selForm.Level">
-                  <el-radio-button label="全部"></el-radio-button>
-                  <el-radio-button label="985院校"></el-radio-button>
-                  <el-radio-button label="211院校"></el-radio-button>
-                </el-radio-group>
-              </el-space>
-            </div>
-            <!--层级-->
-            <div>
-              <el-space  wrap :size="43">
-                <span class="demonstration">院校层级 </span>
-                <el-radio-group v-model="selForm.Layer">
-                  <el-radio-button label="全部"></el-radio-button>
-                  <el-radio-button label="本科"></el-radio-button>
-                  <el-radio-button label="高职（专科）"></el-radio-button>
-                </el-radio-group>
-              </el-space>
-
-            </div>
-            <!--特性-->
-            <div>
-              <el-space wrap :size="43">
-                <span class="demonstration">院校特点 </span>
-                <el-space :size="10" :spacer="spacer">
-                  <el-radio-group v-model="selForm.Features">
-                    <el-radio-button label="全部"></el-radio-button>
-                    <el-radio-button label="一流大学建设高校"></el-radio-button>
-                    <el-radio-button label="一流学科建设高校"></el-radio-button>
-                  </el-radio-group>
-                  <el-switch v-model="Switch" active-color="#13ce66" inactive-color="#ff4949" active-text="是否有研究生院制度"></el-switch>
                 </el-space>
-              </el-space>
-            </div>
+              </div>
+              <!--主管部门-->
+              <div>
+                <el-space wrap :size="43">
+                  <span class="demonstration">主管部门 </span>
+                  <el-radio-group v-model="selForm.Manage" @change="submit">
+                    <el-radio-button label="全部"></el-radio-button>
+                    <el-radio-button label="教育部"></el-radio-button>
+                    <el-radio-button label="其他部委"></el-radio-button>
+                    <el-radio-button label="地方"></el-radio-button>
+                    <el-radio-button label="军校"></el-radio-button>
+                  </el-radio-group>
+                </el-space>
+              </div>
+
+              <!--985/211-->
+              <div>
+                <el-space wrap :size="20">
+                  <span class="demonstration">985/211院校 </span>
+                  <el-radio-group v-model="selForm.Level" @change="submit">
+                    <el-radio-button label="全部"></el-radio-button>
+                    <el-radio-button label="985院校"></el-radio-button>
+                    <el-radio-button label="211院校"></el-radio-button>
+                  </el-radio-group>
+                </el-space>
+              </div>
+              <!--层级-->
+              <div>
+                <el-space  wrap :size="43">
+                  <span class="demonstration">院校层级 </span>
+                  <el-radio-group v-model="selForm.Layer" @change="submit">
+                    <el-radio-button label="全部"></el-radio-button>
+                    <el-radio-button label="本科"></el-radio-button>
+                    <el-radio-button label="高职（专科）"></el-radio-button>
+                  </el-radio-group>
+                </el-space>
+
+              </div>
+              <!--特性-->
+              <div>
+                <el-space wrap :size="43">
+                  <span class="demonstration">院校特点 </span>
+                  <el-space :size="10" :spacer="spacer">
+                    <el-radio-group v-model="selForm.Features" @change="submit">
+                      <el-radio-button label="全部"></el-radio-button>
+                      <el-radio-button label="一流大学建设高校"></el-radio-button>
+                      <el-radio-button label="一流学科建设高校"></el-radio-button>
+                    </el-radio-group>
+                    <el-switch v-model="Switch" active-color="#13ce66" inactive-color="#ff4949" active-text="是否有研究生院制度" @change="submit"></el-switch>
+                  </el-space>
+                </el-space>
+              </div>
+            </el-space>
+            <!--地图-->
+            <el-card>
+              <div id="map" style="width: 600px;height:300px;"></div>
+          </el-card>
           </el-space>
           <el-divider></el-divider>
           <!--查询结果-->
@@ -88,7 +92,7 @@
               :data="schoolList"
               border stripe
               highlight-current-row
-              height="250">
+              @change="submit">
             <el-table-column label="序号" type="index" width="50px"></el-table-column>
             <el-table-column label="院校名称" prop="name"></el-table-column>
             <el-table-column label="所在地" prop="position"></el-table-column>
@@ -116,6 +120,9 @@
 <script>
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
+import * as echarts from "echarts";
+import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
+
 export default {
   name: "StudentInf",
 
@@ -171,10 +178,10 @@ export default {
             {label: "乌兰察布市",value: 506},
             {label: "巴彦淖尔市",value: 507},
             {label: "鄂尔多斯市",value: 508},
-            {label: "兴安盟",value: 509},
-            {label: "锡林郭勒盟",value: 510},
+            {label: "兴安盟市",value: 509},
+            {label: "锡林郭勒盟市",value: 510},
             {label: "乌海市",value: 511},
-            {label: "阿拉善盟",value: 512},
+            {label: "阿拉善盟市",value: 512},
 
           ],},
         {
@@ -598,40 +605,62 @@ export default {
     }
   },
   mounted() {
-    //this.getSchoolList()
+    this.submit();
+    this.drawMap();    //执行下面的函数
+
   },
   methods:{
-    getSchoolList(){
-      this.$http({
-        method:'post',
-        url:'/User/selectUniversityByCity',
-        data:this.selForm
-      }).then(res=>{
-        if (res.data.status !==200){
-          this.$message.error(res.data.info.message);
+    drawMap(){
+      const dataChart = echarts.init(document.getElementById('map'))
+
+      const mapData = require("../../assets/Js/map/china.json")
+
+      echarts.registerMap('chinaMap', mapData)
+      const option = {
+        geo:{
+          type: 'map',
+          map: 'chinaMap',
+          roam: true
         }
-        this.schoolList = res.data.list;
-        this.total = res.data.total;
-        this.selForm.PageNum = res.data.pageNum;
-        this.selForm.PageSize = res.data.pageSize
+      }
+      dataChart.setOption(option)
+      //点击
+      dataChart.on('click',arg => {
+        const provinceData = getProvinceMapInfo(arg.name)
+
+        const mapProvince = require("../../assets/Js/map/province/" + provinceData.key + ".json")
+
+        echarts.registerMap(provinceData.key, mapProvince)
+
+        const optionProvince = {
+          geo: {
+            map: provinceData.key,
+            roam: true
+          }
+        }
+        dataChart.setOption(optionProvince)
+
       })
     },
     submit(){
       //给位置数组赋值方便后端接收数据
-      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
-        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
-        {
+      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
+        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
           this.selForm.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
+      }
+
       //处理开关数据
-      if(this.Switch === true)
+      if(this.Switch === true){
         this.selForm.SwitchVal = 'T'
-      else
+      }
+      else{
         this.selForm.SwitchVal = 'F'
+      }
 
       this.$http({
         method:'post',
-        url:'/User/',
+        url:'/User/selectUniversityByCity',
         data: this.selForm
       }).then(res=>{
         if (res.data.info.code !== 200)
@@ -639,28 +668,18 @@ export default {
       })
     },
     test(){
-      //给位置数组赋值方便后端接收数据
-      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
-        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
-        {
-          this.selForm.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
-        }
-      //处理开关数据
-      if(this.Switch === true)
-        this.selForm.SwitchVal = 'T'
-      else
-        this.selForm.SwitchVal = 'F'
-
-      console.log(this.selForm)
+      console.log(this.selForm.Position)
     },
     pageSizeChange(newSize){
-      this.selForm.pageSize = newSize
+      this.selForm.pageSize = newSize;
+      this.submit();
     },
     pageCurrentChange(newPage){
-      this.selForm.pageNum = newPage
+      this.selForm.pageNum = newPage;
+      this.submit();
     },
 
-  }
+  },
 
 }
 

@@ -80,7 +80,9 @@
             </div>
           </el-space>
           <!--地图-->
-
+          <el-card>
+            <div id="map" style="width: 350px;height:250px;"></div>
+          </el-card>
         </el-space>
         <el-divider></el-divider>
         <!--查询结果-->
@@ -105,6 +107,7 @@
 <script>
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
+import * as echarts from "echarts";
 
 export default {
   name: "StudentInf",
@@ -582,22 +585,23 @@ export default {
     }
   },
   mounted() {
-    this.$http({
-      method:'get',
-      url:'/User/schoolList',
-      params:this.studentList
-    }).then(res=>{
-      if (res.data.status !==200){
-        this.$message.error('获取院校列表失败');
-      }
-      this.schoolList = res.data.schoolList;
-      this.total = res.data.total;
-    })
+
     this.drawMap();    //执行下面的函数
   },
   methods:{
     drawMap(){
+      const dataChart = echarts.init(document.getElementById('map'))
 
+      const mapData = require('../assets/Js/map/china.json')
+
+      echarts.registerMap('chinaMap', mapData)
+      const option = {
+        geo:{
+          type: 'map',
+          map: 'chinaMap'
+        }
+      }
+      dataChart.setOption(option)
     },
     submit(){
       //给位置数组赋值方便后端接收数据
