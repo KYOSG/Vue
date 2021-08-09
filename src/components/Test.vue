@@ -7,17 +7,17 @@
         <el-breadcrumb-item>院校查询</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
-      <el-card>
-        <div>
+    <el-card>
+      <div>
+        <el-space>
           <el-space direction="vertical"  alignment="flex-start" >
             <el-button @click="test">test</el-button>
             <el-button @click="submit">submit</el-button>
-            <el-button @click="getSchoolList">submit</el-button>
             <!--所在地-->
             <div class="schoolPosition">
               <el-space wrap :size="33">
-               <span class="demonstration">院校所在地 </span>
-               <el-cascader
+                <span class="demonstration">院校所在地 </span>
+                <el-cascader
                     placeholder="试试搜索：北京"
                     :options="options"
                     :props="{ multiple: true }"
@@ -25,10 +25,7 @@
                     collapse-tags
                     ref="cascadeAddr"
                     clearable></el-cascader>
-
               </el-space>
-
-
             </div>
             <!--主管部门-->
             <div>
@@ -82,43 +79,35 @@
               </el-space>
             </div>
           </el-space>
-          <el-divider></el-divider>
-          <!--查询结果-->
-          <el-table
-              :data="schoolList"
-              border stripe
-              highlight-current-row
-              height="250">
-            <el-table-column label="序号" type="index" width="50px"></el-table-column>
-            <el-table-column label="院校名称" prop="name"></el-table-column>
-            <el-table-column label="所在地" prop="position"></el-table-column>
-            <el-table-column label="主管部门" prop="manage"></el-table-column>
-            <el-table-column label="院校层级" prop="level"></el-table-column>
-            <el-table-column label="985高校" prop="s985"></el-table-column>
-            <el-table-column label="211高校" prop="s211"></el-table-column>
-            <el-table-column label="院校特点" prop="mobile"></el-table-column>
-          </el-table>
-          <!--分页-->
-          <el-pagination
-              @size-change="pageSizeChange"
-              @current-change="pageCurrentChange"
-              :current-page="selForm.PageNum"
-              :page-sizes="[1,50, 100, 200]"
-              :page-size= "selForm.PageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="total">
-          </el-pagination>
-        </div>
-      </el-card>
+          <!--地图-->
+
+        </el-space>
+        <el-divider></el-divider>
+        <!--查询结果-->
+        <el-table
+            :data="schoolList"
+            border stripe
+            highlight-current-row
+            height="250">
+          <el-table-column label="序号" type="index" width="50px"></el-table-column>
+          <el-table-column label="院校名称" prop="st_name"></el-table-column>
+          <el-table-column label="所在地" prop="st_email"></el-table-column>
+          <el-table-column label="主管部门" prop="st_mark"></el-table-column>
+          <el-table-column label="院校层级" prop="st_mobile"></el-table-column>
+          <el-table-column label="985/211高校" prop="st_mobile"></el-table-column>
+          <el-table-column label="院校特点" prop="st_mobile"></el-table-column>
+        </el-table>
+      </div>
+    </el-card>
   </el-container>
 </template>
 
 <script>
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
+
 export default {
   name: "StudentInf",
-
   data() {
     return {
       spacer: h(ElDivider, { direction: 'vertical' }),
@@ -582,7 +571,6 @@ export default {
 
           ],},],//不要打开！！！
       Switch: false,
-
       selForm:{
         Position:[],
         Manage: '全部',
@@ -590,31 +578,26 @@ export default {
         Layer:'全部',
         Features: '全部',
         SwitchVal: '',
-        PageSize: 50,
-        PageNum: 1,
       },
-      schoolList:[],
-      total: 0,
     }
   },
   mounted() {
-    //this.getSchoolList()
+    this.$http({
+      method:'get',
+      url:'/User/schoolList',
+      params:this.studentList
+    }).then(res=>{
+      if (res.data.status !==200){
+        this.$message.error('获取院校列表失败');
+      }
+      this.schoolList = res.data.schoolList;
+      this.total = res.data.total;
+    })
+    this.drawMap();    //执行下面的函数
   },
   methods:{
-    getSchoolList(){
-      this.$http({
-        method:'post',
-        url:'/User/selectUniversityByCity',
-        data:this.selForm
-      }).then(res=>{
-        if (res.data.status !==200){
-          this.$message.error(res.data.info.message);
-        }
-        this.schoolList = res.data.list;
-        this.total = res.data.total;
-        this.selForm.PageNum = res.data.pageNum;
-        this.selForm.PageSize = res.data.pageSize
-      })
+    drawMap(){
+
     },
     submit(){
       //给位置数组赋值方便后端接收数据
@@ -653,13 +636,6 @@ export default {
 
       console.log(this.selForm)
     },
-    pageSizeChange(newSize){
-      this.selForm.pageSize = newSize
-    },
-    pageCurrentChange(newPage){
-      this.selForm.pageNum = newPage
-    },
-
   }
 
 }
