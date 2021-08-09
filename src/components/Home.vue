@@ -48,8 +48,8 @@ export default {
     },
     Test:function (){
       this.$router.push('/StudentHome')
-    }
-  }
+    },
+    },
 }
 
 </script>

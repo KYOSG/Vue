@@ -14,69 +14,90 @@
             <el-button @click="submit">submit</el-button>
             <!--所在地-->
             <div class="schoolPosition">
-              <span class="demonstration">院校所在地 </span>
-              <el-cascader
-                  placeholder="试试搜索：北京"
-                  :options="options"
-                  :props="{ multiple: true }"
-                  filterable
-                  collapse-tags
-                  ref="cascadeAddr"
-                  clearable></el-cascader>
+              <el-space wrap :size="33">
+               <span class="demonstration">院校所在地 </span>
+               <el-cascader
+                    placeholder="试试搜索：北京"
+                    :options="options"
+                    :props="{ multiple: true }"
+                    filterable
+                    collapse-tags
+                    ref="cascadeAddr"
+                    clearable></el-cascader>
+
+              </el-space>
+
+
             </div>
             <!--主管部门-->
             <div>
-              <span class="demonstration">主管部门 </span>
-              <el-radio-group v-model="manage.Manage">
-                <el-radio-button label="全部"></el-radio-button>
-                <el-radio-button label="教育部"></el-radio-button>
-                <el-radio-button label="其他部委"></el-radio-button>
-                <el-radio-button label="地方"></el-radio-button>
-                <el-radio-button label="军校"></el-radio-button>
-              </el-radio-group>
+              <el-space wrap :size="43">
+                <span class="demonstration">主管部门 </span>
+                <el-radio-group v-model="manage.Manage">
+                  <el-radio-button label="全部"></el-radio-button>
+                  <el-radio-button label="教育部"></el-radio-button>
+                  <el-radio-button label="其他部委"></el-radio-button>
+                  <el-radio-button label="地方"></el-radio-button>
+                  <el-radio-button label="军校"></el-radio-button>
+                </el-radio-group>
+              </el-space>
             </div>
 
             <!--985/211-->
             <div>
-              <span class="demonstration">是否为985/211院校 </span>
-              <el-radio-group v-model="level.Level">
-                <el-radio-button label="全部"></el-radio-button>
-                <el-radio-button label="985院校"></el-radio-button>
-                <el-radio-button label="211院校"></el-radio-button>
-              </el-radio-group>
+              <el-space wrap :size="20">
+                <span class="demonstration">985/211院校 </span>
+                <el-radio-group v-model="level.Level">
+                  <el-radio-button label="全部"></el-radio-button>
+                  <el-radio-button label="985院校"></el-radio-button>
+                  <el-radio-button label="211院校"></el-radio-button>
+                </el-radio-group>
+              </el-space>
             </div>
             <!--层级-->
             <div>
-              <span class="demonstration">院校层级 </span>
-              <el-radio-group v-model="layer.Layer">
-                <el-radio-button label="全部"></el-radio-button>
-                <el-radio-button label="本科"></el-radio-button>
-                <el-radio-button label="高职（专科）"></el-radio-button>
-              </el-radio-group>
+              <el-space  wrap :size="43">
+                <span class="demonstration">院校层级 </span>
+                <el-radio-group v-model="layer.Layer">
+                  <el-radio-button label="全部"></el-radio-button>
+                  <el-radio-button label="本科"></el-radio-button>
+                  <el-radio-button label="高职（专科）"></el-radio-button>
+                </el-radio-group>
+              </el-space>
+
             </div>
             <!--特性-->
             <div>
-              <span class="demonstration">院校特点 </span>
-              <el-space :size="10" :spacer="spacer">
-                <el-radio-group v-model="features.Features">
-                  <el-radio-button label="全部"></el-radio-button>
-                  <el-radio-button label="一流大学建设高校"></el-radio-button>
-                  <el-radio-button label="一流学科建设高校"></el-radio-button>
-                  <el-radio-button label="其他院校"></el-radio-button>
-                </el-radio-group>
-                <el-switch v-model="Switch" active-color="#13ce66" inactive-color="#ff4949" active-text="是否有研究生院制度"></el-switch>
+              <el-space wrap :size="43">
+                <span class="demonstration">院校特点 </span>
+                <el-space :size="10" :spacer="spacer">
+                  <el-radio-group v-model="features.Features">
+                    <el-radio-button label="全部"></el-radio-button>
+                    <el-radio-button label="一流大学建设高校"></el-radio-button>
+                    <el-radio-button label="一流学科建设高校"></el-radio-button>
+                  </el-radio-group>
+                  <el-switch v-model="Switch" active-color="#13ce66" inactive-color="#ff4949" active-text="是否有研究生院制度"></el-switch>
+                </el-space>
               </el-space>
             </div>
           </el-space>
+          <el-divider></el-divider>
+          <el-table
+              :data="schoolList"
+              border stripe
+              highlight-current-row
+              height="250">
+            <el-table-column label="序号" type="index" width="50px"></el-table-column>
+            <el-table-column label="院校名称" prop="st_name"></el-table-column>
+            <el-table-column label="所在地" prop="st_email"></el-table-column>
+            <el-table-column label="主管部门" prop="st_mark"></el-table-column>
+            <el-table-column label="院校层级" prop="st_mobile"></el-table-column>
+            <el-table-column label="985/211高校" prop="st_mobile"></el-table-column>
+            <el-table-column label="院校特点" prop="st_mobile"></el-table-column>
+          </el-table>
         </div>
-
-
       </el-card>
-
-
-
   </el-container>
-
 </template>
 
 <script>
@@ -567,6 +588,19 @@ export default {
         SwitchVal: '',
       }
     }
+  },
+  mounted() {
+    this.$http({
+      method:'get',
+      url:'/User/schoolList',
+      params:this.studentList
+    }).then(res=>{
+      if (res.data.status !==200){
+        this.$message.error('获取院校列表失败');
+      }
+      this.schoolList = res.data.schoolList;
+      this.total = res.data.total;
+    })
   },
   methods:{
     post_position(){
