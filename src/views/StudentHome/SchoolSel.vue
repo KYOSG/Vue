@@ -33,7 +33,7 @@
             <div>
               <el-space wrap :size="43">
                 <span class="demonstration">主管部门 </span>
-                <el-radio-group v-model="manage.Manage">
+                <el-radio-group v-model="selForm.Manage">
                   <el-radio-button label="全部"></el-radio-button>
                   <el-radio-button label="教育部"></el-radio-button>
                   <el-radio-button label="其他部委"></el-radio-button>
@@ -47,7 +47,7 @@
             <div>
               <el-space wrap :size="20">
                 <span class="demonstration">985/211院校 </span>
-                <el-radio-group v-model="level.Level">
+                <el-radio-group v-model="selForm.Level">
                   <el-radio-button label="全部"></el-radio-button>
                   <el-radio-button label="985院校"></el-radio-button>
                   <el-radio-button label="211院校"></el-radio-button>
@@ -58,7 +58,7 @@
             <div>
               <el-space  wrap :size="43">
                 <span class="demonstration">院校层级 </span>
-                <el-radio-group v-model="layer.Layer">
+                <el-radio-group v-model="selForm.Layer">
                   <el-radio-button label="全部"></el-radio-button>
                   <el-radio-button label="本科"></el-radio-button>
                   <el-radio-button label="高职（专科）"></el-radio-button>
@@ -71,7 +71,7 @@
               <el-space wrap :size="43">
                 <span class="demonstration">院校特点 </span>
                 <el-space :size="10" :spacer="spacer">
-                  <el-radio-group v-model="features.Features">
+                  <el-radio-group v-model="selForm.Features">
                     <el-radio-button label="全部"></el-radio-button>
                     <el-radio-button label="一流大学建设高校"></el-radio-button>
                     <el-radio-button label="一流学科建设高校"></el-radio-button>
@@ -82,6 +82,7 @@
             </div>
           </el-space>
           <el-divider></el-divider>
+          <!--查询结果-->
           <el-table
               :data="schoolList"
               border stripe
@@ -568,25 +569,15 @@ export default {
             {label: "铁门关市",value: 3118},
 
           ],},],//不要打开！！！
-      position: {
-        Position:[]
-      },
       Switch: false,
-      manage: {
+      selForm:{
+        Position:[],
         Manage: '全部',
-      },
-      level: {
         Level:'全部',
-      },
-      layer: {
         Layer:'全部',
-      },
-      features: {
         Features: '全部',
-      },
-      switchVal:{
         SwitchVal: '',
-      }
+      },
     }
   },
   mounted() {
@@ -603,114 +594,43 @@ export default {
     })
   },
   methods:{
-    post_position(){
+    submit(){
       //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
         {
-          this.position.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
+          this.selForm.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
-
-      this.$http({
-        method:'post',
-        url:'/User/',
-        data: this.position
-      }).then(res=>{
-        if (res.data.info.code !== 200)
-          return this.$message.error(res.data.info.message);
-      })
-    },
-    post_manage(){
-      this.$http({
-        method:'post',
-        url:'/User/',
-        data: this.manage
-      }).then(res=>{
-        if (res.data.info.code !== 200)
-          return this.$message.error(res.data.info.message);
-      })
-    },
-    post_level(){
-      this.$http({
-        method:'post',
-        url:'/User/',
-        data: this.level
-      }).then(res=>{
-        if (res.data.info.code !== 200)
-          return this.$message.error(res.data.info.message);
-      })
-    },
-    post_layer(){
-      this.$http({
-        method:'post',
-        url:'/User/',
-        data: this.layer
-      }).then(res=>{
-        if (res.data.info.code !== 200)
-          return this.$message.error(res.data.info.message);
-      })
-    },
-    post_features(){
-      this.$http({
-        method:'post',
-        url:'/User/',
-        data: this.features
-      }).then(res=>{
-        if (res.data.info.code !== 200)
-          return this.$message.error(res.data.info.message);
-      })
-    },
-    post_switchVal(){
+      //处理开关数据
       if(this.Switch === true)
-        this.switchVal.SwitchVal = 'T'
+        this.selForm.SwitchVal = 'T'
       else
-        this.switchVal.SwitchVal = 'F'
+        this.selForm.SwitchVal = 'F'
 
       this.$http({
         method:'post',
         url:'/User/',
-        data: this.switchVal
+        data: this.selForm
       }).then(res=>{
         if (res.data.info.code !== 200)
           return this.$message.error(res.data.info.message);
       })
-    },
-
-    submit(){
-      this.post_position()
-      this.post_manage()
-      this.post_level()
-      this.post_layer()
-      this.post_features()
-      this.post_switchVal()
     },
 
     test(){
-      if(this.Switch === true)
-        this.switchVal.SwitchVal = 'T'
-      else
-        this.switchVal.SwitchVal = 'F'
       //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++)
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2)
         {
-          this.position.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
+          this.selForm.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
+      //处理开关数据
+      if(this.Switch === true)
+        this.selForm.SwitchVal = 'T'
+      else
+        this.selForm.SwitchVal = 'F'
 
-      this.$http({
-        method:'post',
-        url:'/User/',
-        data: this.position
-      }).then(res=>{
-        if (res.data.info.code !== 200)
-          return this.$message.error(res.data.info.message);
-      })
-      console.log(this.position)
-      console.log(this.manage)
-      console.log(this.level)
-      console.log(this.layer)
-      console.log(this.features)
-      console.log(this.switchVal)
+      console.log(this.selForm)
     },
   }
 

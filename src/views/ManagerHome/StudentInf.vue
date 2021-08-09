@@ -56,19 +56,19 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
     </el-pagination>
-<!--添加学生信息编辑对话框-->
+<!--添加学生信息编辑对话框
     <el-dialog
         title="学生信息编辑"
         v-model="editDialogVisible"
         width="30%"
         :before-close="editDialogClosed">
-      <el-form-item label="活动名称">
+      <el-form-item label="姓名">
         <el-input v-model="studentList.st_name"></el-input>
 
-      </el-form-item> <el-form-item label="活动名称">
+      </el-form-item> <el-form-item label="邮箱">
       <el-input v-model="studentList.st_email"></el-input>
 
-    </el-form-item> <el-form-item label="活动名称">
+    </el-form-item> <el-form-item label="电话">
       <el-input v-model="studentList.st_name"></el-input>
 
     </el-form-item> <el-form-item label="活动名称">
@@ -84,7 +84,7 @@
       <el-button type="primary" @click="editDialogClosed">确 定</el-button>
     </span>
       </template>
-    </el-dialog>
+    </el-dialog>-->
   </el-card>
 </template>
 

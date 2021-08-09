@@ -10,7 +10,7 @@ import promise from "q";
 
 const app = createApp(App)
 app.config.globalProperties.$http = axios;
-axios.defaults.baseURL = 'http://localhost:8080/';
+axios.defaults.baseURL = 'http://localhost:8083/';
 axios.interceptors.request.use(
     config=>{
         let token = sessionStorage.getItem('token')
