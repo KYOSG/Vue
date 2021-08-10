@@ -73,13 +73,28 @@ export default {
         url:'/User/Login',
         data: this.loginForm
       }).then(res=>{
-        if (res.data.info.code !== 200)
-          return this.$message.error(res.data.info.message);
-          this.$message.success("登录成功！");
-          window.sessionStorage.setItem("token",res.data.token)
+        if (res.data.info.code !== 200){
+          this.$notify({
+            title: '登陆失败',
+            message: res.data.info.message,
+            type: 'warning'
+          });
+          return;
+        }
+        const messageName =null;
+        if (res.data.data.identity !== "admin"){
+         this.messageName = this.loginForm.username
+        }
+        else {
+          this.messageName = '管理员'
+        }
+        this.$notify({
+          title: '登陆成功',
+          message: '你好，' + this.messageName,
+          type: 'success'
+        });
+        window.sessionStorage.setItem("token",res.data.token)
         //在此处进行身份识别和跳转到对应的页面。
-
-
 
         if (res.data.data.identity === "admin")
           this.$router.push("/ManagerHome");

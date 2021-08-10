@@ -25,7 +25,7 @@
                       collapse-tags
                       ref="cascadeAddr"
                       clearable
-                      @change="test"></el-cascader>
+                      @change="submit"></el-cascader>
 
                 </el-space>
               </div>
@@ -92,7 +92,8 @@
               :data="schoolList"
               border stripe
               highlight-current-row
-              @change="submit" height="400">
+              @change="submit"
+              max-height="400">
             <el-table-column label="序号" type="index" width="50px"></el-table-column>
             <el-table-column label="院校名称" prop="name"></el-table-column>
             <el-table-column label="所在地" prop="position"></el-table-column>
