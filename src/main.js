@@ -11,7 +11,7 @@ import echarts from 'echarts'
 
 const app = createApp(App)
 app.config.globalProperties.$http = axios;
-axios.defaults.baseURL = 'http://localhost:8083/';
+axios.defaults.baseURL = 'http://192.168.1.111:8083/';
 axios.interceptors.request.use(
     config=>{
         let token = sessionStorage.getItem('token')

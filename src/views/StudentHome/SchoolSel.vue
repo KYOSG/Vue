@@ -25,7 +25,7 @@
                       collapse-tags
                       ref="cascadeAddr"
                       clearable
-                      @change="submit"></el-cascader>
+                      @change="test"></el-cascader>
 
                 </el-space>
               </div>
@@ -84,7 +84,6 @@
             <!--地图-->
             <el-card>
               <div id="map" style="width: 600px;height:300px;"></div>
-
           </el-card>
           </el-space>
           <el-divider></el-divider>
@@ -93,7 +92,7 @@
               :data="schoolList"
               border stripe
               highlight-current-row
-              @change="submit">
+              @change="submit" height="400">
             <el-table-column label="序号" type="index" width="50px"></el-table-column>
             <el-table-column label="院校名称" prop="name"></el-table-column>
             <el-table-column label="所在地" prop="position"></el-table-column>
@@ -107,9 +106,9 @@
           <el-pagination
               @size-change="pageSizeChange"
               @current-change="pageCurrentChange"
-              :current-page="selForm.PageNum"
+              :current-page="selForm.pageNum"
               :page-sizes="[1,50, 100, 200]"
-              :page-size= "selForm.PageSize"
+              :page-size= "selForm.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="total">
           </el-pagination>
@@ -598,8 +597,8 @@ export default {
         Layer:'全部',
         Features: '全部',
         SwitchVal: '',
-        PageSize: 50,
-        PageNum: 1,
+        pageNum: 1,
+        pageSize: 50,
       },
       schoolList:[],
       total: 0,
@@ -608,7 +607,6 @@ export default {
   mounted() {
     this.submit();
     this.drawMap();    //执行下面的函数
-
   },
   methods:{
     drawMap(){
@@ -643,14 +641,17 @@ export default {
 
       })
     },
+
     submit(){
       //给位置数组赋值方便后端接收数据
+      if (this.$refs['cascadeAddr'].getCheckedNodes().length === 0){
+        this.selForm.Position = [];
+      }
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
           this.selForm.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
       }
-
       //处理开关数据
       if(this.Switch === true){
         this.selForm.SwitchVal = 'T'
@@ -658,30 +659,32 @@ export default {
       else{
         this.selForm.SwitchVal = 'F'
       }
-
       this.$http({
         method:'post',
         url:'/User/selectUniversityByCity',
         data: this.selForm
-      }).then(res=>{
-        if (res.data.info.code !== 200)
-          return this.$message.error(res.data.info.message);
+      }).then(res=> {
+        this.schoolList = res.data.list
+        this.total = res.data.total
       })
     },
+
     test(){
-      console.log(this.selForm.Position)
+      console.log(this.selForm)
     },
     pageSizeChange(newSize){
+      if (newSize === null)
+        return
       this.selForm.pageSize = newSize;
       this.submit();
     },
     pageCurrentChange(newPage){
+      if (newPage === null)
+        return
       this.selForm.pageNum = newPage;
       this.submit();
     },
-
   },
-
 }
 
 </script>
