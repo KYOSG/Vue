@@ -11,7 +11,7 @@ import TeacherInf from "@/views/ManagerHome/TeacherInf";
 import StudentWelcome from "@/views/StudentHome/StudentWelcome"
 import SchoolInf from "@/views/ManagerHome/SchoolInf";
 import Data from "@/views/StudentHome/Data";
-import Test from "@/components/Test";
+import Test from "@/views/StudentHome/Test";
 import MajorSel from "@/views/StudentHome/MajorSel";
 
 const routes = [{
