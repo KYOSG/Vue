@@ -9,10 +9,8 @@
     </el-header>
       <el-card>
         <div>
-          <el-space>
+          <el-space >
             <el-space direction="vertical"  alignment="flex-start" >
-              <el-button @click="test">test</el-button>
-              <el-button @click="submit">submit</el-button>
               <!--所在地-->
               <div class="schoolPosition">
                 <el-space wrap :size="33">
@@ -26,7 +24,6 @@
                       ref="cascadeAddr"
                       clearable
                       @change="submit"></el-cascader>
-
                 </el-space>
               </div>
               <!--主管部门-->
@@ -42,18 +39,6 @@
                   </el-radio-group>
                 </el-space>
               </div>
-
-              <!--985/211-->
-              <div>
-                <el-space wrap :size="20">
-                  <span class="demonstration">985/211院校 </span>
-                  <el-radio-group v-model="selForm.Level" @change="submit">
-                    <el-radio-button label="全部"></el-radio-button>
-                    <el-radio-button label="985院校"></el-radio-button>
-                    <el-radio-button label="211院校"></el-radio-button>
-                  </el-radio-group>
-                </el-space>
-              </div>
               <!--层级-->
               <div>
                 <el-space  wrap :size="43">
@@ -62,6 +47,8 @@
                     <el-radio-button label="全部"></el-radio-button>
                     <el-radio-button label="本科"></el-radio-button>
                     <el-radio-button label="高职（专科）"></el-radio-button>
+                    <el-radio-button label="独立学院"></el-radio-button>
+                    <el-radio-button label="中外合作办学"></el-radio-button>
                   </el-radio-group>
                 </el-space>
 
@@ -71,19 +58,51 @@
                 <el-space wrap :size="43">
                   <span class="demonstration">院校特点 </span>
                   <el-space :size="10" :spacer="spacer">
-                    <el-radio-group v-model="selForm.Features" @change="submit">
+                    <el-radio-group v-model="selForm.Level" @change="submit">
                       <el-radio-button label="全部"></el-radio-button>
-                      <el-radio-button label="一流大学建设高校"></el-radio-button>
-                      <el-radio-button label="一流学科建设高校"></el-radio-button>
+                      <el-popover
+                          placement="bottom"
+                          title="985工程"
+                          :width="200"
+                          trigger="hover"
+                          content="是为了实现现代化，建立若干所具有世界先进水平的一流大学的建设工程。">
+                        <template #reference>
+                          <el-radio-button label="985院校"></el-radio-button>
+                        </template>
+                      </el-popover>
+                      <el-popover
+                          placement="bottom"
+                          title="211工程"
+                          :width="200"
+                          trigger="hover"
+                          content="面向21世纪、重点建设100所左右的高等学校和一批重点学科的建设工程。">
+                        <template #reference>
+                          <el-radio-button label="211院校"></el-radio-button>
+                        </template>
+                      </el-popover>
                     </el-radio-group>
-                    <el-switch v-model="Switch" active-color="#13ce66" inactive-color="#ff4949" active-text="是否有研究生院制度" @change="submit"></el-switch>
+                    <el-popover
+                        placement="right"
+                        title="双一流高校"
+                        :width="200"
+                        trigger="hover"
+                        content="建设世界一流大学和一流学科，是中共中央、国务院作出的重大战略决策，也是中国高等教育领域继“211工程”“985工程”之后的又一国家战略。">
+                      <template #reference>
+                        <el-switch
+                            v-model="Switch"
+                            active-color="#13ce66"
+                            inactive-color="#ff4949"
+                            active-text="仅查看双一流高校"
+                            @change="submit"></el-switch>
+                      </template>
+                    </el-popover>
                   </el-space>
                 </el-space>
               </div>
             </el-space>
             <!--地图-->
             <el-card>
-              <div id="map" style="width: 600px;height:300px;"></div>
+              <div id="map" style="width: 600px;height:270px;"></div>
           </el-card>
           </el-space>
           <el-divider></el-divider>
@@ -93,22 +112,98 @@
               border stripe
               highlight-current-row
               @change="submit"
-              max-height="400">
+              max-height="700">
+            <el-table-column type="expand">
+              <template #default="props">
+                <el-form inline>
+
+                  <el-space direction="vertical">
+                    <el-space>
+                      <el-col>
+
+                      </el-col>
+                      <el-card shadow="hover">
+                        <el-form class="demo-table-expand">
+                          <el-form-item label="院校名称">
+                            <span>{{ props.row.name }}</span>
+                          </el-form-item>
+                          <el-form-item label="占地面积">
+                            <span>{{ props.row.area + " 亩" }}</span>
+                          </el-form-item>
+                          <el-form-item label="官方网站">
+                            <span>{{ props.row.schoolSite }}</span>
+                          </el-form-item>
+                        </el-form>
+
+                      </el-card>
+                      <el-card shadow="hover">
+                        <el-form class="demo-table-expand" label-position="left">
+                          <el-form-item label="地址" class="el-form-item">
+                            <span>{{ props.row.address }}</span>
+                          </el-form-item>
+                          <el-form-item label="建校时间" class="el-form-item">
+                            <span>{{ props.row.createDate }}</span>
+                          </el-form-item>
+                          <el-form-item label="联系方式" class=".el-form-item">
+                            <span>{{ props.row.phone }}</span>
+                          </el-form-item>
+                        </el-form>
+                      </el-card>
+                    </el-space>
+
+                    <el-space>
+                      <el-card shadow="hover">
+                        <el-form class="demo-table-expand">
+                          <el-form-item label="硕士点">
+                            <span>{{ props.row.masterNum }}</span>
+                          </el-form-item>
+                          <el-form-item label="博士点">
+                            <span>{{ props.row.doctorNum }}</span>
+                          </el-form-item>
+                        </el-form>
+                        <el-form class="demo-table-expand">
+                          <el-form-item label="院校层级">
+                            <span>{{ props.row.layer }}</span>
+                          </el-form-item>
+                          <el-form-item label="院校特点">
+                            <span>{{ props.row.natureName }}</span>
+                          </el-form-item>
+                        </el-form>
+                      </el-card>
+
+                      <el-card shadow="hover">
+                        <el-form class="demo-table-expand">
+                          <el-form-item label="软科排名">
+                            <span>{{ props.row.ruanKeRank }}</span>
+                          </el-form-item>
+                          <el-form-item label="校友会排名">
+                            <span>{{ props.row.xyhrank }}</span>
+                          </el-form-item>
+                          <el-form-item label="武书连排名">
+                            <span>{{ props.row.wslrank }}</span>
+                          </el-form-item>
+                        </el-form>
+                      </el-card>
+
+                    </el-space>
+                  </el-space>
+                </el-form>
+              </template>
+            </el-table-column>
             <el-table-column label="序号" type="index" width="50px"></el-table-column>
             <el-table-column label="院校名称" prop="name"></el-table-column>
             <el-table-column label="所在地" prop="position"></el-table-column>
             <el-table-column label="主管部门" prop="manage"></el-table-column>
             <el-table-column label="院校层级" prop="level"></el-table-column>
-            <el-table-column label="985高校" prop="s985"></el-table-column>
-            <el-table-column label="211高校" prop="s211"></el-table-column>
-            <el-table-column label="院校特点" prop="mobile"></el-table-column>
+            <el-table-column label="院校类型" prop="typeName"></el-table-column>
+            <el-table-column label="院校特点" prop="s211"></el-table-column>
           </el-table>
           <!--分页-->
           <el-pagination
               @size-change="pageSizeChange"
               @current-change="pageCurrentChange"
               :current-page="selForm.pageNum"
-              :page-sizes="[1,50, 100, 200]"
+              :page-sizes="[5, 50, 100]"
               :page-size= "selForm.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="total">
@@ -596,12 +691,41 @@ export default {
         Manage: '全部',
         Level:'全部',
         Layer:'全部',
-        Features: '全部',
-        SwitchVal: '',
+        Features: '',
         pageNum: 1,
         pageSize: 50,
       },
-      schoolList:[],
+      schoolList:[{academicianNum: 0,
+        address: "平乐园校区位于北京市朝阳区平乐园100号； 通州校区位于北京市通州区潞苑南大街89号",
+        area: "1403.10",
+        createDate: "1960",
+        doctorNum: 20,
+        email: null,
+        f211: "T",
+        f985: null,
+        firstClass: "双一流",
+        labNum: 1,
+        layer: "本科",
+        libraryNum: "0",
+        manage: "北京市",
+        masterNum: 60,
+        name: "北京工业大学",
+        natureName: "公办",
+        phone: "010-67391609",
+        position: "北京市",
+        postcode: "100022",
+        province: "北京",
+        qsrank: "33",
+        ruanKeRank: "63",
+        schoolSite: "http://www.bjut.edu.cn/",
+        school_code: "10005",
+        school_id: 30,
+        school_id_code: "4111010005",
+        site: "http://admissions.bjut.edu.cn/",
+        type: "5001",
+        typeName: "理工类",
+        wslrank: "74",
+        xyhrank: "71"}],
       total: 0,
     }
   },
@@ -644,10 +768,8 @@ export default {
     },
 
     submit(){
+      this.selForm.Position = []
       //给位置数组赋值方便后端接收数据
-      if (this.$refs['cascadeAddr'].getCheckedNodes().length === 0){
-        this.selForm.Position = [];
-      }
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
           this.selForm.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
@@ -655,23 +777,21 @@ export default {
       }
       //处理开关数据
       if(this.Switch === true){
-        this.selForm.SwitchVal = 'T'
+        this.selForm.Features = 'T'
       }
       else{
-        this.selForm.SwitchVal = 'F'
+        this.selForm.Features = 'F'
       }
+      console.log(this.selForm)
       this.$http({
         method:'post',
-        url:'/User/selectUniversityByCity',
+        url:'/User/showUniversityByNeed',
         data: this.selForm
       }).then(res=> {
+        console.log(res.data)
         this.schoolList = res.data.list
         this.total = res.data.total
       })
-    },
-
-    test(){
-      console.log(this.selForm)
     },
     pageSizeChange(newSize){
       if (newSize === null)
@@ -691,5 +811,16 @@ export default {
 </script>
 
 <style scoped>
-
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
 </style>

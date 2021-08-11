@@ -12,6 +12,7 @@ import StudentWelcome from "@/views/StudentHome/StudentWelcome"
 import SchoolInf from "@/views/ManagerHome/SchoolInf";
 import Data from "@/views/StudentHome/Data";
 import Test from "@/components/Test";
+import MajorSel from "@/views/StudentHome/MajorSel";
 
 const routes = [{
   path: '/',
@@ -73,7 +74,10 @@ const routes = [{
     },{
       path: '/SchoolSel',
       component: SchoolSel,
-    },]
+    },{
+      path: '/MajorSel',
+      component: MajorSel,
+    }]
   }
   //老师界面
   ]
