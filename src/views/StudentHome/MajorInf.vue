@@ -103,7 +103,7 @@ import * as echarts from "echarts";
 import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
 
 export default {
-  name: "StudentSel",
+  name: "MajorInf",
 
   data() {
     return {
@@ -128,7 +128,7 @@ export default {
   },
   mounted() {
     this.submit();
-  //执行下面的函数
+    //执行下面的函数
   },
   methods:{
     submit(){

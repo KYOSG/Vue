@@ -26,8 +26,8 @@
                           <span>用户管理</span>
                         </template>
                         <el-menu-item-group>
-                          <el-menu-item index="/StudentInf" class="el-icon-user">学生信息</el-menu-item>
-                          <el-menu-item index="/TeacherInf" class="el-icon-s-custom" >指导老师信息</el-menu-item>
+                          <el-menu-item index="/StudentInfManager" class="el-icon-user">学生信息</el-menu-item>
+                          <el-menu-item index="/TeacherInfManager" class="el-icon-s-custom" >指导老师信息</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="2">

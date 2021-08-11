@@ -11,6 +11,7 @@ import echarts from 'echarts'
 
 const app = createApp(App)
 app.config.globalProperties.$http = axios;
+//接口请求的基准路径
 axios.defaults.baseURL = 'http://192.168.1.111:8083/';
 axios.interceptors.request.use(
     config=>{
@@ -25,7 +26,7 @@ axios.interceptors.request.use(
     }
     );
 //Echarts
-app.config.globalProperties.$echarts=window.echarts;
+app.config.globalProperties.$echarts = window.echarts;
 
 installElementPlus(app)
 app.use(router).mount('#app')

@@ -6,14 +6,17 @@ import SchoolSel from "@/views/StudentHome/SchoolSel";
 import ManagerHome from "@/components/ManageHome";
 import ManagerWelcome from "@/views/ManagerHome/ManagerWelcome";
 import StudentHome from"@/components/StudentHome"
-import StudentInf from "@/views/ManagerHome/StudentInf";
-import TeacherInf from "@/views/ManagerHome/TeacherInf";
+import StudentInfManager from "@/views/ManagerHome/StudentInfManager";
+import TeacherInfManager from "@/views/ManagerHome/TeacherInfManager";
 import StudentWelcome from "@/views/StudentHome/StudentWelcome"
-import SchoolInf from "@/views/ManagerHome/SchoolInf";
+import SchoolInfManager from "@/views/ManagerHome/SchoolInfManager";
 import Data from "@/views/StudentHome/Data";
 import Test from "@/views/StudentHome/Test";
 import MajorSel from "@/views/StudentHome/MajorSel";
-
+import MajorInf from "@/views/StudentHome/MajorInf";
+import SchoolInf from "@/views/StudentHome/SchoolInf";
+import Applications from "@/views/StudentHome/Applications";
+import DataPage from "@/views/Visual/DataPage"
 const routes = [{
   path: '/',
   redirect: '/Home'
@@ -42,6 +45,11 @@ const routes = [{
     path: '/Data',
     component: Data,
   },
+  {
+    path: '/DataPage',
+    name: 'DataPage',
+    component: DataPage
+  },
   //管理员界面
   {
     path: '/ManagerHome',
@@ -52,14 +60,14 @@ const routes = [{
       path: '/ManagerWelcome',
       component: ManagerWelcome
     },{
-      path: '/StudentInf',
-      component: StudentInf,
+      path: '/StudentInfManager',
+      component: StudentInfManager,
     },{
-      path: '/TeacherInf',
-      component: TeacherInf,
+      path: '/TeacherInfManager',
+      component: TeacherInfManager,
     },{
-      path: '/SchoolInf',
-      component: SchoolInf,
+      path: '/SchoolInfManager',
+      component: SchoolInfManager,
     },]
   },
     //学生界面
@@ -77,8 +85,18 @@ const routes = [{
     },{
       path: '/MajorSel',
       component: MajorSel,
+    },{
+      path: '/SchoolInf',
+      component: SchoolInf
+    },{
+      path: '/MajorInf',
+      component: MajorInf
+    },{
+      path: '/Applications',
+      component: Applications
     }]
-  }
+  },
+
   //老师界面
   ]
 
