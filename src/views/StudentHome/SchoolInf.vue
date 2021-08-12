@@ -23,7 +23,8 @@
                     collapse-tags
                     ref="cascadeAddr"
                     clearable
-                    @change="submit"></el-cascader>
+                    @change="submit"
+                    @clear="clearPosition"></el-cascader>
               </el-space>
             </div>
             <!--主管部门-->
@@ -103,27 +104,26 @@
             <el-space>
               <el-input
                   placeholder="请输入院校名称"
-                  v-model="searchSchoolName"
+                  v-model="selForm.Name"
                   clearable>
               </el-input >
-              <el-button icon="el-icon-search" @click="searchSchool" type="primary"></el-button>
+              <el-button icon="el-icon-search" @click="search" type="primary"></el-button>
             </el-space>
-
-
           </el-space>
           <!--地图-->
           <el-card>
-            <map></map>
+            <div id="map" style="width: 400px;height:270px;"></div>
           </el-card>
         </el-space>
         <el-divider></el-divider>
         <!--查询结果-->
         <el-table
             :data="schoolList"
-            border stripe
             highlight-current-row
             @change="submit"
-            max-height="700">
+            max-height="700"
+            :header-cell-style="{'text-align':'center'}"
+            :cell-style="{'text-align':'center'}">
           <el-table-column type="expand">
             <template #default="props">
               <el-form inline>
@@ -166,7 +166,7 @@
                       <el-space direction="vertical" :size="spaceSize" alignment="flex-start">
                         <span>{{ "软科排名：" + props.row.ruanKeRank }}</span>
                         <span>{{ "校友会排名：" + props.row.xyhrank }}</span>
-                        <span>{{ "武书连排名" + props.row.wslrank }}</span>
+                        <span>{{ "武书连排名：" + props.row.wslrank }}</span>
                       </el-space>
                     </el-card>
                   </el-col>
@@ -174,13 +174,17 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column label="序号" type="index" width="50px"></el-table-column>
+          <el-table-column label="学校代码" prop="">
+            <template #default="scope">
+              <el-image  style="width: 70px; height: 70px" :src="scope.row.site" alt="" :fit="fill" ></el-image>
+            </template>
+          </el-table-column>
           <el-table-column label="院校名称" prop="name"></el-table-column>
           <el-table-column label="所在地" prop="position"></el-table-column>
           <el-table-column label="主管部门" prop="manage"></el-table-column>
-          <el-table-column label="院校层级" prop="level"></el-table-column>
+          <el-table-column label="院校层级" prop="layer"></el-table-column>
           <el-table-column label="院校类型" prop="typeName"></el-table-column>
-          <el-table-column label="院校特点" prop="s211"></el-table-column>
+          <el-table-column label="院校特点" prop="type" ></el-table-column>
         </el-table>
         <!--分页-->
         <el-pagination
@@ -190,7 +194,8 @@
             :page-sizes="[5, 50, 100]"
             :page-size= "selForm.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="total">
+            :total="total"
+            :disabled = "searchOption">
         </el-pagination>
       </div>
     </el-card>
@@ -202,9 +207,8 @@ import { h } from 'vue'
 import { ElDivider } from 'element-plus'
 import * as echarts from "echarts";
 import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
-
 export default {
-  name: "StudentInf",
+  name: "StudentSel",
 
   data() {
     return {
@@ -678,6 +682,7 @@ export default {
         Features: '',
         pageNum: 1,
         pageSize: 50,
+        Name: '',
       },
       schoolList:[{
         academicianNum: 0,
@@ -746,19 +751,17 @@ export default {
       }],
       total: 0,
       spaceSize:20,
-      searchSchoolName: ''
+      searchOption: false
     }
+
   },
   mounted() {
     this.submit();
-    this.initMap();    //执行下面的函数
+    this.drawMap();    //执行下面的函数
   },
   methods:{
-    initMap(){
-      //this.chartInstance = this.$echarts.init()
-      // const initOption = {}
-      //this.chartInstance.setOption(initOption)
-      //const dataChart = echarts.init(document.getElementById('map'))
+    drawMap(){
+      const dataChart = echarts.init(document.getElementById('map'))
 
       const mapData = require("../../assets/Js/map/china.json")
 
@@ -786,11 +789,13 @@ export default {
           }
         }
         dataChart.setOption(optionProvince)
+
       })
     },
-
-    submit(){
+    clearPosition(){
       this.selForm.Position = []
+    },
+    submit(){
       //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
@@ -804,17 +809,25 @@ export default {
       else{
         this.selForm.Features = 'F'
       }
-      console.log(this.selForm)
+
+      this.total = 0;
+      this.selForm.pageNum = 1;
+      this.selForm.pageSize = 50;
+
       this.$http({
         method:'post',
         url:'/User/showUniversityByNeed',
         data: this.selForm
       }).then(res=> {
-        console.log(res.data)
+        for(let i=0;i<res.data.list.length;i++) {
+          res.data.list[i].type = res.data.list[i].firstClass
+          res.data.list[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data.list[i].school_id + '.jpg'
+        }
         this.schoolList = res.data.list
         this.total = res.data.total
       })
     },
+
     pageSizeChange(newSize){
       if (newSize === null)
         return
@@ -827,21 +840,29 @@ export default {
       this.selForm.pageNum = newPage;
       this.submit();
     },
-    searchSchool(){
+    search(){
+      this.searchOption = true
+      this.total = 0;
+      this.selForm.pageNum = 1;
+      this.selForm.pageSize = 50;
+
       this.$http({
         method:'post',
-        url:'/User/',
-        data: this.searchSchoolName
+        url:'/User/getUniversityByName',
+        data: this.selForm
       }).then(res=> {
+
         console.log(res.data)
+        for(let i=0;i<res.data.list.length;i++) {
+          res.data.list[i].type = res.data.list[i].firstClass
+          res.data.list[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data.list[i].school_id + '.jpg'
+        }
         this.schoolList = res.data.list
         this.total = res.data.total
+
       })
-    }
+    },
   },
-  components:{
-    'map': Map
-  }
 }
 
 </script>

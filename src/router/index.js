@@ -16,7 +16,7 @@ import MajorSel from "@/views/StudentHome/MajorSel";
 import MajorInf from "@/views/StudentHome/MajorInf";
 import SchoolInf from "@/views/StudentHome/SchoolInf";
 import Applications from "@/views/StudentHome/Applications";
-import DataPage from "@/views/Visual/DataPage"
+import DataPage from "@/views/Visual/Seller"
 const routes = [{
   path: '/',
   redirect: '/Home'
