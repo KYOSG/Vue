@@ -7,7 +7,7 @@
         <el-breadcrumb-item>专业查询</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
-    <el-card>
+    <el-card class="test">
       <div>
         <el-space :size="40">
           <el-space alignment="flex-start" :size="25">
@@ -46,14 +46,14 @@
                   v-model="selForm.FuzzyString"
                   clearable>
               </el-input >
-              <el-button icon="el-icon-search" @click="searchSchool" type="primary"></el-button>
+              <el-button icon="el-icon-search" @click="searchMajor" type="primary"></el-button>
             </el-space>
           </el-space>
         </el-space>
         <el-divider></el-divider>
         <!--查询结果-->
         <el-table
-            :data="schoolList"
+            :data="majorList"
             border stripe
             highlight-current-row
             @change="submit"
@@ -374,7 +374,7 @@ export default {
         pageSize: 50,
         FuzzyString: ''
       },
-      schoolList:[],
+      majorList:[],
       total: 0,
       spaceSize:20,
 
@@ -400,7 +400,7 @@ export default {
         url:'/User/showMajorByNeeds ',
         data: this.selForm
       }).then(res=> {
-        this.schoolList = res.data.list
+        this.majorList = res.data.list
         this.total = res.data.total
       })
     },
@@ -416,14 +416,14 @@ export default {
       this.selForm.pageNum = newPage;
       this.submit();
     },
-    searchSchool(){
+    searchMajor(){
       this.$http({
         method:'post',
         url:'/User/showMajorByFuzzy',
         data: this.selForm
       }).then(res=> {
         console.log(res.data)
-        this.schoolList = res.data
+        this.majorList = res.data
         this.total = res.data.length
       })
     }
@@ -433,4 +433,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

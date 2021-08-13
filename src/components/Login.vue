@@ -86,8 +86,6 @@ export default {
           return;
         }
 
-        const messageName = null;
-
         if (res.data.data.identity !== "admin"){
          this.messageName = this.loginForm.username
         }
@@ -100,9 +98,10 @@ export default {
           message: '你好，' + this.messageName,
           type: 'success'
         });
-        console.log(res.data)
 
-        setToken(res.data.data.token)
+        window.sessionStorage.setItem("token", res.data.data.token)
+        window.sessionStorage.setItem("username", this.loginForm.username)
+        window.sessionStorage.setItem("identity", res.data.data.identity)
         //在此处进行身份识别和跳转到对应的页面。
         if (res.data.data.identity === "admin")
           this.$router.push("/ManagerHome");
