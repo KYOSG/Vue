@@ -18,8 +18,8 @@
                   prefix-icon="el-icon-key"></el-input>
       </el-form-item>
       <!--登陆按钮-->
-      <el-button class="login_button" type="primary" @click="login">登陆</el-button>
-      <el-button class="reset_button" type="primary" @click="resetLoginForm">清空</el-button>
+      <button class="login_button" @click="login">登陆</button>
+      <button class="reset_button" @click="resetLoginForm">清空</button>
     </el-form>
   </div>
 </div>
@@ -27,9 +27,10 @@
 </template>
 
 <script>
+import {setToken} from '../../utils/token.js'
+
 export default {
   name: "Login",
-
   data(){
     const checkUsername = (rule, value, cb) => {
       const regUsername = /^[_a-zA-Z0-9]+$/;
@@ -61,6 +62,7 @@ export default {
     }
   },
   methods:{
+
     resetLoginForm(loginForm){
       console.log(loginForm)
       this.$refs.loginFormRef.resetFields();
@@ -68,11 +70,13 @@ export default {
     },
 
     login(){
+      console.log(this.loginForm)
       this.$http({
         method:'post',
         url:'/User/Login',
         data: this.loginForm
       }).then(res=>{
+
         if (res.data.info.code !== 200){
           this.$notify({
             title: '登陆失败',
@@ -81,21 +85,25 @@ export default {
           });
           return;
         }
-        const messageName =null;
+
+        const messageName = null;
+
         if (res.data.data.identity !== "admin"){
          this.messageName = this.loginForm.username
         }
         else {
           this.messageName = '管理员'
         }
+        //登陆提示
         this.$notify({
           title: '登陆成功',
           message: '你好，' + this.messageName,
           type: 'success'
         });
-        window.sessionStorage.setItem("token",res.data.token)
-        //在此处进行身份识别和跳转到对应的页面。
+        console.log(res.data)
 
+        setToken(res.data.data.token)
+        //在此处进行身份识别和跳转到对应的页面。
         if (res.data.data.identity === "admin")
           this.$router.push("/ManagerHome");
         else if (res.data.data.identity === "editor")
@@ -103,9 +111,7 @@ export default {
         else if (res.data.data.identity === "teacher")
           this.$router.push("/TeacherHome");
       })
-      //this.$router.push("/StudentHome");
-        //window.sessionStorage.setItem("token", res.data.token);
-        //在此处进行身份识别和跳转到对应的页面
+
     }
   }
 }
@@ -117,18 +123,20 @@ export default {
 
 .login_background {
   height: 100%;
-  background-color: rgb(0,78,100);
+  background-color: #2e505c;
 }
 
 .login_box{
   width: 450px;
   height: 350px;
-  background-color: #E8E8E8;
-  border-radius: 15px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%,  -50%);
+  border-radius: 61px;
+  background: #2e505c;
+  box-shadow:  34px 34px 69px #182a31,
+  -34px -34px 69px #447687;
 
 }
 
@@ -159,16 +167,57 @@ img {
 
 }
 
-
 .login_button{
   position: absolute;
   top:270px;
+  color: #F4F4F8;
+  width: 80px;
+  height: 41px;
+  border:none;
+  border-radius: 46px;
+  background: linear-gradient(145deg, #72e9ff, #60c4e6);
+  box-shadow:  10px 10px 20px #408399,
+  -10px -10px 20px #96ffff;
 }
 
+.login_button:hover{
+  position: absolute;
+  top:270px;
+  color: #F4F4F8;
+  width: 80px;
+  height: 41px;
+  border:none;
+  border-radius: 46px;
+  background: linear-gradient(145deg, #60c4e6, #72e9ff);
+  box-shadow:  10px 10px 20px #408399,
+  -10px -10px 20px #96ffff;
+}
 .reset_button{
   position: absolute;
   top:270px;
   left:280px;
+  color: #F4F4F8;
+  width: 80px;
+  height: 41px;
+  border:none;
+  border-radius: 46px;
+  background: linear-gradient(145deg, #72e9ff, #60c4e6);
+  box-shadow:  10px 10px 20px #408399,
+  -10px -10px 20px #96ffff;
+}
+
+.reset_button:hover{
+  position: absolute;
+  top:270px;
+  left:280px;
+  color: #F4F4F8;
+  width: 80px;
+  height: 41px;
+  border:none;
+  border-radius: 46px;
+  background: linear-gradient(145deg, #60c4e6, #72e9ff);
+  box-shadow:  10px 10px 20px #408399,
+  -10px -10px 20px #96ffff;
 }
 
 </style>

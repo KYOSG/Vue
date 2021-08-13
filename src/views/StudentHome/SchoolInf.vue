@@ -23,8 +23,7 @@
                     collapse-tags
                     ref="cascadeAddr"
                     clearable
-                    @change="submit"
-                    @clear="clearPosition"></el-cascader>
+                    @change="submit"></el-cascader>
               </el-space>
             </div>
             <!--主管部门-->
@@ -195,7 +194,8 @@
             :page-size= "selForm.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
-            :disabled = "searchOption">
+            :disabled = "searchOption"
+             background>
         </el-pagination>
       </div>
     </el-card>
@@ -792,10 +792,9 @@ export default {
 
       })
     },
-    clearPosition(){
-      this.selForm.Position = []
-    },
+
     submit(){
+      this.selForm.Position = []
       //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
@@ -810,10 +809,7 @@ export default {
         this.selForm.Features = 'F'
       }
 
-      this.total = 0;
-      this.selForm.pageNum = 1;
-      this.selForm.pageSize = 50;
-
+      console.log(this.selForm)
       this.$http({
         method:'post',
         url:'/User/showUniversityByNeed',
@@ -823,6 +819,7 @@ export default {
           res.data.list[i].type = res.data.list[i].firstClass
           res.data.list[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data.list[i].school_id + '.jpg'
         }
+        console.log(res.data)
         this.schoolList = res.data.list
         this.total = res.data.total
       })
@@ -835,14 +832,12 @@ export default {
       this.submit();
     },
     pageCurrentChange(newPage){
-      if (newPage === null)
-        return
       this.selForm.pageNum = newPage;
       this.submit();
     },
     search(){
       this.searchOption = true
-      this.total = 0;
+
       this.selForm.pageNum = 1;
       this.selForm.pageSize = 50;
 
@@ -853,12 +848,12 @@ export default {
       }).then(res=> {
 
         console.log(res.data)
-        for(let i=0;i<res.data.list.length;i++) {
-          res.data.list[i].type = res.data.list[i].firstClass
-          res.data.list[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data.list[i].school_id + '.jpg'
+        for(let i=0;i<res.data.length;i++) {
+          res.data[i].type = res.data[i].firstClass
+          res.data[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data[i].school_id + '.jpg'
         }
-        this.schoolList = res.data.list
-        this.total = res.data.total
+        this.schoolList = res.data
+        this.total = res.data.length
 
       })
     },

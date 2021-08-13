@@ -43,12 +43,11 @@
             <el-space>
               <el-input
                   placeholder="请输入专业名称"
-                  v-model="FuzzyString"
+                  v-model="selForm.FuzzyString"
                   clearable>
               </el-input >
               <el-button icon="el-icon-search" @click="searchSchool" type="primary"></el-button>
             </el-space>
-
           </el-space>
         </el-space>
         <el-divider></el-divider>
@@ -76,7 +75,8 @@
             :page-sizes="[5, 50, 100]"
             :page-size= "selForm.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="total">
+            :total="total"
+            background>
         </el-pagination>
       </div>
     </el-card>
@@ -97,7 +97,6 @@ export default {
       spacer: h(ElDivider, { direction: 'vertical' }),
       props: {multiple: true},
       options:[
-        { value: 0, label: "本科专业",children:[
             { label: "哲学",value: "01", children:[
                   { label: "哲学类", value: "0101"},
                 ]},
@@ -225,8 +224,6 @@ export default {
                 { label: "设计学类", value: "1205"},
 
               ]},
-             ]},
-        { value: 1, label: "专科专业", children:[
             { label: "农林牧渔大类", value: "51", children: [
                 { label: "农业类", value: "5101"},
                 { label: "林业类", value: "5102"},
@@ -367,8 +364,6 @@ export default {
                 { label: "公共管理类", value: "6902"},
                 { label: "公共服务类", value: "6903"}
               ]},
-          ]}
-
       ],//不要打开！！！
       Switch: false,
 
@@ -377,23 +372,23 @@ export default {
         level1_name:'全部',
         pageNum: 1,
         pageSize: 50,
+        FuzzyString: ''
       },
       schoolList:[],
       total: 0,
       spaceSize:20,
-      FuzzyString: ''
+
     }
   },
   mounted() {
     this.submit();
-
   },
   methods:{
     submit(){
       this.selForm.type_detail = []
       //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
-        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 3) {
+        if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
           this.selForm.type_detail[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
       }
@@ -405,7 +400,6 @@ export default {
         url:'/User/showMajorByNeeds ',
         data: this.selForm
       }).then(res=> {
-        console.log(res.data)
         this.schoolList = res.data.list
         this.total = res.data.total
       })
@@ -426,11 +420,11 @@ export default {
       this.$http({
         method:'post',
         url:'/User/showMajorByFuzzy',
-        data: this.FuzzyString
+        data: this.selForm
       }).then(res=> {
         console.log(res.data)
-        this.schoolList = res.data.list
-        this.total = res.data.total
+        this.schoolList = res.data
+        this.total = res.data.length
       })
     }
   },

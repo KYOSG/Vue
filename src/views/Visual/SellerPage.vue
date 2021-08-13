@@ -1,5 +1,6 @@
 <template>
   <div class="com-page">
+    wrwerwe
     <seller></seller>
   </div>
 </template>

@@ -16,15 +16,21 @@ import MajorSel from "@/views/StudentHome/MajorSel";
 import MajorInf from "@/views/StudentHome/MajorInf";
 import SchoolInf from "@/views/StudentHome/SchoolInf";
 import Applications from "@/views/StudentHome/Applications";
-import DataPage from "@/views/Visual/Seller"
+import Seller from "@/views/Visual/Seller"
+import SellerPage from "@/views/Visual/SellerPage"
 const routes = [{
   path: '/',
   redirect: '/Home'
 },
   {
-    path: '/Test',
-    name: 'Test',
-    component: Test
+    path: '/SellerPage',
+    name: 'SellerPage',
+    component: SellerPage,
+    children: [{
+      path: '/Seller',
+      name: Seller,
+      component: Seller
+    }]
   },
   {
     path: '/Login',
@@ -40,15 +46,6 @@ const routes = [{
     path: '/Signup',
     name: 'Signup',
     component: Signup
-  },
-  {
-    path: '/Data',
-    component: Data,
-  },
-  {
-    path: '/DataPage',
-    name: 'DataPage',
-    component: DataPage
   },
   //管理员界面
   {
