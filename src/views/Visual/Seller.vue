@@ -6,6 +6,8 @@
 
 <script>
 
+import {$} from "element-plus/es/utils/util";
+
 export default {
   name: "DataPage",
   data(){
@@ -22,8 +24,13 @@ export default {
       this.chartInstance = this.$echarts.init(this.$refs.seller_ref)
     },
 
-    getChart(){
+    getData() {
 
+      let url =  require("../../../public/static/Data/chartData/seller.json")
+      $.getJSON(url, (data) => {
+        console.log(data)
+          }
+      );
     },
     update(){}
   }

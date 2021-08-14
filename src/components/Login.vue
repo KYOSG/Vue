@@ -5,7 +5,7 @@
       <img src="../assets/logo.png" alt="">
     </div>
     <!--登录表单-->
-    <el-form :model="loginForm" class="form" :rules="loginFormRules" ref="loginFormRef">
+    <el-form :model="loginForm" class="form" :rules="loginFormRules" ref="loginFormRef" @keyup.enter.native="login">
       <!--用户名-->
       <el-form-item prop="username">
         <el-input v-model="loginForm.username"
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import {setToken} from '../../utils/token.js'
 
 export default {
   name: "Login",
@@ -114,7 +113,6 @@ export default {
     }
   }
 }
-
 
 </script>
 
