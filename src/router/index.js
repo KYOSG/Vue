@@ -18,6 +18,7 @@ import SchoolInf from "@/views/StudentHome/SchoolInf";
 import Applications from "@/views/StudentHome/Applications";
 import Seller from "@/views/Visual/Seller"
 import SellerPage from "@/views/Visual/SellerPage"
+import Maps from "@/views/Visual/Maps"
 const routes = [{
   path: '/',
   redirect: '/Home'
@@ -30,6 +31,10 @@ const routes = [{
       path: '/Seller',
       name: Seller,
       component: Seller
+    },{
+      path: '/Maps',
+      name: Maps,
+      component: Maps
     }]
   },
   {

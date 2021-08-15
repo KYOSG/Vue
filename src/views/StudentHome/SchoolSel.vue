@@ -190,22 +190,22 @@ export default {
 
   data() {
     return {
-      spacer: h(ElDivider, { direction: 'vertical' }),
+      spacer: h(ElDivider, {direction: 'vertical'}),
       props: {multiple: true},
       Switch: false,
       options: require('../../../public/static/Data/positionData.json'),
-      selForm:{
-        Position:[],
+      selForm: {
+        Position: [],
         Manage: '全部',
-        Level:'全部',
-        Layer:'全部',
+        Level: '全部',
+        Layer: '全部',
         Features: '',
         pageNum: 1,
         pageSize: 50,
         Name: '',
-        schoolChoice:[]
+        schoolChoice: [],
       },
-      schoolList:[{
+      schoolList: [{
         academicianNum: 0,
         address: "平乐园校区位于北京市朝阳区平乐园100号； 通州校区位于北京市通州区潞苑南大街89号",
         area: "1403.10",
@@ -238,9 +238,9 @@ export default {
         wslrank: "74",
         xyhrank: "71"
       }],
-      schoolChoiceList:[],
+      schoolChoiceList: [],
       total: 0,
-      spaceSize:20,
+      spaceSize: 20,
       searchOption: false,
       drawer: false,
       choiceSchool: {
@@ -252,29 +252,29 @@ export default {
   mounted() {
     this.submit();
   },
-  methods:{
-    submit(){
+  methods: {
+    submit() {
+      this.searchOption = false
       this.selForm.Position = []
       //给位置数组赋值方便后端接收数据
-      for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
+      for (let i = 0; i < this.$refs['cascadeAddr'].getCheckedNodes().length; i++) {
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
           this.selForm.Position[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
       }
       //处理开关数据
-      if(this.Switch === true){
+      if (this.Switch === true) {
         this.selForm.Features = 'T'
-      }
-      else{
+      } else {
         this.selForm.Features = 'F'
       }
 
       this.$http({
-        method:'post',
-        url:'/User/showUniversityByNeed',
+        method: 'post',
+        url: '/User/showUniversityByNeed',
         data: this.selForm
-      }).then(res=> {
-        for(let i=0;i<res.data.list.length;i++) {
+      }).then(res => {
+        for (let i = 0; i < res.data.list.length; i++) {
           res.data.list[i].type = res.data.list[i].firstClass
           res.data.list[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data.list[i].school_id + '.jpg'
         }
@@ -284,78 +284,94 @@ export default {
       })
     },
 
-    add(id){
+    add(id) {
       this.choiceSchool.university_id = id
       console.log(this.choiceSchool)
       this.$http({
-        method:'post',
-        url:'/User/selectUniversityByStudent',
+        method: 'post',
+        url: '/User/selectUniversityByStudent',
         data: this.choiceSchool
-      }).then(res=> {
-        ElMessage.warning({
-          message: res.data.info.message,
-          type: 'warning'
-        });
-      })
-    },
-
-    del(id){
-      this.choiceSchool.university_id = id
-      this.$http({
-        method:'post',
-        url:'/User/selectUniversityByStudent',
-        data: this.choiceSchool
-      }).then(res=> {
-        ElMessage.warning({
-          message: res.data.info.message,
-          type: 'warning'
-        });
-      })
-    },
-
-    showDrawer(){
-      this.$http({
-        method:'post',
-        url:'/User/showUniversitySelected',
-        data: this.choiceSchool
-      }).then(res=> {
-        this.schoolChoiceList = res.data
-      })
-      this.drawer = true
-    },
-    pageSizeChange(newSize){
-      if (newSize === null)
-        return
-      this.selForm.pageSize = newSize;
-      this.submit();
-    },
-    pageCurrentChange(newPage){
-      this.selForm.pageNum = newPage;
-      this.submit();
-    },
-    search(){
-      this.searchOption = true
-
-      this.selForm.pageNum = 1;
-      this.selForm.pageSize = 50;
-
-      this.$http({
-        method:'post',
-        url:'/User/getUniversityByName',
-        data: this.selForm
-      }).then(res=> {
-
-        console.log(res.data)
-        for(let i=0;i<res.data.length;i++) {
-          res.data[i].type = res.data[i].firstClass
-          res.data[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data[i].school_id + '.jpg'
+      }).then(res => {
+        if (res.data.info.code === 200) {
+          ElMessage.warning({
+            message: res.data.info.message,
+            type: 'success'
+          });
         }
-        this.schoolList = res.data
-        this.total = res.data.length
-
+        ElMessage.warning({
+          message: res.data.info.message,
+          type: 'warning'
+        });
       })
     },
+
+    del(id) {
+      this.choiceSchool.university_id = id
+
+      this.$http({
+        method: 'post',
+        url: '/User/deleteUniversitySelected',
+        data: this.choiceSchool
+      }).then(res => {
+        ElMessage.warning({
+          message: res.data.info.message,
+          type: 'warning'
+        });
+      })
+      //利用延时解决删除已选学校更新列表错误的问题
+      this.timer = setTimeout(()=>{   //设置延迟执行
+        console.log('ok');
+        this.showDrawer()
+      },100);
+
+    },
+
+
+  showDrawer() {
+    this.schoolChoiceList = []
+    this.$http({
+      method: 'post',
+      url: '/User/showUniversitySelected',
+      data: this.choiceSchool
+    }).then(res => {
+      console.log(res)
+      this.schoolChoiceList = res.data
+    })
+    this.drawer = true
   },
+  pageSizeChange(newSize) {
+    if (newSize === null)
+      return
+    this.selForm.pageSize = newSize;
+    this.submit();
+  },
+  pageCurrentChange(newPage) {
+    this.selForm.pageNum = newPage;
+    this.submit();
+  },
+  search() {
+    this.searchOption = true
+
+    this.selForm.pageNum = 1;
+    this.selForm.pageSize = 50;
+
+    this.$http({
+      method: 'post',
+      url: '/User/getUniversityByName',
+      data: this.selForm
+    }).then(res => {
+
+      console.log(res.data)
+      for (let i = 0; i < res.data.length; i++) {
+        res.data[i].type = res.data[i].firstClass
+        res.data[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data[i].school_id + '.jpg'
+      }
+      this.schoolList = res.data
+      this.total = res.data.length
+
+    })
+  },
+  }
 }
 
 </script>

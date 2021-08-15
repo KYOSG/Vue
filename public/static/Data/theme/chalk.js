@@ -1,4 +1,6 @@
+exports.nodeName = undefined;
 (function (root, factory) {
+    let define;
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['exports', 'echarts'], factory);
@@ -10,15 +12,11 @@
         factory({}, root.echarts);
     }
 }(this, function (exports, echarts) {
-    var log = function (msg) {
+    const log = function (msg) {
         if (typeof console !== 'undefined') {
             console && console.error && console.error(msg);
         }
     };
-    if (!echarts) {
-        log('ECharts is not Loaded');
-        return;
-    }
     echarts.registerTheme('chalk', {
         "color": [
             '#0ba82c',

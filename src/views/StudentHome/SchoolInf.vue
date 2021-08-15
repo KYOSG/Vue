@@ -216,7 +216,7 @@ export default {
     return {
       spacer: h(ElDivider, { direction: 'vertical' }),
       props: {multiple: true},
-      options: require('../../../public/static/Data/positionData.json'),//不要打开！！！
+      options: require('../../../public/static/Data/positionData.json'),
       Switch: false,
 
       selForm:{
@@ -229,71 +229,7 @@ export default {
         pageSize: 50,
         Name: '',
       },
-      schoolList:[{
-        academicianNum: 0,
-        address: "平乐园校区位于北京市朝阳区平乐园100号； 通州校区位于北京市通州区潞苑南大街89号",
-        area: "1403.10",
-        createDate: "1960",
-        doctorNum: 20,
-        email: null,
-        f211: "T",
-        f985: null,
-        firstClass: "双一流",
-        labNum: 1,
-        layer: "本科",
-        libraryNum: "0",
-        manage: "北京市",
-        masterNum: 60,
-        name: "北京工业大学",
-        natureName: "公办",
-        phone: "010-67391609",
-        position: "北京市",
-        postcode: "100022",
-        province: "北京",
-        qsrank: "33",
-        ruanKeRank: "63",
-        schoolSite: "http://www.bjut.edu.cn/",
-        school_code: "10005",
-        school_id: 126,
-        school_id_code: "4111010005",
-        site: "http://admissions.bjut.edu.cn/",
-        type: "5001",
-        typeName: "理工类",
-        wslrank: "74",
-        xyhrank: "71"
-      },{
-        academicianNum: 0,
-        address: "平乐园校区位于北京市朝阳区平乐园100号； 通州校区位于北京市通州区潞苑南大街89号",
-        area: "1403.10",
-        createDate: "1960",
-        doctorNum: 20,
-        email: null,
-        f211: "T",
-        f985: null,
-        firstClass: "双一流",
-        labNum: 1,
-        layer: "本科",
-        libraryNum: "0",
-        manage: "北京市",
-        masterNum: 60,
-        name: "北京工业大学",
-        natureName: "公办",
-        phone: "010-67391609",
-        position: "北京市",
-        postcode: "100022",
-        province: "北京",
-        qsrank: "33",
-        ruanKeRank: "63",
-        schoolSite: "http://www.bjut.edu.cn/",
-        school_code: "10005",
-        school_id: 30,
-        school_id_code: "4111010005",
-        site: "http://admissions.bjut.edu.cn/",
-        type: "5001",
-        typeName: "理工类",
-        wslrank: "74",
-        xyhrank: "71"
-      }],
+      schoolList:[],
       total: 0,
       spaceSize:20,
       searchOption: false
@@ -364,7 +300,6 @@ export default {
           res.data.list[i].type = res.data.list[i].firstClass
           res.data.list[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data.list[i].school_id + '.jpg'
         }
-
         this.schoolList = res.data.list
         this.total = res.data.total
       })
@@ -391,8 +326,6 @@ export default {
         url:'/User/getUniversityByName',
         data: this.selForm
       }).then(res=> {
-
-        console.log(res.data)
         for(let i=0;i<res.data.length;i++) {
           res.data[i].type = res.data[i].firstClass
           res.data[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data[i].school_id + '.jpg'

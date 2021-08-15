@@ -9,7 +9,6 @@
     </el-header>
     <el-card class="test">
       <div>
-        <el-space :size="40">
           <el-space alignment="flex-start" :size="25">
             <!--专业筛选-->
             <div class="schoolPosition">
@@ -26,7 +25,6 @@
                     @change="submit"></el-cascader>
               </el-space>
             </div>
-
             <!--层级-->
             <div>
               <el-space  wrap :size="43">
@@ -49,7 +47,6 @@
               <el-button icon="el-icon-search" @click="searchMajor" type="primary"></el-button>
             </el-space>
           </el-space>
-        </el-space>
         <el-divider></el-divider>
         <!--查询结果-->
         <el-table
@@ -87,9 +84,6 @@
 <script>
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
-import * as echarts from "echarts";
-import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
-
 export default {
   name: "MajorInf",
 
@@ -119,20 +113,18 @@ export default {
   methods:{
     submit(){
       this.selForm.type_detail = []
-      //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
           this.selForm.type_detail[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
       }
 
-      console.log(this.selForm)
-
       this.$http({
         method:'post',
         url:'/User/showMajorByNeeds ',
         data: this.selForm
       }).then(res=> {
+        console.log(res)
         this.majorList = res.data.list
         this.total = res.data.total
       })
