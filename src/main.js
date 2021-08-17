@@ -6,8 +6,6 @@ import './assets/css/global.css'
 import 'lib-flexible'
 import axios from 'axios';
 
-
-
 const app = createApp(App)
 app.config.globalProperties.$http = axios;
 //接口请求的基准路径

@@ -15,6 +15,7 @@
           max-height="700"
           :header-cell-style="{'text-align':'center'}"
           :cell-style="{'text-align':'center'}">
+        <el-table-column label="序号" type="index"></el-table-column>
         <el-table-column label="专业招生代码" prop="methodCode"></el-table-column>
         <el-table-column label="专业名称" prop="major"></el-table-column>
         <el-table-column label="所属高校" prop="admissionDirection"></el-table-column>
@@ -37,22 +38,34 @@
           max-height="700"
           :header-cell-style="{'text-align':'center'}"
           :cell-style="{'text-align':'center'}">
+        <el-table-column label="序号" type="index"></el-table-column>
         <el-table-column label="专业招生代码" prop="methodCode"></el-table-column>
         <el-table-column label="专业名称" prop="major"></el-table-column>
         <el-table-column label="所属高校" prop="admissionDirection"></el-table-column>
         <el-table-column label="所属高校招生代码" prop="admissionCode"></el-table-column>
         <el-table-column label="最低录取分数" prop="lowScore"></el-table-column>
         <el-table-column label="最低录取位次" prop="lowLevel"></el-table-column>
-        <el-table-column label="选课要求" prop="request"></el-table-column>
-        <el-table-column label="操作" prop="">
+        <el-table-column label="选课要求" prop="request">
+          <el-button type="primary" icon="el-icon-edit" circle></el-button>
+        </el-table-column>
+        <el-table-column label="操作">
           <template #default="scope">
+            <el-tooltip effect="light" content="上移" placement="top-start">
+              <el-button type="primary" icon="el-icon-arrow-up" circle @click="up(scope.row)"></el-button>
+            </el-tooltip>
+
+            <el-tooltip effect="light" content="下移" placement="top-start">
+              <el-button type="primary" icon="el-icon-arrow-down" circle @click="down(scope.row.major_id)"></el-button>
+            </el-tooltip>
+
+
             <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row.major_id)"></el-button>
           </template>
+
         </el-table-column>
       </el-table>
     </el-tab-pane>
   </el-tabs>
-
 </el-card>
 </template>
 
@@ -98,7 +111,19 @@ export default {
       }).then(res => {
 
         })
-    }
+    },
+    up(){},
+    down(){},
+    confirmChange(){
+      this.$http({
+        method: 'post',
+        url: '/User/showMajorSelected',
+        data: this.listData
+      }).then(res => {
+
+      })
+    },
+
   },
 
 }

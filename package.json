@@ -10,13 +10,15 @@
     "axios": "^0.21.1",
     "core-js": "^3.16.1",
     "element-plus": "^1.0.2-beta.70",
+    "file-saver": "^2.0.5",
     "lib-flexible": "^0.3.2",
     "q": "^1.5.1",
     "qs": "^6.10.1",
     "svg-sprite-loader": "^6.0.9",
     "vue": "^3.2.3",
     "vue-router": "^4.0.11",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@element-plus/icons": "0.0.11",
