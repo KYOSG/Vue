@@ -29,6 +29,7 @@
     "@vue/compiler-sfc": "^3.2.3",
     "echarts": "^5.1.2",
     "px2rem-loader": "^0.1.9",
+    "script-loader": "^0.7.2",
     "vue-cli-plugin-element-plus": "0.0.13"
   }
 }

@@ -8,6 +8,7 @@
 <el-card>
   <el-tabs type="border-card">
     <el-tab-pane label="查看自选志愿" @table-click="majorSel">
+      <el-button type="primary" @click="exportData">导出Excel表格</el-button>
       <el-table
           :data="listData"
           border stripe
@@ -23,7 +24,7 @@
         <el-table-column label="最低录取分数" prop="lowScore"></el-table-column>
         <el-table-column label="最低录取位次" prop="lowLevel"></el-table-column>
         <el-table-column label="选课要求" prop="request"></el-table-column>
-        <el-table-column label="操作" prop="">
+        <el-table-column label="操作">
           <template #default="scope">
             <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row.major_id)"></el-button>
           </template>
@@ -83,8 +84,8 @@ export default {
   mounted() {
 
   },
-  methods:{
-    majorSel(){
+  methods: {
+    majorSel() {
       this.listData = []
       this.$http({
         method: 'post',
@@ -93,7 +94,7 @@ export default {
         this.listData = res.data
       })
     },
-    majorAuto(){
+    majorAuto() {
       this.listData = []
       this.$http({
         method: 'post',
@@ -102,7 +103,7 @@ export default {
         this.listData = res.data
       })
     },
-    del(id){
+    del(id) {
       this.form.major_id = id;
       this.$http({
         method: 'post',
@@ -110,11 +111,13 @@ export default {
         data: this.form
       }).then(res => {
 
-        })
+      })
     },
-    up(){},
-    down(){},
-    confirmChange(){
+    up() {
+    },
+    down() {
+    },
+    confirmChange() {
       this.$http({
         method: 'post',
         url: '/User/showMajorSelected',
@@ -123,8 +126,37 @@ export default {
 
       })
     },
+    //触发按钮点击下载事件
+    exportData() {
+      this.excelData = this.listData;  //将你要导出的数组数据（historyList）赋值给excelDate
+      this.export2Excel(); //调用export2Excel函数，填写表头（clomns里的type）和对应字段(historyList里的属性名)
+    },
+//表格数据写入excel
+    export2Excel() {
+      const that = this;
+      require.ensure([], () => {
+        const {
+          export_json_to_excel
+        } = require("@/assets/excel/Export2Excel");
+        //这里使用绝对路径( @表示src文件夹 )，使用@/+存放export2Excel的路径【也可以写成相对于你当前"xxx.vue"文件的相对路径，例如我的页面放在assets文件夹同级下的views文件夹下的“home.vue”里，那这里路径也可以写成"../assets/excel/Export2Excel"】
+        const tHeader = ["学校代码", "学校名称", "专业代码", "专业名称"]; // 导出的excel表头名信息
+        const filterVal = [
+          "date",
+          "name",
+          "class",
+          "studentId",
+        ]; // 导出的excel表头字段名，需要导出表格字段名
+        const list = that.excelData;
+        const data = that.formatJson(filterVal, list);
 
-  },
+        export_json_to_excel(tHeader, data, "志愿填报表"); // 导出的表格名称，根据需要自己命名
+      });
+    },
+//格式转换，直接复制即可,不需要修改什么
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]));
+    }
+  }
 
 }
 </script>
