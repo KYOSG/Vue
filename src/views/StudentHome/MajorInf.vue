@@ -48,7 +48,8 @@
           </el-space>
         <el-divider></el-divider>
         <!--查询结果-->
-        <el-table
+
+          <el-table
             :data="majorList"
             border stripe
             highlight-current-row
@@ -56,15 +57,17 @@
             @keyup.enter.native="submit"
             max-height="700"
             :header-cell-style="{'text-align':'center'}"
-            :cell-style="{'text-align':'center'}"
-            @cell-click="showDetail()">
+            :cell-style="{'text-align':'center'}">
+            <template #default="scope">
           <el-table-column label="大类代码" prop="id"></el-table-column>
           <el-table-column label="大类名称" prop="type"></el-table-column>
           <el-table-column label="专业代码" prop="code"></el-table-column>
           <el-table-column label="专业名称" prop="name"></el-table-column>
           <el-table-column label="专业层级" prop="level1_name"></el-table-column>
           <el-table-column label="学位名称" prop="degree"></el-table-column>
+            </template>
         </el-table>
+
         <!--分页-->
         <el-pagination
             @size-change="pageSizeChange"
@@ -76,6 +79,19 @@
             :total="total"
             background>
         </el-pagination>
+        <!--详情-->
+        <el-dialog
+            title="提示"
+            v-model="dialogVisible"
+            width="30%">
+          <span>这是一段信息</span>
+          <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    </span>
+          </template>
+        </el-dialog>
       </div>
     </el-card>
   </el-container>
@@ -104,7 +120,7 @@ export default {
       majorList:[],
       total: 0,
       spaceSize:20,
-
+      dialogVisible: false
     }
   },
   mounted() {
