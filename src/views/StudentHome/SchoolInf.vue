@@ -139,10 +139,7 @@
                              <crop/>
                            </el-icon>
                           {{ "占地面积：" + props.row.area + "亩" }}</span>
-                        <span><el-icon :size="15" :color="color">
-                             <link/>
-                           </el-icon>
-                          {{ "官方网站：" + props.row.schoolSite }}</span>
+                        <span><el-icon :size="15" :color="color"><Link/></el-icon>{{ "官方网站："}}<el-link type="primary" :href="props.row.schoolSite" target="_blank">{{ props.row.schoolSite }}</el-link></span>
                       </el-space>
                     </el-card>
                   </el-col>
