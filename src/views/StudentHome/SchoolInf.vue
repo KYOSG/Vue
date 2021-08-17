@@ -131,9 +131,18 @@
                   <el-col :span="12">
                     <el-card>
                       <el-space direction="vertical" :size="spaceSize" alignment="flex-start">
-                        <span>{{ "院校名称： " + props.row.name }}</span>
-                        <span>{{ "占地面积：" + props.row.area + "亩" }}</span>
-                        <span>{{ "官方网站：" + props.row.schoolSite }}</span>
+                        <span><el-icon :size="15" :color="color">
+                             <school/>
+                           </el-icon>
+                          {{ "院校名称：" + props.row.name }}</span>
+                        <span><el-icon :size="15" :color="color">
+                             <crop/>
+                           </el-icon>
+                          {{ "占地面积：" + props.row.area + "亩" }}</span>
+                        <span><el-icon :size="15" :color="color">
+                             <link/>
+                           </el-icon>
+                          {{ "官方网站：" + props.row.schoolSite }}</span>
                       </el-space>
                     </el-card>
                   </el-col>
@@ -141,9 +150,21 @@
                   <el-col :span="12">
                     <el-card>
                       <el-space direction="vertical" :size="spaceSize" alignment="flex-start">
-                        <span>{{ "地址：" + props.row.address }}</span>
-                        <span>{{ "建校时间：" + props.row.createDate + "年" }}</span>
-                        <span>{{ "联系方式：" + props.row.phone }}</span>
+
+                        <span>
+                          <el-icon :size="15" :color="color">
+                             <locationInformation/>
+                           </el-icon>{{ "地址：" + props.row.address }}</span>
+
+                        <span>
+                          <el-icon :size="15" :color="color">
+                             <timer/>
+                           </el-icon>{{ "建校时间：" + props.row.createDate + "年" }}</span>
+
+                        <span>
+                           <el-icon :size="15" :color="color">
+                             <phone/>
+                           </el-icon>{{ "联系方式：" + props.row.phone }}</span>
                       </el-space>
                     </el-card>
                   </el-col>
@@ -154,9 +175,21 @@
                   <el-col :span="12">
                     <el-card>
                       <el-space direction="vertical" :size="spaceSize" alignment="flex-start">
-                        <span>{{ "院校层级：" + props.row.natureName }}</span>
-                        <span>{{ "硕士点： " + props.row.masterNum }}</span>
-                        <span>{{ "博士点：" + props.row.doctorNum }}</span>
+
+                        <span>
+                           <el-icon :size="15" :color="color">
+                             <medal/>
+                           </el-icon>{{ "院校层级：" + props.row.natureName }}</span>
+
+                        <span>
+                           <el-icon :size="15" :color="color">
+                             <notebook/>
+                           </el-icon>{{ "硕士点： " + props.row.masterNum }}</span>
+
+                        <span>
+                           <el-icon :size="15" :color="color">
+                             <management/>
+                           </el-icon>{{ "博士点：" + props.row.doctorNum }}</span>
                       </el-space>
                     </el-card>
                   </el-col>
@@ -164,9 +197,18 @@
                   <el-col :span="12">
                     <el-card>
                       <el-space direction="vertical" :size="spaceSize" alignment="flex-start">
-                        <span>{{ "软科排名：" + props.row.ruanKeRank }}</span>
-                        <span>{{ "校友会排名：" + props.row.xyhrank }}</span>
-                        <span>{{ "武书连排名：" + props.row.wslrank }}</span>
+                        <span>
+                           <el-icon :size="15" :color="color">
+                             <files/>
+                           </el-icon>{{ "软科排名：" + props.row.ruanKeRank }}</span>
+                        <span>
+                           <el-icon :size="15" :color="color">
+                             <files/>
+                           </el-icon>{{ "校友会排名：" + props.row.xyhrank }}</span>
+                        <span>
+                           <el-icon :size="15" :color="color">
+                             <files/>
+                           </el-icon>{{ "武书连排名：" + props.row.wslrank }}</span>
                       </el-space>
                     </el-card>
                   </el-col>
@@ -204,11 +246,22 @@
   </el-container>
 </template>
 
-<script>
+<script lang="ts">
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
 import * as echarts from "echarts";
 import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
+import { Collection } from '@element-plus/icons'
+import { LocationInformation} from '@element-plus/icons'
+import { Medal } from '@element-plus/icons'
+import { Notebook } from '@element-plus/icons'
+import { Management } from '@element-plus/icons'
+import { School } from '@element-plus/icons'
+import { Crop } from '@element-plus/icons'
+import { Link } from '@element-plus/icons'
+import { Timer } from '@element-plus/icons'
+import { Phone } from '@element-plus/icons'
+import { Files } from '@element-plus/icons'
 export default {
   name: "StudentSel",
 
@@ -236,7 +289,7 @@ export default {
     }
 
   },
-  mounted() {
+mounted() {
     this.submit();
     this.drawMap();
   },
@@ -336,9 +389,23 @@ export default {
       })
     },
   },
+  components: {
+    Collection,
+    LocationInformation,
+    Medal,
+    Notebook,
+    Management,
+    School,
+    Crop,
+    Link,
+    Timer,
+    Phone,
+    Files
+  },
 }
 
 </script>
 
 <style scoped>
+
 </style>

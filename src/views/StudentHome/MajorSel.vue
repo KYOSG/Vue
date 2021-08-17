@@ -46,7 +46,7 @@
             </div>
             <!--高考位次-->
             <el-input v-model="selForm.lowLevel" placeholder="高考位次" @change="submit"></el-input>
-            <el-switch v-model="Switch" active-text="查看所有学校" inactive-text="已选学校" @change="">
+            <el-switch v-model="Switch" active-text="查看所有学校" inactive-text="已选学校" @change="switchOption">
             </el-switch>
             <el-button @click="showDrawer" type="primary" style="margin-left: 16px;">查看已选专业</el-button>
 
@@ -58,7 +58,6 @@
             :data="getMajorList"
             border stripe
             highlight-current-row
-            @change="submit"
             @keyup.enter.native="submit"
             max-height="700"
             :header-cell-style="{'text-align':'center'}"
@@ -244,19 +243,20 @@ export default {
         this.showDrawer()
       }, 100);
     },
-    push() {
+    switchOption() {
       this.selForm.majorList = []
-      //给位置数组赋值方便后端接收数据
+
       for (let i = 0; i < this.$refs['cascadeAddr'].getCheckedNodes().length; i++) {
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 1) {
           this.selForm.majorList[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
       }
+
       if (this.Switch === false){
         this.Switch = true
         this.$http({
           method: 'post',
-          url: '/User/showMajorFromSelectUniversity',
+          url: '/User/showMajorWithoutUniversity',
           data: this.selForm
         }).then(res => {
 
@@ -268,7 +268,7 @@ export default {
         this.Switch = false
         this.$http({
           method: 'post',
-          url: '/User/showMajorWithoutUniversity',
+          url: '/User/showMajorFromSelectUniversity',
           data: this.selForm
         }).then(res => {
 

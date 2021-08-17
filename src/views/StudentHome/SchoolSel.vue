@@ -292,16 +292,20 @@ export default {
         url: '/User/selectUniversityByStudent',
         data: this.choiceSchool
       }).then(res => {
+        console.log(res.data)
         if (res.data.info.code === 200) {
-          ElMessage.warning({
+          ElMessage.success({
             message: res.data.info.message,
             type: 'success'
           });
         }
-        ElMessage.warning({
-          message: res.data.info.message,
-          type: 'warning'
-        });
+        else {
+          ElMessage.warning({
+            message: res.data.info.message,
+            type: 'warning'
+          });
+        }
+
       })
     },
 

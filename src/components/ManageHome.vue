@@ -37,7 +37,6 @@
                         </template>
                         <el-menu-item-group>
                           <el-menu-item index="/SchoolInf" class="el-icon-user">院校信息</el-menu-item>
-
                         </el-menu-item-group>
                       </el-submenu>
                     </el-menu>

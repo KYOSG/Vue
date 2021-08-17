@@ -35,7 +35,6 @@
                   <el-radio-button label="专科"></el-radio-button>
                 </el-radio-group>
               </el-space>
-
             </div>
             <!--搜索-->
             <el-space>
@@ -57,7 +56,8 @@
             @keyup.enter.native="submit"
             max-height="700"
             :header-cell-style="{'text-align':'center'}"
-            :cell-style="{'text-align':'center'}">
+            :cell-style="{'text-align':'center'}"
+            @cell-click="showDetail()">
           <el-table-column label="大类代码" prop="id"></el-table-column>
           <el-table-column label="大类名称" prop="type"></el-table-column>
           <el-table-column label="专业代码" prop="code"></el-table-column>
@@ -151,6 +151,9 @@ export default {
         this.majorList = res.data
         this.total = res.data.length
       })
+    },
+    showDetail(){
+
     }
   },
 }

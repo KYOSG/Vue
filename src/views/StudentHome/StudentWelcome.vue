@@ -7,21 +7,21 @@
             <i class="el-icon-user"></i>
             用户名
           </template>
-          啊吧啊吧
+          {{info.username}}
         </el-descriptions-item>
         <el-descriptions-item>
           <template #label>
             <i class="el-icon-mobile-phone"></i>
-            手机号
+            联系方式
           </template>
-          18100000000
+          {{info.mobile}}
         </el-descriptions-item>
         <el-descriptions-item>
           <template #label>
             <i class="el-icon-location-outline"></i>
-            居住地
+            分数
           </template>
-          苏州市
+          {{  }}
         </el-descriptions-item>
         <el-descriptions-item>
           <template #label>
@@ -30,14 +30,15 @@
           </template>
           <el-tag size="small">学校</el-tag>
         </el-descriptions-item>
-        <el-descriptions-item>
-          <template #label>
-            <i class="el-icon-office-building"></i>
-            联系地址
-          </template>
-          江苏省苏州市吴中区吴中大道 1188 号
-        </el-descriptions-item>
+          <el-descriptions-item>
+            <template #label>
+              <i class="el-icon-location-outline"></i>
+              考试位次
+            </template>
+            {{  }}
+          </el-descriptions-item>
       </el-descriptions>
+      <!--天气-->
       <div class="weather">
         <el-card>
           <div id="he-plugin-standard"></div>
@@ -54,7 +55,10 @@ export default {
   name: "StudentWelcome",
   data(){
     return{
+      info:{
+       id:'',
 
+      }
     }
   },
   created() {
@@ -74,9 +78,10 @@ export default {
     script.type = 'text/javascript';
     script.src = 'https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0';
     document.getElementsByTagName('head')[0].appendChild(script);
+
   },
   mounted() {
-
+    this.getStudent()
   },
   methods: {
 
@@ -97,6 +102,19 @@ export default {
       let result1 = await res1.json();
       let now = result1.now;
       console.log(result1);
+    },
+    getStudent(){
+      console.log(this.id)
+      this.$http({
+        method: 'post',
+        url: '/User/getUserInformation',
+        data: this.sss
+      }).then(res => {
+        console.log(this.id)
+        console.log(res.data)
+        this.getMajorList = res.data.list
+        this.total = res.data.total
+      })
     }
   },
   components:{
