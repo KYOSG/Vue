@@ -3,7 +3,6 @@
     <el-header>
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/StudentHome' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>高考咨询</el-breadcrumb-item>
         <el-breadcrumb-item>专业查询</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
@@ -53,8 +52,6 @@
             :data="majorList"
             border stripe
             highlight-current-row
-            @change="submit"
-            @keyup.enter.native="submit"
             max-height="700"
             :header-cell-style="{'text-align':'center'}"
             :cell-style="{'text-align':'center'}">

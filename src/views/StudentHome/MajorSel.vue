@@ -3,7 +3,7 @@
     <el-header>
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/StudentHome' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>高考咨询</el-breadcrumb-item>
+        <el-breadcrumb-item>志愿填报</el-breadcrumb-item>
         <el-breadcrumb-item>专业选择</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
@@ -56,7 +56,6 @@
             :data="getMajorList"
             border stripe
             highlight-current-row
-            @keyup.enter.native="submit"
             max-height="700"
             :header-cell-style="{'text-align':'center'}"
             :cell-style="{'text-align':'center'}">
@@ -160,7 +159,6 @@
                     :border = true
                     :header-cell-style="{'text-align':'center'}"
                     :cell-style="{'text-align':'center'}">
-
             <el-table-column property="admissionDirection" label="院校"></el-table-column>
             <el-table-column property="major" label="专业"></el-table-column>
             <el-table-column property="lowLevel" label="最低录取位次"></el-table-column>
@@ -173,7 +171,7 @@
           <template #footer>
             <span class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              <el-button type="primary" @click="confirm">确 定</el-button>
             </span>
           </template>
         </el-dialog>
@@ -396,6 +394,16 @@ export default {
         }
       this.majorCreateList.length--
       console.log(this.majorCreateList)
+    },
+    confirm(){
+      this.$http({
+        method: 'post',
+        url: '/User/submitAutoMajorToDataBase',
+        data: this.majorCreateList
+      }).then(res => {
+
+      })
+      dialogVisible = false
     }
   }
 }

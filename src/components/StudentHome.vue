@@ -17,13 +17,9 @@
             <el-menu-item index="/MajorSel">专业选择</el-menu-item>
             <el-menu-item index="/Applications">志愿清单</el-menu-item>
           </el-submenu>
-          <el-submenu index="3">
-            <template #title  > 高考资讯</template>
             <el-menu-item index="/SchoolInf">院校查询</el-menu-item>
             <el-menu-item index="/MajorInf">专业查询</el-menu-item>
-            <el-menu-item index="/">指导老师</el-menu-item>
-            <el-menu-item index="/Data">高考信息可视化</el-menu-item>
-          </el-submenu>
+            <el-menu-item index="/Data">高考信息可视化(待定)</el-menu-item>
         </el-menu>
       </el-header>
       <el-main class="main">
