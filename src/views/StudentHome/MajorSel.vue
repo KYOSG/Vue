@@ -49,7 +49,7 @@
             <el-switch v-model="Switch" active-text="查看所有学校" inactive-text="已选学校" @change="switchOption">
             </el-switch>
             <el-button @click="showDrawer" type="primary" style="margin-left: 16px;">查看已选专业</el-button>
-            <el-button @click="create" type="primary" style="margin-left: 16px;">一键生成志愿</el-button>
+            <el-button @click="showCreateForm" type="primary" style="margin-left: 16px;">一键生成志愿</el-button>
           </el-space>
         <!--查询结果-->
         <el-table
@@ -213,6 +213,9 @@ export default {
       choiceMajor: {
         university_id: ''
       },
+      Confirm:{
+        majorId:[]
+      }
     }
   },
   mounted() {
@@ -231,14 +234,12 @@ export default {
           this.selForm.majorList[i] = this.$refs['cascadeAddr'].getCheckedNodes()[i].data.label
         }
       }
-
-      if (this.switchOption === false){
+      if (this.Switch === false){
         this.$http({
           method: 'post',
           url: '/User/showMajorWithoutUniversity',
           data: this.selForm
         }).then(res => {
-          console.log(res.data)
           this.getMajorList = res.data.list
           this.total = res.data.total
         })
@@ -282,7 +283,6 @@ export default {
     },
     add(id) {
       this.selForm.major_id = id
-      console.log(this.selForm)
       this.$http({
         method: 'post',
         url: '/User/insertMajorIntoDatabase',
@@ -363,7 +363,7 @@ export default {
       }
 
     },
-    create(){
+    showCreateForm(){
       this.dialogVisible = true
     },
     submitCreate(){
@@ -396,14 +396,24 @@ export default {
       console.log(this.majorCreateList)
     },
     confirm(){
+      for(let i=0;i<this.majorCreateList.length;i++){
+        this.Confirm.majorId[i] = this.majorCreateList[i].major_id
+      }
+      console.log(this.Confirm)
       this.$http({
         method: 'post',
         url: '/User/submitAutoMajorToDataBase',
-        data: this.majorCreateList
+        data: this.Confirm
       }).then(res => {
+        if (res.data.info.code === 200){
+          ElMessage.success({
+            message: res.data.data,
+            type: 'success'
+          })
+        }
 
       })
-      dialogVisible = false
+      this.dialogVisible = false
     }
   }
 }

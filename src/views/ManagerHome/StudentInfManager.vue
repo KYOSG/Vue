@@ -10,28 +10,13 @@
 <!--搜索-->
 <el-row :gutter="20">
   <el-col :span="7">
-    <el-input placeholder="请输入用户名"
-    v-model="queryInfo.query"
+    <el-input placeholder="请输入用户名搜索"
+    v-model="Info.username"
               clearable @clear="getStudentList">
       <template #append @click="getStudentList">
         <el-button icon="el-icon-search"></el-button>
       </template>
     </el-input>
-<div class="editButton">
-  <el-tooltip effect="dark"
-              content="编辑"
-              placement="top"
-              :enterable= false>
-    <el-button type="primary"
-               icon="el-icon-edit"
-               size="mini"
-               @click="showEditDialog"
-               class="edit"></el-button>
-  </el-tooltip>
-  <el-tooltip effect="dark" content="删除" placement="top" :enterable=false @click="removeSt">
-    <el-button type="danger" icon="el-icon-delete" size="mini" class="del"></el-button>
-  </el-tooltip>
-</div>
   </el-col>
 </el-row>
     <!--用户列表-->
@@ -44,47 +29,35 @@
       <el-table-column label="邮箱" prop="st_email"></el-table-column>
       <el-table-column label="高考分数" prop="st_mark"></el-table-column>
       <el-table-column label="电话" prop="st_mobile"></el-table-column>
+      <el-table-column label="操作">
+        <template #default="scope">
+          <el-tooltip effect="dark"
+                      content="编辑"
+                      placement="top"
+                      :enterable= false>
+            <el-button type="primary"
+                       icon="el-icon-edit"
+                       size="mini"
+                       @click="showEditDialog(scope.row)"
+                       class="edit"></el-button>
+          </el-tooltip>
+          <el-tooltip effect="dark" content="删除" placement="top" :enterable=false @click="removeSt(scope.row)">
+            <el-button type="danger" icon="el-icon-delete" size="mini" class="del"></el-button>
+          </el-tooltip>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!--分页-->
     <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="queryInfo.pageSum"
+        @size-change="pageSizeChange"
+        @current-change="pageCurrentChange"
+        :current-page="Info.pageSum"
         :page-sizes="[1, 50, 100, 200]"
-        :page-size="queryInfo.pageSize"
+        :page-size="Info.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
     </el-pagination>
-<!--添加学生信息编辑对话框
-    <el-dialog
-        title="学生信息编辑"
-        v-model="editDialogVisible"
-        width="30%"
-        :before-close="editDialogClosed">
-      <el-form-item label="姓名">
-        <el-input v-model="studentList.st_name"></el-input>
-
-      </el-form-item> <el-form-item label="邮箱">
-      <el-input v-model="studentList.st_email"></el-input>
-
-    </el-form-item> <el-form-item label="电话">
-      <el-input v-model="studentList.st_name"></el-input>
-
-    </el-form-item> <el-form-item label="活动名称">
-      <el-input v-model="studentList.st_name"></el-input>
-
-    </el-form-item> <el-form-item label="活动名称">
-      <el-input v-model="studentList.st_name"></el-input>
-
-    </el-form-item>
-      <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="editDialogClosed">取 消</el-button>
-      <el-button type="primary" @click="editDialogClosed">确 定</el-button>
-    </span>
-      </template>
-    </el-dialog>-->
   </el-card>
 </template>
 
@@ -94,35 +67,30 @@ export default {
   data(){
     return{
       //用户列表
-      queryInfo:{
-        query:'',
+      Info:{
+        username:'',
         pageSum: '',
         pageSize: '',
+        identity:'student'
+      },
+      ID:{
+        uid:''
       },
       studentList: [],
       total: 0,
       editDialogVisible: false,
+      editForm:{}
     }
   },
   mounted() {
-    this.$http({
-      method:'get',
-      url:'studentList',
-      params:this.studentList
-    }).then(res=>{
-      if (res.data.status !==200){
-        this.$message.error('获取学生列表失败');
-      }
-      this.studentList = res.data.studentList;
-      this.total = res.data.total;
-    })
+    //this.getStudentList()
   },
   methods:{
     getStudentList(){
       this.$http({
-        method:'get',
-        url:'studentList',
-        params:this.studentList
+        method:'post',
+        url:'/User/showUserExceptAdmin',
+        data:this.Info
       }).then(res=>{
         this.$message.error('获取学生列表失败');
         if (res.data.status ===200){
@@ -131,61 +99,47 @@ export default {
         }
       })
     },
-    handleSizeChange(newSize){
-      this.queryInfo.pageSize = newSize;
-      this.getStudentList();
+    pageSizeChange(newSize) {
+      if (newSize === null)
+        return
+      this.Info.pageSize = newSize;
+      this.submit();
     },
-    handleCurrentChange(newPage){
-      this.queryInfo.pageSum = newPage;
-      this.getStudentList();
+    pageCurrentChange(newPage) {
+      if (newPage === null)
+        return
+      this.Info.pageNum = newPage;
+      this.submit();
     },
-    showEditDialog(id){
-      console.log(id);
+    showEditDialog(info){
       this.editDialogVisible = true;
-      /*
-      const {data: res} = await this.$http.get('studentList/' + id)
-
-
-      if (res.meta.status !== 200){
-        return this.$message.error('查询用户信息失败')
-      }
-      this.editForm = res.data
-      */
-    },
-    editDialogClosed(){
-      this.editDialogVisible = false;
-      //this.$refs.editFormRef.resetFields()
-    },
-    editDialogInfo(){
-      this.$refs.editFormRef.validate(async valid => {
-        if (!valid)
-          return;
-        const {data: res} = await this.$http.put('studentList/' + this.editForm.id, {
-          st_email: this.editForm.st_email,
-          st_mobile: this.editForm.st_mobile
-        })
-
-        if (res.meta.status !== 200) {
-          return this.$message.error('更新用户信息失败')
-        }
-
-        this.editDialogVisible = false
-
-        await this.getStudentList()
-
-        this.$message.success('更新用户信息成功')
+      this.ID.uid = id;
+      this.$http({
+        method:'post',
+        url:'/User/showUserExceptAdmin',
+        data:this.ID
+      }).then(res=>{
+        this.studentList = res.data.studentList;
       })
     },
-    removeSt(){
+    removeSt(id){
          this.$confirm('此操作将永久删除该学生信息, 是否继续?', '提示', {
            confirmButtonText: '确定',
            cancelButtonText: '取消',
            type: 'warning'
          }).then(() => {
-           this.$message({
-             type: 'success',
-             message: '删除成功!'
-           });
+           this.editDialogVisible = true;
+           this.ID.uid = id;
+           this.$http({
+             method:'post',
+             url:'/User/adminUpdateUserInformation',
+             data:this.ID
+           }).then(res=>{
+             this.$message({
+               type: 'success',
+               message: '删除成功!'
+             });
+           })
          }).catch(() => {
            this.$message({
              type: 'info',
