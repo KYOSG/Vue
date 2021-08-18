@@ -152,7 +152,6 @@ export default {
         st_number: '',
         password: '',
         checkPass:'',
-        token: '',
       },
       signUpFromRules: {
         Username: [
@@ -187,7 +186,6 @@ export default {
 //数据验证
 
     submit() {
-      this.signUpForm.username = 'st_' + this.signUpForm.username
       console.log(this.signUpForm)
       this.$http({
         method: 'post',
