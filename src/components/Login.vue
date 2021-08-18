@@ -1,48 +1,23 @@
 <template>
-<div class="login_background">
-  <div class="login_box">
-    <div class="logo_box">
-      <img src="../assets/logo.png" alt="">
+  <div class="login_background">
+    <div class="a">
+      <div class="img"></div>
+      <div class="c">
+        <div class="loginBox">
+          <h1>登录</h1>
+          <input type="text" class="e" placeholder="用户名" v-model="loginForm.username">
+          <input type="text" class="e" placeholder="密码" v-model="loginForm.password">
+          <a class="g" @click="login">登录</a>
+        </div>
+      </div>
     </div>
-    <!--登录表单-->
-    <el-form :model="loginForm" class="form" :rules="loginFormRules" ref="loginFormRef" @keyup.enter.native="login">
-      <!--用户名-->
-      <el-form-item prop="username">
-        <el-input v-model="loginForm.username"
-                  placeholder="请输入用户名"
-                  prefix-icon="el-icon-user-solid"></el-input>
-      </el-form-item>
-      <!--密码-->
-      <el-form-item prop="password">
-        <el-input v-model="loginForm.password" placeholder="请输入密码" type="password"
-                  prefix-icon="el-icon-key"></el-input>
-      </el-form-item>
-      <!--登陆按钮-->
-      <button class="login_button" @click="login">登陆</button>
-      <button class="reset_button" @click="resetLoginForm">清空</button>
-    </el-form>
   </div>
-</div>
-
 </template>
 
 <script>
-
 export default {
   name: "Login",
   data(){
-    const checkUsername = (rule, value, cb) => {
-      const regUsername = /^[_a-zA-Z0-9]+$/;
-      if (value === '' || value === undefined || value == null) {
-        cb();
-      } else {
-        if (!regUsername.test(value)) {
-          cb(new Error('仅由英文字母，数字以及下划线组成'));
-        } else {
-          cb();
-        }
-      }
-    }
     return{
       loginForm:{
         username:'',
@@ -52,7 +27,6 @@ export default {
       loginFormRules:{
         username: [
           { required: true, message:"请输入用户名",trigger:"blur" },
-          { validator: checkUsername,trigger:"blur"}
         ],
         password: [
           { required: true, message:"请输入密码",trigger:"blur" },
@@ -61,13 +35,6 @@ export default {
     }
   },
   methods:{
-
-    resetLoginForm(loginForm){
-      console.log(loginForm)
-      this.$refs.loginFormRef.resetFields();
-
-    },
-
     login(){
       console.log(this.loginForm)
       this.$http({
@@ -115,106 +82,60 @@ export default {
 }
 
 </script>
-
 <style scoped>
-
 .login_background {
+  background-image: linear-gradient(to left, #6096ba,#a3cef1);
+  display: flex;
+  justify-content: center;
   height: 100%;
-  background-color: #2e505c;
 }
-
-.login_box{
-  width: 450px;
-  height: 350px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,  -50%);
-  border-radius: 61px;
-  background: #2e505c;
-  box-shadow:  34px 34px 69px #182a31,
-  -34px -34px 69px #447687;
-
+.a{
+  position: relative;
+  top: 200px;
+  width: 1100px;
+  height: 550px;
+  box-shadow: 0 5px 15px rgb(0,0,0.8);
+  display: flex;
+ }
+.img{
+  width: 800px;
+  height: 550px;
+  background-image: url("../img/Campus.png");
 }
-
-.logo_box {
-  height: 130px;
-  width: 130px;
-  border: 1px solid white;
-  border-radius: 50%;
-  padding: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #E8E8E8;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+.c{
+  width: 300px;
+  height: 550px;
+  display: flex;
   background-color: white;
+  justify-content: center;
+  align-items: center;
 }
-
-.form{
-  padding-left: 22%;
-  padding-right: 20%;
-  padding-top: 20%;
-
+.loginBox{
+  width: 250px;
+  height: 500px;
 }
-
-.login_button{
+.e{
+  width: 230px;
+  margin: 20px;
+  outline: none;
+  border: 0;
+  padding: 10px;
+  border-bottom: 3px solid rgb(80,80,170);
+  font: 900 16px '';
+}
+.g{
   position: absolute;
-  top:270px;
-  color: #F4F4F8;
-  width: 80px;
-  height: 41px;
-  border:none;
-  border-radius: 46px;
-  background: linear-gradient(145deg, #72e9ff, #60c4e6);
-  box-shadow:  10px 10px 20px #408399,
-  -10px -10px 20px #96ffff;
+  margin: 20px;
+  bottom: 40px;
+  display: block;
+  width: 200px;
+  height: 60px;
+  font: 900 30px '';
+  text-decoration: none;
+  line-height: 50px;
+  border-radius: 30px;
+  background-color: #a3cef1;
+  text-align: center;
+  cursor: pointer;
 }
-
-.login_button:hover{
-  position: absolute;
-  top:270px;
-  color: #F4F4F8;
-  width: 80px;
-  height: 41px;
-  border:none;
-  border-radius: 46px;
-  background: linear-gradient(145deg, #60c4e6, #72e9ff);
-  box-shadow:  10px 10px 20px #408399,
-  -10px -10px 20px #96ffff;
-}
-.reset_button{
-  position: absolute;
-  top:270px;
-  left:280px;
-  color: #F4F4F8;
-  width: 80px;
-  height: 41px;
-  border:none;
-  border-radius: 46px;
-  background: linear-gradient(145deg, #72e9ff, #60c4e6);
-  box-shadow:  10px 10px 20px #408399,
-  -10px -10px 20px #96ffff;
-}
-
-.reset_button:hover{
-  position: absolute;
-  top:270px;
-  left:280px;
-  color: #F4F4F8;
-  width: 80px;
-  height: 41px;
-  border:none;
-  border-radius: 46px;
-  background: linear-gradient(145deg, #60c4e6, #72e9ff);
-  box-shadow:  10px 10px 20px #408399,
-  -10px -10px 20px #96ffff;
-}
-
 </style>
