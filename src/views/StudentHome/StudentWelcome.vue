@@ -1,54 +1,22 @@
 <template>
   <div class="mainWindow">
-    <el-card>
-      <el-descriptions class="margin-top" :column="3" border>
-        <el-descriptions-item>
-          <template #label>
-            <i class="el-icon-user"></i>
-            用户名
-          </template>
-          {{info.username}}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template #label>
-            <i class="el-icon-mobile-phone"></i>
-            联系方式
-          </template>
-          {{info.mobile}}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template #label>
-            <i class="el-icon-location-outline"></i>
-            分数
-          </template>
-          {{  }}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template #label>
-            <i class="el-icon-tickets"></i>
-            备注
-          </template>
-          <el-tag size="small">学校</el-tag>
-        </el-descriptions-item>
-          <el-descriptions-item>
-            <template #label>
-              <i class="el-icon-location-outline"></i>
-              考试位次
-            </template>
-            {{  }}
-          </el-descriptions-item>
-      </el-descriptions>
-      <!--天气-->
-      <div class="weather">
-        <el-card>
-          <div id="he-plugin-standard"></div>
-        </el-card>
+    <div class="container">
+      <div class="wrapper">
+        <a href="#">
+          <img src="" alt="">
+        </a>
+        <div class="title">早安</div>
+        <div class="place">今天卷了嘛</div>
       </div>
-    </el-card>
+      <div class="content">
+        <!--天气-->
+        <div class="weather">
+          <div id="he-plugin-standard"></div>
+        </div>
+      </div>
+    </div>
   </div>
-
 </template>
-
 <script>
 
 export default {
@@ -57,8 +25,12 @@ export default {
     return{
       info:{
        id:'',
+      },
+      userInfo:{
 
-      }
+      },
+      img: document.querySelector("img"),
+      icons: document.querySelector(".icons"),
     }
   },
   created() {
@@ -85,10 +57,8 @@ export default {
   },
   methods: {
 
-    searchWeather: async function() {//注意：这里有 async 用来完成异步操作
-      //由于调用api是异步操作
-      //在请求的时候需要用async+await让它同步，否则数据不好取出
-      //如果没有await返回的是一个Promise 对象，我学术短浅，暂时没学到，不会取
+    searchWeather: async function() {
+
       let key = "2a3d8a1d861a47078997c656eb1f322f"; //引号中放入前面保存的key
       //获取城市的ID
       let httpUrl = `https://geoapi.qweather.com/v2/city/lookup?location=淄博&adm=张店&key=${key}`;
@@ -108,12 +78,10 @@ export default {
       this.$http({
         method: 'post',
         url: '/User/getUserInformation',
-        data: this.sss
+        data: this.s
       }).then(res => {
-        console.log(this.id)
         console.log(res.data)
-        this.getMajorList = res.data.list
-        this.total = res.data.total
+        this.info = res.data.list
       })
     }
   },
@@ -124,5 +92,77 @@ export default {
 </script>
 
 <style scoped>
+body{
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
 
+.weather{
+  width: 280px;
+}
+.container{
+  height: 250px;
+  width: 250px;
+  overflow: hidden;
+  margin: 0 auto;
+  border-radius: 50%;
+  transition: all .3s ease-in-out;
+  box-shadow: 0 10px 5px 0 rgba(0,0,0,.3);
+  background: linear-gradient(45deg, #0081a7, #00afb9);
+}
+
+.container:hover{
+  height: 700px;
+  width: 800px;
+  border-radius: 5px;
+}
+
+.container .wrapper img{
+  position: relative;
+  z-index: 20;
+  border-radius: 50%;
+  display: block;
+  height: 200px;
+  width: 200px;
+  border: 5px solid #fff;
+  object-fit: cover;
+  margin: 20px auto;
+  transition: all .3s ease;
+}
+
+.container:hover .wrapper img.active{
+  height: 470px;
+  width: 350px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+}
+
+.wrapper .title{
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  padding: 10px;
+  line-height: 25px;
+}
+
+.wrapper .place{
+  color: #fff;
+  font-size: 17px;
+  line-height: 0;
+  margin: 10px 0;
+}
+
+.content{
+  color: #fff;
+  font-size: 17px;
+  margin-top: 10px;
+  padding: 1px 20px 10px 20px!important;
+}
+
+.btn button:hover{
+  transform: scale(0.95);
+}
 </style>
