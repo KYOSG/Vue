@@ -27,7 +27,7 @@ export default {
   methods:{
     initChart(){
 
-      this.chartInstance = this.$echarts.init(this.$refs.seller_ref,)
+      this.chartInstance = this.$echarts.init(this.$refs.seller_ref)
 
       this.chartInstance.on('mouseover', () =>{
         clearInterval(this.timerId)

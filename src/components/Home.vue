@@ -1,12 +1,12 @@
 <template>
   <div class="Background">
     <el-header class="header">
-      <el-menu background-color="#f9844a" text-color="#edf2f4">
-        <el-menu-item index="/Home" class="el-icon-price-tag">首页</el-menu-item>
-        <el-menu-item index="/SchoolInf" class="el-icon-school">院校库</el-menu-item>
-        <el-menu-item index="/MajorInf" class="el-icon-files">专业库</el-menu-item>
-        <el-menu-item index="/Login" class="el-icon-user">登录</el-menu-item>
-        <el-menu-item index="/Signup" class="el-icon-user-solid">注册</el-menu-item>
+      <el-menu background-color="#f9844a" text-color="#f7f7f7">
+        <el-menu-item @click="Home" class="el-icon-price-tag">首页</el-menu-item>
+        <el-menu-item @click="School" class="el-icon-school">院校库</el-menu-item>
+        <el-menu-item @click="Major" class="el-icon-files">专业库</el-menu-item>
+        <el-menu-item @click="Login" class="el-icon-user">登录</el-menu-item>
+        <el-menu-item @click="Signup" class="el-icon-user-solid">注册</el-menu-item>
       </el-menu>
     </el-header>
     <!--走马灯-->
@@ -17,7 +17,8 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-    <div>
+    <!--热门院校-->
+    <div class="hotSchool">
       <h1 class="h1">热门院校</h1>
       <div class="container">
 
@@ -69,19 +70,69 @@
         </div>
       </div >
     </div>
+    <!--功能卡-->
+    <div class="wrapper">
+      <div class="box"  @click="School">
+        <div class="front-face">
+            <school/>
+          <span>院校库</span>
+        </div>
+        <div class="back-face">
+          <span>院校库</span>
+          <p>
+            查看院校的详细信息，甄选出心仪的大学
+          </p>
+        </div>
+      </div>
+
+      <div class="box"  @click="Major">
+        <div class="front-face">
+            <Collection/>
+          <span>专业库</span>
+        </div>
+        <div class="back-face">
+          <span>专业库</span>
+          <p>
+            按照大类查看各专业的详细信息，找到适合自己的专业
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { School } from '@element-plus/icons'
+import { Collection } from '@element-plus/icons'
 export default {
   name: "Home",
   methods:{
-
+    School:function (){
+      this.$router.push('/School');
+    },
+    Major:function (){
+      this.$router.push('/Major');
+    },
+    Home:function (){
+      this.$router.push('/Home');
+    },
+    Signup:function (){
+      this.$router.push('/Signup');
+    },
+    Login:function (){
+      this.$router.push('/Login');
+    },
   },
+  components: {
+    School,
+    Collection
+  }
 }
 
 </script>
 <style scoped>
+
+
 .header{
   background-color: #f9844a;
   font-size: 20px;
@@ -95,11 +146,10 @@ export default {
 .h1{
   font-size: 50px;
   position: absolute;
-  top: 650px;
+  top: 1050px;
   left: 50%;
   transform: translate(-50%,  -50%);
 }
-
 .el-carousel__item {
   width: 100%;
   display: flex;
@@ -121,7 +171,7 @@ export default {
 
 .container{
   position: absolute;
-  top: 900px;
+  top: 1300px;
   left: 50%;
   transform: translate(-50%,  -50%);
   display: flex;
@@ -193,5 +243,81 @@ export default {
 }
 .card .bottom-text .button a:hover{
   transform: scale(0.9);
+}
+
+
+.wrapper{
+  display: grid;
+  margin: 200px 90px auto;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+@media (max-width: 700px) {
+  .wrapper{
+    margin: 200px auto;
+  }
+}
+.wrapper .box{
+  width: 350px;
+  margin: 0 auto;
+  position: relative;
+  perspective: 1000px;
+  cursor:pointer;
+}
+.wrapper .box .front-face{
+  background: #ffffff;
+  height: 220px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 5px 20px 0 rgba(0, 81, 250, 0.1);
+  transition: all 0.5s ease;
+}
+.box .front-face .icon i{
+  font-size: 65px;
+}
+.box .front-face span,
+.box .back-face span{
+  font-size: 35px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.box .front-face .icon i,
+.box .front-face span{
+  font-size: 35px;
+  background: linear-gradient(-135deg, #ffb703, #fb8500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.box .back-face{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 220px;
+  width: 100%;
+  padding: 30px;
+  color: #fff;
+  opacity: 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  background: linear-gradient(-135deg, #ffb703, #fb8500);
+  transform: translateY(110px) rotateX(-90deg);
+  box-shadow: 0 5px 20px 0px rgba(0, 81, 250, 0.1);
+  transition: all 0.5s ease;
+}
+.box .back-face p{
+  font-size: 15px;
+  margin-top: 10px;
+  text-align: justify;
+}
+.box:hover .back-face{
+  opacity: 1;
+  transform: rotateX(0deg);
+}
+.box:hover .front-face{
+  opacity: 0;
+  transform: translateY(-110px) rotateX(90deg);
 }
 </style>

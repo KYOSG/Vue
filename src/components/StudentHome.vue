@@ -73,14 +73,5 @@ export default {
   top: 14%;
   right: 4px;
 }
-.secBackground{
-  width: 95%;
-  height: 90%;
-  background-color: #E8E8E8;
-  border-radius: 15px;
-  position: absolute;
-  left: 50%;
-  top: 53%;
-  transform: translate(-50%,  -50%);
-}
+
 </style>

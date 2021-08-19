@@ -112,6 +112,8 @@
           <!--地图-->
           <el-card>
             <div id="map" style="width: 400px;height:270px;"></div>
+            <el-button type="primary" icon="el-icon-back" circle @click="revertMap"></el-button>
+            <el-button type="anger" icon="el-icon-delete" circle @click="reset"></el-button>
           </el-card>
         </el-space>
         <el-divider></el-divider>
@@ -244,7 +246,7 @@
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
 import * as echarts from "echarts";
-import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
+import { getProvinceMapInfo } from '../../../utils/mapNameExchange'
 import { Collection } from '@element-plus/icons'
 import { LocationInformation} from '@element-plus/icons'
 import { Medal } from '@element-plus/icons'
@@ -267,7 +269,7 @@ export default {
       Switch: false,
 
       selForm:{
-        Position:[],
+        Position:['231','321'],
         Manage: '全部',
         Level:'全部',
         Layer:'全部',
@@ -279,50 +281,28 @@ export default {
       schoolList:[],
       total: 0,
       spaceSize:20,
-      searchOption: false
+      searchOption: false,
+      chartInstance: null,
+      allData: null,
+      mapData: {},
+      flag:'china'
     }
 
   },
 mounted() {
-    this.submit();
-    this.drawMap();
+  this.submit();
+  this.initChart()
+  window.addEventListener('resize', this.screenAdapter)
+  },
+  reset(){
+    this.selForm.dynamicTags = []
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.screenAdapter)
   },
   methods:{
-    drawMap(){
-      const dataChart = echarts.init(document.getElementById('map'))
-
-      const mapData = require("../../assets/Js/map/china.json")
-
-      echarts.registerMap('chinaMap', mapData)
-      const option = {
-        geo:{
-          type: 'map',
-          map: 'chinaMap',
-          roam: true
-        }
-      }
-      dataChart.setOption(option)
-      //点击
-      dataChart.on('click',arg => {
-        const provinceData = getProvinceMapInfo(arg.name)
-
-        const mapProvince = require("../../assets/Js/map/province/" + provinceData.key + ".json")
-
-        echarts.registerMap(provinceData.key, mapProvince)
-
-        const optionProvince = {
-          geo: {
-            map: provinceData.key,
-            roam: true
-          }
-        }
-        dataChart.setOption(optionProvince)
-
-      })
-    },
 
     submit(){
-      this.selForm.Position = []
       //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
@@ -337,7 +317,6 @@ mounted() {
         this.selForm.Features = 'F'
       }
 
-      console.log(this.selForm)
       this.$http({
         method:'post',
         url:'/User/showUniversityByNeed',
@@ -382,6 +361,82 @@ mounted() {
 
       })
     },
+    initChart () {
+      this.chartInstance = echarts.init(document.getElementById('map'))
+      // 获取中国地图的矢量数据
+      const ret = require('../../../public/static/map/china.json')
+
+      echarts.registerMap('china', ret)
+      const initOption = {
+        title: {
+          text: '▎ 地区选择',
+          left: 20,
+          top: 20
+        },
+        geo: {
+          type: 'map',
+          map: 'china',
+          top: '5%',
+          bottom: '5%',
+          roam: true,
+          itemStyle: {
+            areaColor: '#74abee',
+            borderColor: '#333'
+          }
+        },
+        legend: {
+          left: '5%',
+          bottom: '5%',
+          orient: 'vertical'
+        }
+      }
+      this.chartInstance.setOption(initOption)
+      this.chartInstance.on('click', async arg => {
+        if (this.flag === 'china') {
+          this.flag = 'province'
+          const provinceInfo = getProvinceMapInfo(arg.name)
+          // arg.name 得到所点击的省份, 这个省份他是中文
+          if (!this.mapData[provinceInfo.key]) {
+
+            const ret = require('../../../public' + provinceInfo.path)
+            this.mapData[provinceInfo.key] = ret
+            echarts.registerMap(provinceInfo.key, ret)
+          }
+          const changeOption = {
+            geo: {
+              map: provinceInfo.key
+            }
+          }
+          this.chartInstance.setOption(changeOption)
+        }
+        else{
+          console.log(arg.name)
+          let charge = 0
+          for (let i = 0;i<this.selForm.Position.length;i++){
+            if (this.selForm.Position[i] == arg.name){
+              charge = 1;
+              break;
+            }
+          }
+          if (charge === 0 ){
+            this.selForm.Position[this.selForm.Position.length] = arg.name
+            console.log(this.selForm)
+            this.submit()
+          }
+
+        }
+
+      })
+    },
+    revertMap () {
+      this.flag = 'china'
+      const revertOption = {
+        geo: {
+          map: 'china'
+        }
+      }
+      this.chartInstance.setOption(revertOption)
+    }
   },
   components: {
     Collection,

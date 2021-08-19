@@ -10,33 +10,16 @@ import StudentInfManager from "@/views/ManagerHome/StudentInfManager";
 import TeacherInfManager from "@/views/ManagerHome/TeacherInfManager";
 import StudentWelcome from "@/views/StudentHome/StudentWelcome"
 import SchoolInfManager from "@/views/ManagerHome/SchoolInfManager";
-import Data from "@/views/StudentHome/Data";
-import Test from "@/views/StudentHome/Test";
 import MajorSel from "@/views/StudentHome/MajorSel";
 import MajorInf from "@/views/StudentHome/MajorInf";
 import SchoolInf from "@/views/StudentHome/SchoolInf";
 import Applications from "@/views/StudentHome/Applications";
-import Seller from "@/views/Visual/Seller"
-import SellerPage from "@/views/Visual/SellerPage"
-import Maps from "@/views/Visual/Maps"
+import School from "@/views/Home/School";
+import Major from "@/views/Home/Major";
 const routes = [{
   path: '/',
   redirect: '/Home'
 },
-  {
-    path: '/SellerPage',
-    name: 'SellerPage',
-    component: SellerPage,
-    children: [{
-      path: '/Seller',
-      name: Seller,
-      component: Seller
-    },{
-      path: '/Maps',
-      name: Maps,
-      component: Maps
-    }]
-  },
   {
     path: '/Login',
     name: 'Login',
@@ -51,6 +34,16 @@ const routes = [{
     path: '/Signup',
     name: 'Signup',
     component: Signup
+  },
+  {
+    path: '/School',
+    name: 'School',
+    component: School
+  },
+  {
+    path: '/Major',
+    name: 'Major',
+    component: Major
   },
   //管理员界面
   {
