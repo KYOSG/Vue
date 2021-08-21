@@ -1,12 +1,13 @@
-<template>
-  <el-container>
-    <el-header>
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/StudentHome' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>院校查询</el-breadcrumb-item>
-      </el-breadcrumb>
-    </el-header>
-    <el-card>
+<template >
+  <el-container >
+    <el-card class="w">
+      <el-header class="header">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <div class="header">
+            <h2>院校库</h2>
+          </div>
+        </el-breadcrumb>
+      </el-header>
       <div>
         <el-space :size="40">
           <el-space direction="vertical"  alignment="flex-start" :size="25">
@@ -234,30 +235,20 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             :disabled = "searchOption"
-             background>
+            background>
         </el-pagination>
       </div>
     </el-card>
-
   </el-container>
+
 </template>
 
 <script lang="ts">
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
 import * as echarts from "echarts";
-import { getProvinceMapInfo } from '../../../utils/mapNameExchange'
-import { Collection } from '@element-plus/icons'
-import { LocationInformation} from '@element-plus/icons'
-import { Medal } from '@element-plus/icons'
-import { Notebook } from '@element-plus/icons'
-import { Management } from '@element-plus/icons'
-import { School } from '@element-plus/icons'
-import { Crop } from '@element-plus/icons'
-import { Link } from '@element-plus/icons'
-import { Timer } from '@element-plus/icons'
-import { Phone } from '@element-plus/icons'
-import { Files } from '@element-plus/icons'
+import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
+import { Collection, LocationInformation, Medal, Notebook, Management, School, Crop, Link, Timer, Phone, Files } from '@element-plus/icons'
 export default {
   name: "StudentSel",
 
@@ -269,7 +260,7 @@ export default {
       Switch: false,
 
       selForm:{
-        Position:['231','321'],
+        Position:[],
         Manage: '全部',
         Level:'全部',
         Layer:'全部',
@@ -289,20 +280,89 @@ export default {
     }
 
   },
-mounted() {
-  this.submit();
-  this.initChart()
-  window.addEventListener('resize', this.screenAdapter)
-  },
-  reset(){
-    this.selForm.dynamicTags = []
-  },
-  destroyed () {
-    window.removeEventListener('resize', this.screenAdapter)
+  mounted() {
+    this.submit();
+    this.drawMap();
   },
   methods:{
+    drawMap(){
+      this.chartInstance = echarts.init(document.getElementById('map'))
+      // 获取中国地图的矢量数据
+      const ret = require("../../assets/Js/map/china.json")
 
+      echarts.registerMap('china', ret)
+      const initOption = {
+        title: {
+          text: '▎ 地区选择',
+          left: 20,
+          top: 20
+        },
+        geo: {
+          type: 'map',
+          map: 'china',
+          top: '5%',
+          bottom: '5%',
+          roam: true,
+          itemStyle: {
+            areaColor: '#74abee',
+            borderColor: '#333'
+          }
+        },
+        legend: {
+          left: '5%',
+          bottom: '5%',
+          orient: 'vertical'
+        }
+      }
+      this.chartInstance.setOption(initOption)
+      this.chartInstance.on('click', async arg => {
+        if (this.flag === 'china') {
+          this.flag = 'province'
+          const provinceInfo = getProvinceMapInfo(arg.name)
+          // arg.name 得到所点击的省份, 这个省份他是中文
+          if (!this.mapData[provinceInfo.key]) {
+
+            const ret = require("../../assets/Js/map/province/" + provinceInfo.key + ".json")
+            this.mapData[provinceInfo.key] = ret
+            echarts.registerMap(provinceInfo.key, ret)
+          }
+          const changeOption = {
+            geo: {
+              map: provinceInfo.key
+            }
+          }
+          this.chartInstance.setOption(changeOption)
+        }
+        else{
+          console.log(arg.name)
+          let charge = 0
+          for (let i = 0;i<this.selForm.Position.length;i++){
+            if (this.selForm.Position[i] === arg.name){
+              charge = 1;
+              break;
+            }
+          }
+          if (charge === 0 ){
+            this.selForm.Position[this.selForm.Position.length] = arg.name
+            console.log(this.selForm)
+            this.submit()
+          }
+
+        }
+
+      })
+    },
+    revertMap () {
+      this.flag = 'china'
+      const revertOption = {
+        geo: {
+          map: 'china'
+        }
+      }
+      this.chartInstance.setOption(revertOption)
+    },
     submit(){
+      this.selForm.Position = []
       //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
@@ -317,6 +377,7 @@ mounted() {
         this.selForm.Features = 'F'
       }
 
+      console.log(this.selForm)
       this.$http({
         method:'post',
         url:'/User/showUniversityByNeed',
@@ -361,82 +422,6 @@ mounted() {
 
       })
     },
-    initChart () {
-      this.chartInstance = echarts.init(document.getElementById('map'))
-      // 获取中国地图的矢量数据
-      const ret = require('../../../public/static/map/china.json')
-
-      echarts.registerMap('china', ret)
-      const initOption = {
-        title: {
-          text: '▎ 地区选择',
-          left: 20,
-          top: 20
-        },
-        geo: {
-          type: 'map',
-          map: 'china',
-          top: '5%',
-          bottom: '5%',
-          roam: true,
-          itemStyle: {
-            areaColor: '#74abee',
-            borderColor: '#333'
-          }
-        },
-        legend: {
-          left: '5%',
-          bottom: '5%',
-          orient: 'vertical'
-        }
-      }
-      this.chartInstance.setOption(initOption)
-      this.chartInstance.on('click', async arg => {
-        if (this.flag === 'china') {
-          this.flag = 'province'
-          const provinceInfo = getProvinceMapInfo(arg.name)
-          // arg.name 得到所点击的省份, 这个省份他是中文
-          if (!this.mapData[provinceInfo.key]) {
-
-            const ret = require('../../../public' + provinceInfo.path)
-            this.mapData[provinceInfo.key] = ret
-            echarts.registerMap(provinceInfo.key, ret)
-          }
-          const changeOption = {
-            geo: {
-              map: provinceInfo.key
-            }
-          }
-          this.chartInstance.setOption(changeOption)
-        }
-        else{
-          console.log(arg.name)
-          let charge = 0
-          for (let i = 0;i<this.selForm.Position.length;i++){
-            if (this.selForm.Position[i] == arg.name){
-              charge = 1;
-              break;
-            }
-          }
-          if (charge === 0 ){
-            this.selForm.Position[this.selForm.Position.length] = arg.name
-            console.log(this.selForm)
-            this.submit()
-          }
-
-        }
-
-      })
-    },
-    revertMap () {
-      this.flag = 'china'
-      const revertOption = {
-        geo: {
-          map: 'china'
-        }
-      }
-      this.chartInstance.setOption(revertOption)
-    }
   },
   components: {
     Collection,
@@ -456,5 +441,30 @@ mounted() {
 </script>
 
 <style scoped>
+.header {
+  color: rgb(2,48,71);
+  border-top: none;
+  background-color: #FFFFFF;
+  margin-bottom: 10px;
+
+}
+
+.el-card {
+  border: none;
+}
+
+.el-header {
+  border-bottom: 2px solid rgb(2,48,71);
+  margin-bottom: 15px;
+}
+
+
+
+.w {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
 
 </style>

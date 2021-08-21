@@ -14,8 +14,8 @@ import MajorSel from "@/views/StudentHome/MajorSel";
 import MajorInf from "@/views/StudentHome/MajorInf";
 import SchoolInf from "@/views/StudentHome/SchoolInf";
 import Applications from "@/views/StudentHome/Applications";
-import School from "@/views/Home/School";
-import Major from "@/views/Home/Major";
+import SchoolPublic from "@/views/Home/SchoolPublic";
+import MajorPublic from "@/views/Home/MajorPublic";
 const routes = [{
   path: '/',
   redirect: '/Home'
@@ -36,14 +36,14 @@ const routes = [{
     component: Signup
   },
   {
-    path: '/School',
-    name: 'School',
-    component: School
+    path: '/SchoolPublic',
+    name: 'SchoolPublic',
+    component: SchoolPublic
   },
   {
-    path: '/Major',
-    name: 'Major',
-    component: Major
+    path: '/MajorPublic',
+    name: 'MajorPublic',
+    component: MajorPublic
   },
   //管理员界面
   {

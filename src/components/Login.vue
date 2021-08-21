@@ -6,7 +6,7 @@
         <div class="loginBox">
           <h1>登录</h1>
           <input type="text" class="e" placeholder="用户名" v-model="loginForm.username">
-          <input type="text" class="e" placeholder="密码" v-model="loginForm.password">
+          <input type="password" class="e" placeholder="密码" v-model="loginForm.password">
           <a class="g" @click="login">登录</a>
         </div>
       </div>

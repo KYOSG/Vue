@@ -5,6 +5,7 @@ import installElementPlus from './plugins/element'
 import './assets/css/global.css'
 import 'lib-flexible'
 import axios from 'axios';
+import echarts from 'echarts'
 
 const app = createApp(App)
 app.config.globalProperties.$http = axios;
@@ -28,6 +29,8 @@ axios.interceptors.request.use(config => {
 
 //Echarts
 app.config.globalProperties.$echarts = window.echarts;
+
+app.config.globalProperties.productionTip = false
 
 installElementPlus(app)
 app.use(router).mount('#app')

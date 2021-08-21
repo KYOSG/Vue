@@ -108,10 +108,10 @@ export default {
   name: "Home",
   methods:{
     School:function (){
-      this.$router.push('/School');
+      this.$router.push('/SchoolPublic');
     },
     Major:function (){
-      this.$router.push('/Major');
+      this.$router.push('/MajorPublic');
     },
     Home:function (){
       this.$router.push('/Home');

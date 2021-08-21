@@ -1,14 +1,14 @@
 <template>
   <div class="Background">
     <el-header class="header">
-    <el-menu background-color="#f9844a" text-color="#f7f7f7">
-      <el-menu-item @click="Home" class="el-icon-price-tag">首页</el-menu-item>
-      <el-menu-item @click="School" class="el-icon-school">院校库</el-menu-item>
-      <el-menu-item @click="Major" class="el-icon-files">专业库</el-menu-item>
-      <el-menu-item @click="Login" class="el-icon-user">登录</el-menu-item>
-      <el-menu-item @click="Signup" class="el-icon-user-solid">注册</el-menu-item>
-    </el-menu>
-  </el-header>
+      <el-menu background-color="#f9844a" text-color="#f7f7f7">
+        <el-menu-item @click="Home" class="el-icon-price-tag">首页</el-menu-item>
+        <el-menu-item @click="School" class="el-icon-school">院校库</el-menu-item>
+        <el-menu-item @click="Major" class="el-icon-files">专业库</el-menu-item>
+        <el-menu-item @click="Login" class="el-icon-user">登录</el-menu-item>
+        <el-menu-item @click="Signup" class="el-icon-user-solid">注册</el-menu-item>
+      </el-menu>
+    </el-header>
     <el-container>
       <el-header>
         <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -109,7 +109,7 @@
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
 export default {
-  name: "Major",
+  name: "MajorPublic",
 
   data() {
     return {
@@ -135,6 +135,21 @@ export default {
     this.submit();
   },
   methods:{
+    School:function (){
+      this.$router.push('/SchoolPublic');
+    },
+    Major:function (){
+      this.$router.push('/MajorPublic');
+    },
+    Home:function (){
+      this.$router.push('/Home');
+    },
+    Signup:function (){
+      this.$router.push('/Signup');
+    },
+    Login:function (){
+      this.$router.push('/Login');
+    },
     submit(){
       this.selForm.type_detail = []
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
@@ -176,9 +191,7 @@ export default {
         this.total = res.data.length
       })
     },
-    showDetail(){
 
-    }
   },
 }
 </script>

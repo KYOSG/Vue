@@ -23,17 +23,45 @@
         </el-menu>
       </el-header>
       <el-main class="main">
-        <div>
-          <div>
             <!--路由占位符-->
             <router-view></router-view>
-          </div>
-        </div>
-
       </el-main>
+     <div class="copyrights">
+       <div class="footer1 footer">
+         <h3>相关链接栏1</h3>
+         <ul>
+           <li><a href="#">链接一</a></li>
+           <li><a href="#">链接二</a></li>
+           <li><a href="#">链接三</a></li>
+
+         </ul>
+       </div>
+       <div class="footer2 footer">
+         <h3>相关链接栏2</h3>
+         <ul>
+           <li><a href="#">链接一</a></li>
+           <li><a href="#">链接二</a></li>
+           <li><a href="#">链接三</a></li>
+         </ul>
+       </div>
+       <div class="footer3 footer">
+         <h3>相关链接栏3</h3>
+         <ul>
+           <li><a href="#">链接一</a></li>
+           <li><a href="#">链接二</a></li>
+           <li><a href="#">链接三</a></li>
+         </ul>
+       </div>
+       <div class="footer4 footer">
+         <h3>相关链接栏4</h3>
+         <ul>
+           <li><a href="#">链接一</a></li>
+           <li><a href="#">链接二</a></li>
+           <li><a href="#">链接三</a></li>
+         </ul>
+       </div>
+     </div>
     </el-container>
-
-
 </template>
 
 
@@ -66,7 +94,7 @@ export default {
   justify-content: center;
 }
 .main{
-  background-color: #8ECAE6;
+  background-color: #FFF;
 }
 .signOutButton{
   position: absolute;
@@ -74,4 +102,48 @@ export default {
   right: 4px;
 }
 
+.copyrights {
+  height: 198px;
+  margin-top: 15px;
+  background-color: rgb(2,48,71);
+}
+
+.footer {
+  width: 300px;
+  height: 60px;
+  color: #FFF;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.footer1 {
+  float: left;
+}
+
+.footer2 {
+  float: left;
+}
+
+.footer3 {
+  float: left;
+}
+
+.footer4 {
+  float: left;
+}
+.footer ul li {
+  margin-left: -40px;
+  text-decoration: none;
+  list-style: none;
+  padding: 5px;
+}
+
+.footer ul li a {
+  color: #FFF;
+  font-size: 14px;
+}
+
+.footer ul li a:hover {
+  color: #83c5be;
+}
 </style>

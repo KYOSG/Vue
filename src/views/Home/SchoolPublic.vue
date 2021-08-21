@@ -1,21 +1,14 @@
 <template>
-  <div class="Background">
     <el-header class="header">
-    <el-menu background-color="#f9844a" text-color="#f7f7f7">
-      <el-menu-item @click="Home" class="el-icon-price-tag">首页</el-menu-item>
-      <el-menu-item @click="School" class="el-icon-school">院校库</el-menu-item>
-      <el-menu-item @click="Major" class="el-icon-files">专业库</el-menu-item>
-      <el-menu-item @click="Login" class="el-icon-user">登录</el-menu-item>
-      <el-menu-item @click="Signup" class="el-icon-user-solid">注册</el-menu-item>
-    </el-menu>
-  </el-header>
+      <el-menu background-color="#f9844a" >
+        <el-menu-item @click="Home" class="el-icon-price-tag" text-color="#f7f7f7">首页</el-menu-item>
+        <el-menu-item @click="School" class="el-icon-school" text-color="#f7f7f7">院校库</el-menu-item>
+        <el-menu-item @click="Major" class="el-icon-files">专业库</el-menu-item>
+        <el-menu-item @click="Login" class="el-icon-user">登录</el-menu-item>
+        <el-menu-item @click="Signup" class="el-icon-user-solid">注册</el-menu-item>
+      </el-menu>
+    </el-header>
     <el-container>
-      <el-header>
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/StudentHome' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>院校查询</el-breadcrumb-item>
-        </el-breadcrumb>
-      </el-header>
       <el-card>
         <div>
           <el-space :size="40">
@@ -142,7 +135,7 @@
                       <el-card>
                         <el-space direction="vertical" :size="spaceSize" alignment="flex-start">
                         <span><el-icon :size="15" :color="color">
-                             <school/>
+                             <OfficeBuilding/>
                            </el-icon>
                           {{ "院校名称：" + props.row.name }}</span>
                           <span><el-icon :size="15" :color="color">
@@ -250,7 +243,7 @@
       </el-card>
 
     </el-container>
-  </div>
+
 </template>
 
 <script>
@@ -258,19 +251,9 @@ import { h } from 'vue'
 import { ElDivider } from 'element-plus'
 import * as echarts from "echarts";
 import { getProvinceMapInfo } from '../../../utils/mapNameExchange'
-import { Collection } from '@element-plus/icons'
-import { LocationInformation} from '@element-plus/icons'
-import { Medal } from '@element-plus/icons'
-import { Notebook } from '@element-plus/icons'
-import { Management } from '@element-plus/icons'
-import { School } from '@element-plus/icons'
-import { Crop } from '@element-plus/icons'
-import { Link } from '@element-plus/icons'
-import { Timer } from '@element-plus/icons'
-import { Phone } from '@element-plus/icons'
-import { Files } from '@element-plus/icons'
+import { Collection, LocationInformation, Medal, Notebook, Management, OfficeBuilding, Crop, Link, Timer, Phone, Files } from '@element-plus/icons'
 export default {
-  name: "School",
+  name: "SchoolPublic",
 
   data() {
     return {
@@ -280,7 +263,7 @@ export default {
       Switch: false,
 
       selForm:{
-        Position:['231','321'],
+        Position:[],
         Manage: '全部',
         Level:'全部',
         Layer:'全部',
@@ -302,18 +285,32 @@ export default {
   },
   mounted() {
     this.submit();
-    this.initChart()
-    window.addEventListener('resize', this.screenAdapter)
+    this.initChart ()
   },
-  reset(){
-    this.selForm.dynamicTags = []
-  },
-  destroyed () {
-    window.removeEventListener('resize', this.screenAdapter)
-  },
+
   methods:{
+    reset(){
+      this.selForm.Position = []
+      this.submit()
+    },
+    School:function (){
+      this.$router.push('/SchoolPublic');
+    },
+    Major:function (){
+      this.$router.push('/MajorPublic');
+    },
+    Home:function (){
+      this.$router.push('/Home');
+    },
+    Signup:function (){
+      this.$router.push('/Signup');
+    },
+    Login:function (){
+      this.$router.push('/Login');
+    },
 
     submit(){
+      console.log(this.selForm)
       //给位置数组赋值方便后端接收数据
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
         if (this.$refs['cascadeAddr'].getCheckedNodes()[i].level === 2) {
@@ -341,41 +338,10 @@ export default {
         this.total = res.data.total
       })
     },
-
-    pageSizeChange(newSize){
-      if (newSize === null)
-        return
-      this.selForm.pageSize = newSize;
-      this.submit();
-    },
-    pageCurrentChange(newPage){
-      this.selForm.pageNum = newPage;
-      this.submit();
-    },
-    search(){
-      this.searchOption = true
-
-      this.selForm.pageNum = 1;
-      this.selForm.pageSize = 50;
-
-      this.$http({
-        method:'post',
-        url:'/User/getUniversityByName',
-        data: this.selForm
-      }).then(res=> {
-        for(let i=0;i<res.data.length;i++) {
-          res.data[i].type = res.data[i].firstClass
-          res.data[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data[i].school_id + '.jpg'
-        }
-        this.schoolList = res.data
-        this.total = res.data.length
-
-      })
-    },
     initChart () {
       this.chartInstance = echarts.init(document.getElementById('map'))
       // 获取中国地图的矢量数据
-      const ret = require('../../../public/static/map/china.json')
+      const ret = require("../../assets/Js/map/china.json")
 
       echarts.registerMap('china', ret)
       const initOption = {
@@ -409,7 +375,7 @@ export default {
           // arg.name 得到所点击的省份, 这个省份他是中文
           if (!this.mapData[provinceInfo.key]) {
 
-            const ret = require('../../../public' + provinceInfo.path)
+            const ret = require("../../assets/Js/map/province/" + provinceInfo.key + ".json")
             this.mapData[provinceInfo.key] = ret
             echarts.registerMap(provinceInfo.key, ret)
           }
@@ -447,7 +413,37 @@ export default {
         }
       }
       this.chartInstance.setOption(revertOption)
-    }
+    },
+    pageSizeChange(newSize){
+      if (newSize === null)
+        return
+      this.selForm.pageSize = newSize;
+      this.submit();
+    },
+    pageCurrentChange(newPage){
+      this.selForm.pageNum = newPage;
+      this.submit();
+    },
+    search(){
+      this.searchOption = true
+
+      this.selForm.pageNum = 1;
+      this.selForm.pageSize = 50;
+
+      this.$http({
+        method:'post',
+        url:'/User/getUniversityByName',
+        data: this.selForm
+      }).then(res=> {
+        for(let i=0;i<res.data.length;i++) {
+          res.data[i].type = res.data[i].firstClass
+          res.data[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data[i].school_id + '.jpg'
+        }
+        this.schoolList = res.data
+        this.total = res.data.length
+
+      })
+    },
   },
   components: {
     Collection,
@@ -455,7 +451,7 @@ export default {
     Medal,
     Notebook,
     Management,
-    School,
+    OfficeBuilding,
     Crop,
     Link,
     Timer,
