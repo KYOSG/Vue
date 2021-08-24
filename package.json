@@ -7,23 +7,30 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "axios": "^0.21.1",
+    "core-js": "^3.16.2",
+    "element-plus": "^1.0.2-beta.71",
+    "file-saver": "^2.0.5",
+    "lib-flexible": "^0.3.2",
+    "q": "^1.5.1",
+    "qs": "^6.10.1",
+    "save": "^2.4.0",
+    "svg-sprite-loader": "^6.0.9",
+    "vue": "^3.2.4",
+    "vue-router": "^4.0.11",
+    "vuex": "^4.0.0-0",
+    "xlsx": "^0.17.1"
   },
   "devDependencies": {
+    "@element-plus/icons": "0.0.11",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "less": "^3.0.4",
-    "less-loader": "^5.0.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "@vue/compiler-sfc": "^3.2.4",
+    "echarts": "^5.1.2",
+    "px2rem-loader": "^0.1.9",
+    "script-loader": "^0.7.2",
+    "vue-cli-plugin-element-plus": "0.0.13"
+  }
 }
