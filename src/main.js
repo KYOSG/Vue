@@ -16,7 +16,7 @@ app.use(store).use(router).mount('#app')
 
 app.config.globalProperties.$http = axios;
 //接口请求的基准路径
-axios.defaults.baseURL = 'http://192.168.1.111:8083/';
+axios.defaults.baseURL = 'http://localhost:8083/';
 // 添加请求拦截器
 
 axios.interceptors.request.use(config => {

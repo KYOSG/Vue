@@ -8,6 +8,7 @@
           <input type="text" class="e" placeholder="用户名" v-model="loginForm.username">
           <input type="password" class="e" placeholder="密码" v-model="loginForm.password">
           <a class="g" @click="login">登录</a>
+          <a @click="signup">注册</a>
         </div>
       </div>
     </div>
@@ -73,6 +74,9 @@ export default {
         else if (res.data.data.identity === "teacher")
           this.$router.push("/TeacherHome");
       })
+    },
+    signup:function (){
+      this.$router.push('/Signup')
     }
   }
 }
