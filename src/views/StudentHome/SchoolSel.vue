@@ -1,185 +1,272 @@
 <template>
-  <el-container>
-    <el-header>
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/StudentHome' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>志愿填报</el-breadcrumb-item>
-        <el-breadcrumb-item>院校选择</el-breadcrumb-item>
-      </el-breadcrumb>
-    </el-header>
-    <div class="mainWindow">
-      <el-card>
-        <div>
-          <el-space :size="40">
-            <el-space direction="vertical"  alignment="flex-start" :size="25">
-              <!--所在地-->
-              <div class="schoolPosition">
-                <el-space wrap :size="33">
-                  <span class="demonstration">院校所在地 </span>
-                  <el-cascader
-                      placeholder="试试搜索：北京"
-                      :options="options"
-                      :props="{ multiple: true }"
-                      filterable
-                      collapse-tags
-                      ref="cascadeAddr"
-                      clearable
-                      @change="submit"></el-cascader>
-                </el-space>
-              </div>
-              <!--主管部门-->
-              <div>
-                <el-space wrap :size="43">
-                  <span class="demonstration">主管部门 </span>
-                  <el-radio-group v-model="selForm.Manage" @change="submit">
-                    <el-radio-button label="全部"></el-radio-button>
-                    <el-radio-button label="教育部"></el-radio-button>
-                    <el-radio-button label="其他部委"></el-radio-button>
-                    <el-radio-button label="地方"></el-radio-button>
-                    <el-radio-button label="军校"></el-radio-button>
-                  </el-radio-group>
-                </el-space>
-              </div>
-              <!--层级-->
-              <div>
-                <el-space  wrap :size="43">
-                  <span class="demonstration">院校层级 </span>
-                  <el-radio-group v-model="selForm.Layer" @change="submit">
-                    <el-radio-button label="全部"></el-radio-button>
-                    <el-radio-button label="本科"></el-radio-button>
-                    <el-radio-button label="高职（专科）"></el-radio-button>
-                    <el-radio-button label="独立学院"></el-radio-button>
-                    <el-radio-button label="中外合作办学"></el-radio-button>
-                  </el-radio-group>
-                </el-space>
-
-              </div>
-              <!--特点-->
-              <div>
-                <el-space wrap :size="43">
-                  <span class="demonstration">院校特点 </span>
-                  <el-space :size="10" :spacer="spacer">
-                    <el-radio-group v-model="selForm.Level" @change="submit">
-                      <el-radio-button label="全部"></el-radio-button>
-                      <el-popover
-                          placement="bottom"
-                          title="985工程"
-                          :width="200"
-                          trigger="hover"
-                          content="是为了实现现代化，建立若干所具有世界先进水平的一流大学的建设工程。">
-                        <template #reference>
-                          <el-radio-button label="985院校"></el-radio-button>
-                        </template>
-                      </el-popover>
-                      <el-popover
-                          placement="bottom"
-                          title="211工程"
-                          :width="200"
-                          trigger="hover"
-                          content="面向21世纪、重点建设100所左右的高等学校和一批重点学科的建设工程。">
-                        <template #reference>
-                          <el-radio-button label="211院校"></el-radio-button>
-                        </template>
-                      </el-popover>
-                    </el-radio-group>
-                    <el-popover
-                        placement="right"
-                        title="双一流高校"
-                        :width="200"
-                        trigger="hover"
-                        content="建设世界一流大学和一流学科，是中共中央、国务院作出的重大战略决策，也是中国高等教育领域继“211工程”“985工程”之后的又一国家战略。">
-                      <template #reference>
-                        <el-switch
-                            v-model="Switch"
-                            active-color="#13ce66"
-                            inactive-color="#ff4949"
-                            active-text="仅查看双一流高校"
-                            @change="submit"></el-switch>
-                      </template>
-                    </el-popover>
-                  </el-space>
-                </el-space>
-              </div>
-              <!--搜索-->
-              <el-space>
-                <el-input
-                    placeholder="请输入院校名称"
-                    v-model="selForm.Name"
-                    @keyup.enter.native="search"
-                    clearable>
-                </el-input >
-                <el-button icon="el-icon-search" @click="search" type="primary"></el-button>
-                <el-button @click="showDrawer" type="primary" style="margin-left: 16px;">查看已选院校</el-button>
-              </el-space>
-            </el-space>
-          </el-space>
-          <el-divider></el-divider>
-          <!--查询结果-->
-          <el-table
-              :data="schoolList"
-              highlight-current-row
-              max-height="700"
-              :border = true
-              :header-cell-style="{'text-align':'center'}"
-              :cell-style="{'text-align':'center'}">
-            <el-table-column label="" prop="">
-              <template #default="scope">
-                <el-card>
-                  <el-image  style="width: 70px; height: 70px" :src="scope.row.site" alt="" :fit="fill" ></el-image>
-                </el-card>
-              </template>
-            </el-table-column>
-            <el-table-column label="院校代码" prop="school_code" width="80"></el-table-column>
-            <el-table-column label="院校名称" prop="name"></el-table-column>
-            <el-table-column label="所在地" prop="position"></el-table-column>
-            <el-table-column label="院校层级" prop="layer" width="80"></el-table-column>
-            <el-table-column label="院校类型" prop="typeName" width="80"></el-table-column>
-            <el-table-column label="操作">
-              <template #default="scope">
-                <el-button type="primary" round @click="add(scope.row.school_id)">加入备选</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <!--分页-->
-          <el-pagination
-              @size-change="pageSizeChange"
-              @current-change="pageCurrentChange"
-              :current-page="selForm.pageNum"
-              :page-sizes="[5, 50, 100]"
-              :page-size= "selForm.pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="total"
-              :disabled = "searchOption"
-              background>
-          </el-pagination>
+  <div class="body">
+    <section class="shortcut">
+      <div class="w">
+        <img src="../../img/shortcut1.png" alt="">
+        <div class="fl">
+          <ul>
+            <li>欢迎使用高考志愿填报系统！&nbsp;</li>
+          </ul>
         </div>
-      </el-card>
+        <div class="fr">
+          <ul>
+            <li><a href="#">个人主页</a></li>
+            <li></li>
+            <li class="arrow-icon"><a href="#">院校选择</a></li>
+            <li></li>
+            <li><a href="#">专业选择</a></li>
+            <li></li>
+            <li><a href="#">志愿选择</a></li>
+            <li></li>
+            <li class="arrow-icon"><a href="#">院校查询</a></li>
+            <li></li>
+            <li class="arrow-icon"><a href="#">专业查询</a></li>
+            <li></li>
+            <li class="arrow-icon"><a href="#">高考信息可视化</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <!-- 快捷导航栏制作结束 -->
+    <div class="header">
+      <div class="w">
+        <img src="../../img/header2.png" alt="">
+        <h4 class="header_h4">院校选择</h4>
+      </div>
     </div>
 
-    <!--已选学校抽屉-->
-    <el-drawer
-        title="已选院校"
-        v-model="drawer"
-        :with-header="false"
-        direction="rtl"
-        size="50%">
-      <el-table :data="schoolChoiceList"
+    <el-container>
+
+      <div class="mainWindow w">
+        <div>
+          <div>
+            <el-space :size="40">
+              <el-space direction="vertical"  alignment="flex-start" :size="25">
+                <!--所在地-->
+                <div class="schoolPosition">
+                  <el-space wrap :size="33">
+                    <span class="demonstration">院校所在地 </span>
+                    <el-cascader
+                        placeholder="试试搜索：北京"
+                        :options="options"
+                        :props="{ multiple: true }"
+                        filterable
+                        collapse-tags
+                        ref="cascadeAddr"
+                        clearable
+                        @change="submit"></el-cascader>
+                  </el-space>
+                </div>
+                <!--主管部门-->
+                <div>
+                  <el-space wrap :size="43">
+                    <span class="demonstration">主管部门 </span>
+                    <el-radio-group v-model="selForm.Manage" @change="submit">
+                      <el-radio-button label="全部"></el-radio-button>
+                      <el-radio-button label="教育部"></el-radio-button>
+                      <el-radio-button label="其他部委"></el-radio-button>
+                      <el-radio-button label="地方"></el-radio-button>
+                      <el-radio-button label="军校"></el-radio-button>
+                    </el-radio-group>
+                  </el-space>
+                </div>
+                <!--层级-->
+                <div>
+                  <el-space  wrap :size="43">
+                    <span class="demonstration">院校层级 </span>
+                    <el-radio-group v-model="selForm.Layer" @change="submit">
+                      <el-radio-button label="全部"></el-radio-button>
+                      <el-radio-button label="本科"></el-radio-button>
+                      <el-radio-button label="高职（专科）"></el-radio-button>
+                      <el-radio-button label="独立学院"></el-radio-button>
+                      <el-radio-button label="中外合作办学"></el-radio-button>
+                    </el-radio-group>
+                  </el-space>
+
+                </div>
+                <!--特点-->
+                <div>
+                  <el-space wrap :size="43">
+                    <span class="demonstration">院校特点 </span>
+                    <el-space :size="10" :spacer="spacer">
+                      <el-radio-group v-model="selForm.Level" @change="submit">
+                        <el-radio-button label="全部"></el-radio-button>
+                        <el-popover
+                            placement="bottom"
+                            title="985工程"
+                            :width="200"
+                            trigger="hover"
+                            content="是为了实现现代化，建立若干所具有世界先进水平的一流大学的建设工程。">
+                          <template #reference>
+                            <el-radio-button label="985院校"></el-radio-button>
+                          </template>
+                        </el-popover>
+                        <el-popover
+                            placement="bottom"
+                            title="211工程"
+                            :width="200"
+                            trigger="hover"
+                            content="面向21世纪、重点建设100所左右的高等学校和一批重点学科的建设工程。">
+                          <template #reference>
+                            <el-radio-button label="211院校"></el-radio-button>
+                          </template>
+                        </el-popover>
+                      </el-radio-group>
+                      <el-popover
+                          placement="right"
+                          title="双一流高校"
+                          :width="200"
+                          trigger="hover"
+                          content="建设世界一流大学和一流学科，是中共中央、国务院作出的重大战略决策，也是中国高等教育领域继“211工程”“985工程”之后的又一国家战略。">
+                        <template #reference>
+                          <el-switch
+                              v-model="Switch"
+                              active-color="#13ce66"
+                              inactive-color="#ff4949"
+                              active-text="仅查看双一流高校"
+                              @change="submit"></el-switch>
+                        </template>
+                      </el-popover>
+                    </el-space>
+                  </el-space>
+                </div>
+                <!--搜索-->
+                <el-space>
+                  <el-input
+                      placeholder="请输入院校名称"
+                      v-model="selForm.Name"
+                      @keyup.enter.native="search"
+                      clearable>
+                  </el-input >
+                  <el-button icon="el-icon-search" @click="search" type="primary"></el-button>
+                  <el-button @click="showDrawer" type="primary" style="margin-left: 16px;">查看已选院校</el-button>
+                </el-space>
+              </el-space>
+            </el-space>
+            <el-divider></el-divider>
+            <!--查询结果-->
+            <el-table
+                :data="schoolList"
                 highlight-current-row
-                @change="submit"
                 max-height="700"
                 :border = true
                 :header-cell-style="{'text-align':'center'}"
                 :cell-style="{'text-align':'center'}">
-        <el-table-column property="name" label="院校名称"></el-table-column>
-        <el-table-column property="layer" label="院校层级"></el-table-column>
-        <el-table-column  label="操作">
-          <template #default="scope">
-             <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row.school_id)"></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-drawer>
-  </el-container>
+              <el-table-column label="" prop="">
+                <template #default="scope">
+                  <el-card>
+                    <el-image  style="width: 70px; height: 70px" :src="scope.row.site" alt="" :fit="fill" ></el-image>
+                  </el-card>
+                </template>
+              </el-table-column>
+              <el-table-column label="院校代码" prop="school_code" width="80"></el-table-column>
+              <el-table-column label="院校名称" prop="name"></el-table-column>
+              <el-table-column label="所在地" prop="position"></el-table-column>
+              <el-table-column label="院校层级" prop="layer" width="80"></el-table-column>
+              <el-table-column label="院校类型" prop="typeName" width="80"></el-table-column>
+              <el-table-column label="操作">
+                <template #default="scope">
+                  <el-button type="primary" round @click="add(scope.row.school_id)">加入备选</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <!--分页-->
+            <el-pagination
+                @size-change="pageSizeChange"
+                @current-change="pageCurrentChange"
+                :current-page="selForm.pageNum"
+                :page-sizes="[5, 50, 100]"
+                :page-size= "selForm.pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total"
+                :disabled = "searchOption"
+                background>
+            </el-pagination>
+          </div>
+        </div>
+      </div>
+
+      <!--已选学校抽屉-->
+      <el-drawer
+          title="已选院校"
+          v-model="drawer"
+          :with-header="false"
+          direction="rtl"
+          size="50%">
+        <el-table :data="schoolChoiceList"
+                  highlight-current-row
+                  @change="submit"
+                  max-height="700"
+                  :border = true
+                  :header-cell-style="{'text-align':'center'}"
+                  :cell-style="{'text-align':'center'}">
+          <el-table-column property="name" label="院校名称"></el-table-column>
+          <el-table-column property="layer" label="院校层级"></el-table-column>
+          <el-table-column  label="操作">
+            <template #default="scope">
+              <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row.school_id)"></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-drawer>
+    </el-container>
+    <footer>
+      <div class="footer">
+        <div class="container w">
+          <div class="row">
+            <div class="col-md-7">
+              <div class="row">
+                <div class="col-lg-6 col-md-12">
+                  <div class="hedingh3 text_align_left">
+                    <h4>底部介绍栏一</h4>
+                    <ul class="menu_footer">
+                      <!-- 如果不登陆也可也通过这几个链接去访问我们的一些网页 -->
+                      <li> <a href=" # ">链接网页一</a></li>
+                      <li> <a href="# ">链接网页二</a></li>
+                      <li> <a href="# "> 链接网页三</a></li>
+                      <li> <a href="#"> 链接网页四</a></li>
+
+                    </ul>
+
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                  <div class="hedingh3 text_align_left">
+                    <h4>底部介绍栏二</h4>
+                    <ul class="menu_footer">
+                      <li> <a href=" # ">链接网页一</a></li>
+                      <li> <a href="# ">链接网页二</a></li>
+                      <li> <a href="# "> 链接网页三</a></li>
+                      <li> <a href="#"> 链接网页四</a></li>
+
+                    </ul>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-lg-6 col-md-12">
+                  <div class="hedingh3 text_align_left">
+                    <h4>底部介绍栏三</h4>
+                    <p> 介绍部分</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 ">
+                  <div class="hedingh3 text_align_left1">
+                    <h4>底部介绍栏四</h4>
+                    <p>介绍部分</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  </div>
 </template>
 
 <script>
@@ -331,54 +418,269 @@ export default {
     },
 
 
-  showDrawer() {
-    this.schoolChoiceList = []
-    this.$http({
-      method: 'post',
-      url: '/User/showUniversitySelected',
-      data: this.choiceSchool
-    }).then(res => {
-      console.log(res)
-      this.schoolChoiceList = res.data
-    })
-    this.drawer = true
-  },
-  pageSizeChange(newSize) {
-    if (newSize === null)
-      return
-    this.selForm.pageSize = newSize;
-    this.submit();
-  },
-  pageCurrentChange(newPage) {
-    this.selForm.pageNum = newPage;
-    this.submit();
-  },
-  search() {
-    this.searchOption = true
+    showDrawer() {
+      this.schoolChoiceList = []
+      this.$http({
+        method: 'post',
+        url: '/User/showUniversitySelected',
+        data: this.choiceSchool
+      }).then(res => {
+        console.log(res)
+        this.schoolChoiceList = res.data
+      })
+      this.drawer = true
+    },
+    pageSizeChange(newSize) {
+      if (newSize === null)
+        return
+      this.selForm.pageSize = newSize;
+      this.submit();
+    },
+    pageCurrentChange(newPage) {
+      this.selForm.pageNum = newPage;
+      this.submit();
+    },
+    search() {
+      this.searchOption = true
 
-    this.selForm.pageNum = 1;
-    this.selForm.pageSize = 50;
+      this.selForm.pageNum = 1;
+      this.selForm.pageSize = 50;
 
-    this.$http({
-      method: 'post',
-      url: '/User/getUniversityByName',
-      data: this.selForm
-    }).then(res => {
+      this.$http({
+        method: 'post',
+        url: '/User/getUniversityByName',
+        data: this.selForm
+      }).then(res => {
 
-      console.log(res.data)
-      for (let i = 0; i < res.data.length; i++) {
-        res.data[i].type = res.data[i].firstClass
-        res.data[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data[i].school_id + '.jpg'
-      }
-      this.schoolList = res.data
-      this.total = res.data.length
+        console.log(res.data)
+        for (let i = 0; i < res.data.length; i++) {
+          res.data[i].type = res.data[i].firstClass
+          res.data[i].site = 'https://static-data.eol.cn/upload/logo/' + res.data[i].school_id + '.jpg'
+        }
+        this.schoolList = res.data
+        this.total = res.data.length
 
-    })
-  },
+      })
+    },
   }
 }
 
 </script>
-
 <style scoped>
+* {
+  box-sizing: border-box;
+  padding:0;
+  margin:0;
+}
+.w {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+li {
+  list-style: none;
+}
+.body {
+
+  height: 100%;
+  background-color:#fff;
+
+}
+
+a {
+  text-decoration: none;
+}
+
+h4 {
+  float: left;
+}
+
+.header {
+  text-align: center;
+  height: 120px;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #F49F0A;
+  /* background-image: url(../../img/shutcut1.png); */
+}
+
+.header img {
+  display:inline-block;
+  float: left;
+  width: 100px;
+  height:90px;
+  margin: 20px 10px 0 0;
+}
+
+.header_h4 {
+  margin: 73px 15px 10px 10px;
+  /* margin-top: 70px; */
+  font-size: 24px;
+  color: #F49F0A;
+}
+/* .header img{
+  width: 100%;
+  height: 100%;
+  /* background: url(../../img/banner1.png) no-repeat; */
+/* } */
+.shortcut {
+  height: 40px;
+
+  background-color: #f5f5f5;
+  line-height: 40px;
+}
+
+.shortcut img {
+  float: left;
+}
+/* .fl {
+    float: left;
+    line-height: 31px;
+}*/
+
+.fr {
+  margin-left: 50%;
+}
+
+.shortcut ul li {
+  float: left;
+  list-style: none;
+  /* margin-right:3px; */
+  /* margin:14px 5px; */
+
+
+}
+
+.shortcut ul li a {
+  color: #666666;
+}
+
+.shortcut ul li a:hover {
+  color: #F49F0A;
+}
+
+.style_red {
+  color: #c81623;
+}
+
+.shortcut .fr ul li:nth-child(even) {
+  width: 1px;
+  height: 12px;
+  background-color: #666;
+  margin: 14px 15px 0;
+}
+
+.shortcut img {
+  width: 50px;
+  height: 30px;
+  margin-right: 20px;
+}
+
+.footer {
+  height: 178px;
+  margin-top: 90px;
+  /* padding-top: 15px; */
+  padding-bottom: 15px;
+  background: #F49F0A;
+  text-align: center;
+}
+
+.hedingh3 h4 {
+  color: #fff;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  line-height: 23px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.hedingh3 p {
+  color: #fff;
+  text-align: left;
+  /* margin-bottom: 15px; */
+}
+
+ul.social_icon li {
+  display: inline-block;
+  margin: 0 2px;
+}
+
+ul.social_icon li a i {
+  font-size: 17px;
+  color: #323757;
+  transition: ease-in all 0.5s;
+  background: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50px;
+  text-align: center;
+}
+
+ul.social_icon li a i:hover {
+  color: #fff;
+  transition: ease-in all 0.5s;
+  background: #dc2727;
+}
+
+ul.menu_footer {
+  text-align: left;
+  /* margin-bottom: 15px; */
+
+}
+
+ul.menu_footer li a {
+  color: #fff;
+  font-size: 14px;
+  line-height: 18px;
+  margin-top: 10px ;
+  margin-bottom: 10px ;
+
+  display: block;
+}
+
+ul.menu_footer p {
+  font-size: 14px;
+}
+ul.menu_footer li a:hover {
+  color: #dc2727;
+}
+
+.text_align_left {
+  float: left;
+  margin: 0;
+  padding-right: 256px;
+}
+
+.text_align_left1 {
+  float: left;
+  margin: auto 0;
+  margin-right: 0;
+}
+
+.content {
+
+  background-color: #fff;
+  /* border: 1px solid #666; */
+  padding: 10px;
+}
+
+.kkk {
+  margin-top: -30px;
+  border: 1px solid;
+}
+
+.el-button {
+  float: right;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+.aaa {
+  padding: 0;
+}
+
+
+
 </style>

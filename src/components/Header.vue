@@ -1,107 +1,67 @@
 <template>
-  <div class="Background">
-    <!--走马灯-->
-    <div class="block">
-      <el-carousel height="300px" arrow="never" width="100%">
-        <el-carousel-item v-for="item in 2" :key="item" class="el-carousel__item">
-          <img src="../img/Carousel.png" alt="" class="carousel-image">
-        </el-carousel-item>
-      </el-carousel>
-    </div>
-    <!--功能卡-->
-    <div class="wrapper">
-      <div class="box"  @click="School">
-        <div class="front-face">
-          <school/>
-          <span>院校库</span>
-        </div>
-        <div class="back-face">
-          <span>院校库</span>
-          <p>
-            查看院校的详细信息，甄选出心仪的大学
-          </p>
-        </div>
-      </div>
-
-      <div class="box"  @click="Major">
-        <div class="front-face">
-          <Collection/>
-          <span>专业库</span>
-        </div>
-        <div class="back-face">
-          <span>专业库</span>
-          <p>
-            按照大类查看各专业的详细信息，找到适合自己的专业
-          </p>
+  <div class="header">
+    <div class="header_midil">
+      <div class="container-width">
+        <div class="row d_flex">
+          <div class="col-lg-9 col-md-12 col-sm-12">
+            <div class="navbar-area">
+              <nav class="site-navbar">
+                <ul>
+                  <li><a href="#">首页</a></li>
+                  <li><a @click="School">院校库</a></li>
+                  <li><a @click="Major" >专业库</a></li>
+                  <li><a @click="Login">登录</a></li>
+                  <li><a @click="Signup">注册</a></li>
+                </ul>
+                <button class="nav-toggler">
+                  <span></span>
+                </button>
+              </nav>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!--热门院校-->
-    <div class="hotSchool">
-      <h1 class="h1">热门院校</h1>
-      <div class="container">
-
-        <div class="card">
-          <div class="img">
-            <img src="../img/OUC.png" alt="">
-          </div>
-          <div class="top-text">
-            <div class="name">中国海洋大学</div>
-            <p>985|211|强基计划|双一流</p>
-          </div>
-          <div class="bottom-text">
-            <div class="text"> 位于山东省青岛市，是中华人民共和国教育部直属的综合性全国重点大学，位列世界一流大学建设高校，全国首批博士、硕士学位授予单位。</div>
-            <div class="button">
-              <a target="_blank" href="https://www.ouc.edu.cn/">官方网站</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="img">
-            <img src="../img/NKU.png" alt="">
-          </div>
-          <div class="top-text">
-            <div class="name">南开大学</div>
-            <p>985|211|强基计划|双一流</p>
-          </div>
-          <div class="bottom-text">
-            <div class="text"> 位于天津市，由中华人民共和国教育部直属，中央直管副部级建制，全国深化创新创业教育改革示范高校、学位授权自主审核单位，为国际公立大学论坛成员，是“学府北辰”之一。</div>
-            <div class="button">
-              <a target="_blank" href="https://www.nankai.edu.cn/">官方网站</a>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="img">
-            <img src="../img/WHU.png" alt="">
-          </div>
-          <div class="top-text">
-            <div class="name">武汉大学</div>
-            <p>985|211|双一流</p>
-          </div>
-          <div class="bottom-text">
-            <div class="text"> 位于湖北省武汉市，是中华人民共和国教育部直属的综合性全国重点大学，为欧亚-太平洋大学联盟、大学通识教育联盟、中国高校行星科学联盟、法学教育创新联盟、医学“双一流”建设联盟成员</div>
-            <div class="button">
-              <a target="_blank" href="https://www.whu.edu.cn/">官方网站</a>
-            </div>
-          </div>
-        </div>
-      </div >
-    </div>
-
   </div>
 </template>
 
 <script>
-
+import { School } from '@element-plus/icons'
+import { Collection } from '@element-plus/icons'
 export default {
-  name: "Home",
-
+  name: "Header",
+  methods:{
+    School:function (){
+      this.$router.push('/SchoolInf');
+    },
+    Major:function (){
+      this.$router.push('/MajorInf');
+    },
+    Signup:function (){
+      this.$router.push('/Signup');
+    },
+    Login:function (){
+      this.$router.push('/Login');
+    },
+  },
+  components: {
+    School,
+    Collection
+  }
 }
 
 </script>
+
 <style scoped>
+a{
+  cursor: pointer;
+}
+
+.header{
+  background-color: #f9844a;
+  font-size: 20px;
+  font-family: "Microsoft YaHei UI",serif;
+}
 .Background{
   background-color: #f7f7f7;
   height: 1400px;
@@ -411,5 +371,4 @@ ul.email li a i {
 .el-input_inner input{
   width: 10px;
 }
-
 </style>
