@@ -1,14 +1,13 @@
 <template>
-  <Header />
   <div class="Background">
     <div class="From-Background">
       <div class="Title">
-      欢迎注册高考智能决策系统
-    </div>
+        欢迎注册高考智能决策系统
+      </div>
       <div class="From">
 
         <el-form :model="signUpForm" :label-position="labelPosition" label-width="80px" ref="signUpFormRef" :rules="signUpFromRules">
-            <!--用户名-->
+          <!--用户名-->
           <el-popover
               placement="right"
               title="用户名"
@@ -23,7 +22,7 @@
             </template>
           </el-popover>
 
-            <!--姓名-->
+          <!--姓名-->
           <el-popover
               placement="right"
               title="姓名"
@@ -37,7 +36,7 @@
               </el-form-item>
             </template>
           </el-popover>
-            <!--密码-->
+          <!--密码-->
           <el-popover
               placement="right"
               title="密码"
@@ -55,14 +54,14 @@
             </template>
           </el-popover>
 
-            <!--确认密码-->
-            <el-form-item label="确认密码" class="fromItem" prop="checkPass">
-              <el-input v-model="signUpForm.checkPass"
-                        type="password"
-                        prefix-icon="el-icon-key"
-                        show-password clearable></el-input>
-            </el-form-item>
-            <!--考号-->
+          <!--确认密码-->
+          <el-form-item label="确认密码" class="fromItem" prop="checkPass">
+            <el-input v-model="signUpForm.checkPass"
+                      type="password"
+                      prefix-icon="el-icon-key"
+                      show-password clearable></el-input>
+          </el-form-item>
+          <!--考号-->
           <el-popover
               placement="right"
               title="考号"
@@ -76,7 +75,7 @@
               </el-form-item>
             </template>
           </el-popover>
-            <!--位次-->
+          <!--位次-->
           <el-popover
               placement="right"
               title="位次"
@@ -105,8 +104,7 @@
 </template>
 
 <script>
-import Header from "../components/Header"
-import {Collection, School} from "@element-plus/icons";
+
 export default {
   name: "Signup",
   data() {
@@ -186,8 +184,8 @@ export default {
     resetSignUpForm() {
       this.$refs.signUpFormRef.resetFields();
     },
-
 //数据验证
+
     submit() {
       console.log(this.signUpForm)
       this.$http({
@@ -211,11 +209,6 @@ export default {
         this.$router.push("/Login");
       })
     }
-  },
-  components: {
-    School,
-    Collection,
-    Header,
   }
 };
 </script>
@@ -225,6 +218,8 @@ export default {
 {
   width:100%;
   height:100%;
+  /* background:url(~@/img/Background.jpg) center center no-repeat; */
+  /* background:url(../img/1.png); */
   background: #fff url(../img/square_bg.png) repeat-x fixed center center;
   background-size: auto 1000px;
   position:absolute;
@@ -277,57 +272,76 @@ export default {
   right:150px;
 }
 
+
+
+
+.header {
+  width: 100%;
+}
+
+.container-width {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+  clear: both;
+  display: block;
+  box-sizing: border-box;
+}
+
+
+
 .logo a {
-    font-size: 50px;
-    color: #323757;
-    font-weight: 700;
-    font-style: italic;
+  font-size: 50px;
+  color: #323757;
+  font-weight: 700;
+  font-style: italic;
 }
 
 .header_midil {
   position: relative;
-    background: #F49F0A;
-    width: 100%;
-    height: 20px;
-    padding: 10px 0px;
+  background: #F49F0A;
+  width: 100%;
+  height: 20px;
+  padding: 10px 0px;
 }
 
 .site-navbar {
-    display: flex;
+  display: flex;
 
-    justify-content: space-between;
-    align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .site-navbar ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
 }
 
 .site-navbar ul li a {
-    color: #fff;
-    font-size: 14px;
-    display: block;
-    text-decoration: none;
-    text-transform: uppercase;
+  color: #fff;
+  font-size: 14px;
+  display: block;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 .site-navbar ul li {
-    padding-right: 30px;
+  padding-right: 30px;
 }
 
 .site-navbar ul li:last-child {
-    padding-right: 0;
+  padding-right: 0;
 }
 
 .site-navbar ul li a:hover {
-    color: #323757;
+  color: #323757;
 }
 
 .site-navbar ul li a.active {
-    color: #323757;
+  color: #323757;
 }
 
 .site-navbar .button {
@@ -342,60 +356,66 @@ export default {
 }
 
 .nav-toggler {
-    border: 3px solid #fff;
-    padding: 5px;
-    background-color: transparent;
-    cursor: pointer;
-    height: 39px;
-    display: none;
-    z-index: 99999;
+  border: 3px solid #fff;
+  padding: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  height: 39px;
+  display: none;
+  z-index: 99999;
 }
 
 .nav-toggler span,
 .nav-toggler span:before,
 .nav-toggler span:after {
-    width: 28px;
-    height: 3px;
-    background-color: #fff;
-    display: block;
-    transition: .3s;
+  width: 28px;
+  height: 3px;
+  background-color: #fff;
+  display: block;
+  transition: .3s;
 }
 
 .nav-toggler span:before {
-    content: '';
-    transform: translateY(-9px);
+  content: '';
+  transform: translateY(-9px);
 }
 
 .nav-toggler span:after {
-    content: '';
-    transform: translateY(6px);
+  content: '';
+  transform: translateY(6px);
 }
 
+
+/* nav-toggler css start */
+
+
+/* intro-area css start */
+
 .intro-area {
-    height: calc(100vh - 61px);
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #fff;
+  height: calc(100vh - 61px);
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #fff;
 }
 
 ul.email {
   float: right;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 ul.email li a {
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 17px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 17px;
 }
 
 ul.email li a i {
-    color: #fff;
-    font-size: 19px;
-    padding-right: 10px;
+  color: #fff;
+  font-size: 19px;
+  padding-right: 10px;
 }
 
 .el-button--primary {
@@ -418,7 +438,7 @@ ul.email li a i {
 }
 
 .el-input_inner input{
-    width: 10px;
+  width: 10px;
 }
 
 </style>

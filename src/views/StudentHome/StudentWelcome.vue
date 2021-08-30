@@ -1,36 +1,24 @@
 <template>
-  <div class="mainWindow">
-    <div class="container">
-      <div class="wrapper">
-        <a href="#">
-          <img src="" alt="">
-        </a>
-        <div class="title">早安</div>
-        <div class="place">今天卷了嘛</div>
-      </div>
-      <div class="content">
-        <!--天气-->
-        <div class="weather">
-          <div id="he-plugin-standard"></div>
-        </div>
-      </div>
+  <div className="title">早安</div>
+  <div className="place">今天卷了嘛</div>
+  <div className="content">
+    <!--天气-->
+    <div className="weather">
+      <div id="he-plugin-standard"></div>
     </div>
   </div>
 </template>
 <script>
 
 
-
 export default {
   name: "StudentWelcome",
-  data(){
-    return{
-      info:{
-        id:'',
+  data() {
+    return {
+      info: {
+        id: '',
       },
-      userInfo:{
-
-      },
+      userInfo: {},
       img: document.querySelector("img"),
       icons: document.querySelector(".icons"),
     }
@@ -59,7 +47,7 @@ export default {
   },
   methods: {
 
-    searchWeather: async function() {
+    searchWeather: async function () {
 
       let key = "2a3d8a1d861a47078997c656eb1f322f"; //引号中放入前面保存的key
       //获取城市的ID
@@ -75,7 +63,7 @@ export default {
       let now = result1.now;
       console.log(result1);
     },
-    getStudent(){
+    getStudent() {
       console.log(this.id)
       this.$http({
         method: 'post',
@@ -87,84 +75,20 @@ export default {
       })
     }
   },
-  components:{
-  }
+  components: {}
 
 }
 </script>
 
 <style scoped>
-body{
+body {
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
   text-align: center;
 }
 
-.weather{
+.weather {
   width: 280px;
-}
-.container{
-  height: 250px;
-  width: 250px;
-  overflow: hidden;
-  margin: 0 auto;
-  border-radius: 50%;
-  transition: all .3s ease-in-out;
-  box-shadow: 0 10px 5px 0 rgba(0,0,0,.3);
-  background: linear-gradient(45deg, #0081a7, #00afb9);
-}
-
-.container:hover{
-  height: 700px;
-  width: 800px;
-  border-radius: 5px;
-}
-
-.container .wrapper img{
-  position: relative;
-  z-index: 20;
-  border-radius: 50%;
-  display: block;
-  height: 200px;
-  width: 200px;
-  border: 5px solid #fff;
-  object-fit: cover;
-  margin: 20px auto;
-  transition: all .3s ease;
-}
-
-.container:hover .wrapper img.active{
-  height: 470px;
-  width: 350px;
-  margin: 0 auto;
-  border: none;
-  border-radius: 5px;
-}
-
-.wrapper .title{
-  color: #fff;
-  font-size: 30px;
-  font-weight: 700;
-  padding: 10px;
-  line-height: 25px;
-}
-
-.wrapper .place{
-  color: #fff;
-  font-size: 17px;
-  line-height: 0;
-  margin: 10px 0;
-}
-
-.content{
-  color: #fff;
-  font-size: 17px;
-  margin-top: 10px;
-  padding: 1px 20px 10px 20px!important;
-}
-
-.btn button:hover{
-  transform: scale(0.95);
 }
 </style>

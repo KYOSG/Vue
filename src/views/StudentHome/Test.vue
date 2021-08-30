@@ -1,175 +1,167 @@
 <template>
-  <el-header>
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/StudentHome' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>志愿查看</el-breadcrumb-item>
-    </el-breadcrumb>
-  </el-header>
-  <el-card>
-    <el-tabs type="border-card">
-      <el-tab-pane label="查看自选志愿" @table-click="majorSel">
-        <el-button type="primary" @click="exportDataSel">导出Excel表格</el-button>
-        <el-table
-            :data="listData"
-            border stripe
-            highlight-current-row
-            max-height="700"
-            :header-cell-style="{'text-align':'center'}"
-            :cell-style="{'text-align':'center'}">
-          <el-table-column label="序号" type="index"></el-table-column>
-          <el-table-column label="专业招生代码" prop="methodCode"></el-table-column>
-          <el-table-column label="专业名称" prop="major"></el-table-column>
-          <el-table-column label="所属高校" prop="admissionDirection"></el-table-column>
-          <el-table-column label="所属高校招生代码" prop="admissionCode"></el-table-column>
-          <el-table-column label="最低录取分数" prop="lowScore"></el-table-column>
-          <el-table-column label="最低录取位次" prop="lowLevel"></el-table-column>
-          <el-table-column label="选课要求" prop="request"></el-table-column>
-          <el-table-column label="操作">
-            <template #default="scope">
-              <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row.major_id)"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
-      <el-tab-pane label="查看生成志愿" @tab-click="majorAuto">
-        <el-button type="primary" @click="exportDataAuto">导出Excel表格</el-button>
-        <el-table
-            :data="listDataAuto"
-            border stripe
-            highlight-current-row
-            max-height="700"
-            :header-cell-style="{'text-align':'center'}"
-            :cell-style="{'text-align':'center'}">
-          <el-table-column label="序号" type="index"></el-table-column>
-          <el-table-column label="专业招生代码" prop="methodCode"></el-table-column>
-          <el-table-column label="专业名称" prop="major"></el-table-column>
-          <el-table-column label="所属高校" prop="admissionDirection"></el-table-column>
-          <el-table-column label="所属高校招生代码" prop="admissionCode"></el-table-column>
-          <el-table-column label="最低录取分数" prop="lowScore"></el-table-column>
-          <el-table-column label="最低录取位次" prop="lowLevel"></el-table-column>
-          <el-table-column label="选课要求" prop="request">
-            <el-button type="primary" icon="el-icon-edit" circle></el-button>
-          </el-table-column>
-          <el-table-column label="操作">
-            <template #default="scope">
-              <el-tooltip effect="light" content="上移" placement="top-start">
-                <el-button type="primary" icon="el-icon-arrow-up" circle @click="up(scope.row)"></el-button>
-              </el-tooltip>
-
-              <el-tooltip effect="light" content="下移" placement="top-start">
-                <el-button type="primary" icon="el-icon-arrow-down" circle @click="down(scope.row.major_id)"></el-button>
-              </el-tooltip>
-
-
-              <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row.major_id)"></el-button>
-            </template>
-
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
-    </el-tabs>
-  </el-card>
+  <div className="mainWindow">
+    <div className="container">
+      <div className="wrapper">
+        <a href="#">
+          <img src="" alt="">
+        </a>
+        <div className="title">早安</div>
+        <div className="place">今天卷了嘛</div>
+      </div>
+      <div className="content">
+        <!--天气-->
+        <div className="weather">
+          <div id="he-plugin-standard"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
-
 <script>
+
+
 export default {
-  name: "Applications",
+  name: "StudentWelcome",
   data() {
     return {
-      listData: [],
-      listDataAuto: [],
-      form:{
-        major_id:''
+      info: {
+        id: '',
+      },
+      userInfo: {},
+      img: document.querySelector("img"),
+      icons: document.querySelector(".icons"),
+    }
+  },
+  created() {
+    window.WIDGET = {
+      "CONFIG": {
+        "layout": "2",
+        "width": 230,
+        "height": 270,
+        "background": "5",
+        "dataColor": "000000",
+        "aqiColor": "000000",
+        "borderRadius": "15",
+        "key": "e01422bb93d841c2a10f9cd189dd84c5"
       }
     }
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0';
+    document.getElementsByTagName('head')[0].appendChild(script);
+
   },
   mounted() {
-    this.majorAuto()
-    this.majorSel()
+    this.getStudent()
   },
   methods: {
-    majorSel() {
-      this.listData = []
-      this.$http({
-        method: 'post',
-        url: '/User/showMajorSelected',
-        data: this.form
-      }).then(res => {
-        console.log("111"+res.data)
-        this.listData = res.data
-      })
+
+    searchWeather: async function () {
+
+      let key = "2a3d8a1d861a47078997c656eb1f322f"; //引号中放入前面保存的key
+      //获取城市的ID
+      let httpUrl = `https://geoapi.qweather.com/v2/city/lookup?location=淄博&adm=张店&key=${key}`;
+      let res = await fetch(httpUrl);
+      let result = await res.json();
+      let id = result.location[0].id;
+      console.log(result);
+      //根据城市id获取具体的天气
+      let httpUrl1 = `https://devapi.qweather.com/v7/weather/now?location=${id}&key=${key}`;
+      let res1 = await fetch(httpUrl1);
+      let result1 = await res1.json();
+      let now = result1.now;
+      console.log(result1);
     },
-    majorAuto() {
-      this.listData = []
+    getStudent() {
+      console.log(this.id)
       this.$http({
         method: 'post',
-        url: '/User/showMajorAuto',
-        data: this.form
+        url: '/User/getUserInformation',
+        data: this.s
       }).then(res => {
         console.log(res.data)
-        this.listDataAuto = res.data
+        this.info = res.data.list
       })
-    },
-    del(id) {
-      this.form.major_id = id;
-      this.$http({
-        method: 'post',
-        url: '/User/deleteMajorByStudent',
-        data: this.form
-      }).then(res => {
-
-      })
-    },
-    up() {
-    },
-    down() {
-    },
-    confirmChange() {
-      this.$http({
-        method: 'post',
-        url: '/User/showMajorSelected',
-        data: this.listData
-      }).then(res => {
-
-      })
-    },
-
-    exportDataSel() {
-      this.excelData = this.listData;
-      this.export2Excel();
-    },
-    exportDataAuto() {
-      this.excelData = this.listDataAuto;
-      this.export2Excel();
-    },
-    export2Excel() {
-      const that = this;
-      require.ensure([], () => {
-        const {
-          export_json_to_excel
-        } = require("@/assets/excel/Export2Excel");
-        const tHeader = ["学校代码", "学校名称", "专业代码", "专业名称"]; // 导出的excel表头名信息
-        const filterVal = [
-          "admissionCode",
-          "admissionDirection",
-          "methodCode",
-          "major",
-        ]; // 导出的excel表头字段名，需要导出表格字段名
-        const list = that.excelData;
-        const data = that.formatJson(filterVal, list);
-
-        export_json_to_excel(tHeader, data, "志愿填报表");
-      });
-    },
-
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => v[j]));
     }
-  }
+  },
+  components: {}
 
 }
 </script>
 
 <style scoped>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
 
+.weather {
+  width: 280px;
+}
+
+.container {
+  height: 250px;
+  width: 250px;
+  overflow: hidden;
+  margin: 0 auto;
+  border-radius: 50%;
+  transition: all .3s ease-in-out;
+  box-shadow: 0 10px 5px 0 rgba(0, 0, 0, .3);
+  background: linear-gradient(45deg, #0081a7, #00afb9);
+}
+
+.container:hover {
+  height: 700px;
+  width: 800px;
+  border-radius: 5px;
+}
+
+.container .wrapper img {
+  position: relative;
+  z-index: 20;
+  border-radius: 50%;
+  display: block;
+  height: 200px;
+  width: 200px;
+  border: 5px solid #fff;
+  object-fit: cover;
+  margin: 20px auto;
+  transition: all .3s ease;
+}
+
+.container:hover .wrapper img.active {
+  height: 470px;
+  width: 350px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+}
+
+.wrapper .title {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  padding: 10px;
+  line-height: 25px;
+}
+
+.wrapper .place {
+  color: #fff;
+  font-size: 17px;
+  line-height: 0;
+  margin: 10px 0;
+}
+
+.content {
+  color: #fff;
+  font-size: 17px;
+  margin-top: 10px;
+  padding: 1px 20px 10px 20px !important;
+}
+
+.btn button:hover {
+  transform: scale(0.95);
+}
 </style>
