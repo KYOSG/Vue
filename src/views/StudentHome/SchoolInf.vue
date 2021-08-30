@@ -1,32 +1,5 @@
 <template >
   <div class="body">
-    <section class="shortcut">
-      <div class="w">
-        <img src="../../img/shortcut1.png" alt="">
-        <div class="fl">
-          <ul>
-            <li>欢迎使用高考志愿填报系统！&nbsp;</li>
-          </ul>
-        </div>
-        <div class="fr">
-          <ul>
-            <li><a href="#">个人主页</a></li>
-            <li></li>
-            <li class="arrow-icon"><a href="#">院校选择</a></li>
-            <li></li>
-            <li><a href="#">专业选择</a></li>
-            <li></li>
-            <li><a href="#">志愿选择</a></li>
-            <li></li>
-            <li class="arrow-icon"><a href="#">院校查询</a></li>
-            <li></li>
-            <li class="arrow-icon"><a href="#">专业查询</a></li>
-            <li></li>
-            <li class="arrow-icon"><a href="#">高考信息可视化</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
     <!-- 快捷导航栏制作结束 -->
     <div class="header">
       <div class="w">
@@ -36,7 +9,6 @@
     </div>
     <el-container class="biggestdiv">
       <div class="w">
-
         <div>
           <el-space :size="40">
             <el-space direction="vertical"  alignment="flex-start" :size="25">
@@ -552,10 +524,6 @@ h4 {
 
 .shortcut ul li a:hover {
   color: #F49F0A;
-}
-
-.style_red {
-  color: #c81623;
 }
 
 .shortcut .fr ul li:nth-child(even) {

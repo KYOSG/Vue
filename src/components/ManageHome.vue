@@ -52,12 +52,21 @@
 <script >
 export default {
   name: "ManagerHome",
+  props:{
+    show: ''
+  },
   data(){
     return{
       isCollapse:false
     }
   },
+  mounted() {
+    this.Page();
+  },
   methods:{
+    Page(){
+      this.$emit("page",false)
+    },
     logout(){
       window.sessionStorage.clear()
       this.$router.push('/Home')

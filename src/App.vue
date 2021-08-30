@@ -1,16 +1,19 @@
 <template>
   <div id = 'app' class="Background0">
-    <Header />
-    <router-view></router-view>
-    <Footer />
+    <router-view :data = "show" @Page="Page"></router-view>
   </div>
 </template>
 
 <script>
-import Footer from "./components/footer"
+import Footer from "./components/Footer"
 import Header from "./components/Header"
 export default {
   name: 'app',
+  data(){
+    return {
+      show: true,
+    }
+  },
   components: {
     Header,
     Footer,

@@ -37,7 +37,6 @@ export default {
   },
   methods:{
     login(){
-      console.log(this.loginForm)
       this.$http({
         method:'post',
         url:'/User/Login',

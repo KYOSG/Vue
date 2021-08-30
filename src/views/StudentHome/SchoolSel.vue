@@ -162,8 +162,8 @@
               <el-table-column label="院校代码" prop="school_code" width="80"></el-table-column>
               <el-table-column label="院校名称" prop="name"></el-table-column>
               <el-table-column label="所在地" prop="position"></el-table-column>
-              <el-table-column label="院校层级" prop="layer" width="80"></el-table-column>
-              <el-table-column label="院校类型" prop="typeName" width="80"></el-table-column>
+              <el-table-column label="院校层级" prop="layer"></el-table-column>
+              <el-table-column label="院校类型" prop="typeName"></el-table-column>
               <el-table-column label="操作">
                 <template #default="scope">
                   <el-button type="primary" round @click="add(scope.row.school_id)">加入备选</el-button>
@@ -210,62 +210,6 @@
         </el-table>
       </el-drawer>
     </el-container>
-    <footer>
-      <div class="footer">
-        <div class="container w">
-          <div class="row">
-            <div class="col-md-7">
-              <div class="row">
-                <div class="col-lg-6 col-md-12">
-                  <div class="hedingh3 text_align_left">
-                    <h4>底部介绍栏一</h4>
-                    <ul class="menu_footer">
-                      <!-- 如果不登陆也可也通过这几个链接去访问我们的一些网页 -->
-                      <li> <a href=" # ">链接网页一</a></li>
-                      <li> <a href="# ">链接网页二</a></li>
-                      <li> <a href="# "> 链接网页三</a></li>
-                      <li> <a href="#"> 链接网页四</a></li>
-
-                    </ul>
-
-                  </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                  <div class="hedingh3 text_align_left">
-                    <h4>底部介绍栏二</h4>
-                    <ul class="menu_footer">
-                      <li> <a href=" # ">链接网页一</a></li>
-                      <li> <a href="# ">链接网页二</a></li>
-                      <li> <a href="# "> 链接网页三</a></li>
-                      <li> <a href="#"> 链接网页四</a></li>
-
-                    </ul>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-5">
-              <div class="row">
-                <div class="col-lg-6 col-md-12">
-                  <div class="hedingh3 text_align_left">
-                    <h4>底部介绍栏三</h4>
-                    <p> 介绍部分</p>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-md-12 ">
-                  <div class="hedingh3 text_align_left1">
-                    <h4>底部介绍栏四</h4>
-                    <p>介绍部分</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </footer>
   </div>
 </template>
 
@@ -500,7 +444,6 @@ h4 {
   height: 120px;
   margin-bottom: 20px;
   border-bottom: 3px solid #F49F0A;
-  /* background-image: url(../../img/shutcut1.png); */
 }
 
 .header img {
@@ -513,15 +456,10 @@ h4 {
 
 .header_h4 {
   margin: 73px 15px 10px 10px;
-  /* margin-top: 70px; */
   font-size: 24px;
   color: #F49F0A;
 }
-/* .header img{
-  width: 100%;
-  height: 100%;
-  /* background: url(../../img/banner1.png) no-repeat; */
-/* } */
+
 .shortcut {
   height: 40px;
 
@@ -532,10 +470,6 @@ h4 {
 .shortcut img {
   float: left;
 }
-/* .fl {
-    float: left;
-    line-height: 31px;
-}*/
 
 .fr {
   margin-left: 50%;
@@ -544,10 +478,6 @@ h4 {
 .shortcut ul li {
   float: left;
   list-style: none;
-  /* margin-right:3px; */
-  /* margin:14px 5px; */
-
-
 }
 
 .shortcut ul li a {
@@ -662,23 +592,7 @@ ul.menu_footer li a:hover {
 .content {
 
   background-color: #fff;
-  /* border: 1px solid #666; */
   padding: 10px;
-}
-
-.kkk {
-  margin-top: -30px;
-  border: 1px solid;
-}
-
-.el-button {
-  float: right;
-  margin-top: 10px;
-  margin-right: 5px;
-}
-
-.aaa {
-  padding: 0;
 }
 
 

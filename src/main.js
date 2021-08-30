@@ -6,7 +6,6 @@ import installElementPlus from './plugins/element'
 import './assets/css/global.css'
 import 'lib-flexible'
 import axios from 'axios';
-import echarts from 'echarts'
 
 const app = createApp(App)
 

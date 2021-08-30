@@ -1,35 +1,5 @@
 <template>
   <div class="Background">
-        <!-- header -->
-    <div class="header">
-        <div class="header_midil">
-            <div class="container-width">
-                <div class="row d_flex">
-                    <div class="col-lg-9 col-md-12 col-sm-12">
-                        <div class="navbar-area">
-                            <nav class="site-navbar">
-                                <ul>
-                                    <li><a class="active" href="#">首页</a></li>
-                                    <li><a href="#">网页链接一</a></li>
-                                    <li><a href="#">网页链接二</a></li>
-                                    <li><a href="#">网页链接三</a></li>
-                                    <li><a href="#">网页链接四</a></li>
-                                    <li><a href="#">网页链接五</a></li>
-                                    <div class="button">
-                                        <li><a href="http://localhost:8080/Login.vue#/Login">登录</a></li>
-                                    <li><a href="http://localhost:8080/Signup.vue#/Signup">注册</a></li>
-                                    </div>
-                                </ul>
-                                <button class="nav-toggler">
-                           <span></span>
-                           </button>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="From-Background">
       <div class="Title">
       欢迎注册高考智能决策系统

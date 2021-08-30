@@ -1,40 +1,19 @@
 <template>
+  <Header />
   <div class="Background">
+
     <!--走马灯-->
     <div class="block">
       <el-carousel height="300px" arrow="never" width="100%">
         <el-carousel-item v-for="item in 2" :key="item" class="el-carousel__item">
           <img src="../img/Carousel.png" alt="" class="carousel-image">
+          <!-- <img src="../img/banner5.png" alt="" class="carousel-image"> -->
+        </el-carousel-item>
+        <el-carousel-item v-for="item in 2" :key="item" class="el-carousel__item">
+          <!-- <img src="../img/Carousel.png" alt="" class="carousel-image"> -->
+          <img src="../img/banner5.png" alt="" class="carousel-image">
         </el-carousel-item>
       </el-carousel>
-    </div>
-    <!--功能卡-->
-    <div class="wrapper">
-      <div class="box"  @click="School">
-        <div class="front-face">
-          <school/>
-          <span>院校库</span>
-        </div>
-        <div class="back-face">
-          <span>院校库</span>
-          <p>
-            查看院校的详细信息，甄选出心仪的大学
-          </p>
-        </div>
-      </div>
-
-      <div class="box"  @click="Major">
-        <div class="front-face">
-          <Collection/>
-          <span>专业库</span>
-        </div>
-        <div class="back-face">
-          <span>专业库</span>
-          <p>
-            按照大类查看各专业的详细信息，找到适合自己的专业
-          </p>
-        </div>
-      </div>
     </div>
     <!--热门院校-->
     <div class="hotSchool">
@@ -89,19 +68,65 @@
         </div>
       </div >
     </div>
+    <!--功能卡-->
+    <div class="wrapper">
+      <div class="box"  @click="School">
+        <div class="front-face">
+          <school/>
+          <span>院校库</span>
+        </div>
+        <div class="back-face">
+          <span>院校库</span>
+          <p>
+            查看院校的详细信息，甄选出心仪的大学
+          </p>
+        </div>
+      </div>
+
+      <div class="box"  @click="Major">
+        <div class="front-face">
+          <Collection/>
+          <span>专业库</span>
+        </div>
+        <div class="back-face">
+          <span>专业库</span>
+          <p>
+            按照大类查看各专业的详细信息，找到适合自己的专业
+          </p>
+        </div>
+      </div>
+    </div>
 
   </div>
+  <Footer />
 </template>
 
 <script>
-
+import { School } from '@element-plus/icons'
+import { Collection } from '@element-plus/icons'
+import Footer from "../components/Footer"
+import Header from "../components/Header"
 export default {
   name: "Home",
-
+  methods:{
+    School:function (){
+      this.$router.push('/SchoolInf');
+    },
+    Major:function (){
+      this.$router.push('/MajorInf');
+    },
+  },
+  components: {
+    School,
+    Collection,
+    Header,
+    Footer,
+  }
 }
 
 </script>
 <style scoped>
+
 .Background{
   background-color: #f7f7f7;
   height: 1400px;
@@ -110,7 +135,7 @@ export default {
 .h1{
   font-size: 50px;
   position: absolute;
-  top: 800px;
+  top:900px;
   left: 50%;
   transform: translate(-50%,  -50%);
 }
@@ -135,7 +160,7 @@ export default {
 
 .container{
   position: absolute;
-  top: 1100px;
+  top: 1150px;
   left: 50%;
   transform: translate(-50%,  -50%);
   display: flex;
@@ -210,9 +235,6 @@ export default {
 }
 
 
-
-
-
 .wrapper{
   display: grid;
   margin: 200px 90px auto;
@@ -228,7 +250,7 @@ export default {
   width: 350px;
   margin: 0 auto;
   position: relative;
-  perspective: 500px;
+  perspective: 1000px;
   cursor:pointer;
 }
 .wrapper .box .front-face{
@@ -305,15 +327,8 @@ export default {
   font-style: italic;
 }
 
-.header_midil {
-  position: relative;
-  background: #F49F0A;
-  width: 100%;
-  height: 20px;
-  padding: 10px 0px;
-}
-
 .site-navbar {
+  position: relative;
   display: flex;
 
   justify-content: space-between;
@@ -403,13 +418,23 @@ ul.email li a i {
   padding-right: 10px;
 }
 
-.el-button--primary {
-  background-color: #F49F0A;
-  border-color: #F49F0A;
-}
 
 .el-input_inner input{
   width: 10px;
 }
 
+.front-face {
+  text-align: center;
+}
+
+.site-navbar ul .float2{
+  position: absolute;
+  float: right;
+  right: 0;
+
+}
+.float2 li {
+  float: right;
+  margin-left: 20px;
+}
 </style>

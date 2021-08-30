@@ -62,23 +62,23 @@ const routes = [{
     children: [{
       path: '/StudentWelcome',
       component: StudentWelcome,
+    },{
+      path: '/SchoolSel',
+      component: SchoolSel,
+    },{
+      path: '/MajorSel',
+      component: MajorSel,
+    },{
+      path: '/SchoolInf',
+      component: SchoolInf
+    },{
+      path: '/MajorInf',
+      component: MajorInf
+    },{
+      path: '/Applications',
+      component: Applications
     }]
-  }, {
-    path: '/SchoolSel',
-    component: SchoolSel,
-  },{
-    path: '/MajorSel',
-    component: MajorSel,
-  },{
-    path: '/SchoolInf',
-    component: SchoolInf
-  },{
-    path: '/MajorInf',
-    component: MajorInf
-  },{
-    path: '/Applications',
-    component: Applications
-  }
+  },
   //老师界面
   ]
 
