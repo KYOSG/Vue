@@ -35,10 +35,10 @@ export default {
   name: "Header",
   methods:{
     School:function (){
-      this.$router.push('/SchoolInf');
+      this.$router.push('/SchoolPublic');
     },
     Major:function (){
-      this.$router.push('/MajorInf');
+      this.$router.push('/MajorPublic');
     },
     Signup:function (){
       this.$router.push('/Signup');

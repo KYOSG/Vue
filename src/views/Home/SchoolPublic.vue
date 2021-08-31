@@ -1,9 +1,10 @@
 <template >
+  <Header />
   <div class="body">
     <!-- 快捷导航栏制作结束 -->
-    <div class="header">
+    <div class="headerc">
       <div class="w">
-        <img src="../../img/header1.png" alt="">
+        <img src="../../img/header2.png" alt="">
         <h4 class="header_h4">院校信息查询</h4>
       </div>
     </div>
@@ -243,7 +244,7 @@
 
     </el-container>
   </div>
-
+  <Footer />
 </template>
 
 <script lang="ts">
@@ -252,9 +253,10 @@ import { ElDivider } from 'element-plus'
 import * as echarts from "echarts";
 import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
 import { Collection, LocationInformation, Medal, Notebook, Management, School, Crop, Link, Timer, Phone, Files } from '@element-plus/icons'
+import Footer from "../../components/Footer"
+import Header from "../../components/Header"
 export default {
   name: "SchoolPublic",
-
   data() {
     return {
       spacer: h(ElDivider, { direction: 'vertical' }),
@@ -440,7 +442,9 @@ export default {
     Link,
     Timer,
     Phone,
-    Files
+    Files,
+    Header,
+    Footer,
   },
 }
 
@@ -474,14 +478,14 @@ h4 {
   float: left;
 }
 
-.header {
+.headerc {
   text-align: center;
   height: 120px;
   margin-bottom: 20px;
   border-bottom: 3px solid #F49F0A;
 }
 
-.header img {
+.headerc img {
   display:inline-block;
   float: left;
   width: 120px;

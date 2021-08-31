@@ -17,7 +17,7 @@
               content="英文字母或数字组成的4-15位字符，可以包含下划线"
           >
             <template #reference>
-              <el-form-item label="用户名" class="fromItem" prop="Username">
+              <el-form-item label="用户名" class="fromItem" prop="username">
                 <el-input v-model="signUpForm.username" clearable></el-input>
               </el-form-item>
             </template>
@@ -62,20 +62,6 @@
                         prefix-icon="el-icon-key"
                         show-password clearable></el-input>
             </el-form-item>
-            <!--考号-->
-          <el-popover
-              placement="right"
-              title="考号"
-              :width="200"
-              trigger="hover"
-              content="您的14位考生号"
-          >
-            <template #reference>
-              <el-form-item label="考号" class="fromItem" prop="st_number">
-                <el-input v-model="signUpForm.st_number" clearable></el-input>
-              </el-form-item>
-            </template>
-          </el-popover>
             <!--位次-->
           <el-popover
               placement="right"
@@ -95,7 +81,7 @@
       </div>
 
       <el-row>
-        <el-button type="primary" class="submit_button colorfix" @click="submit">提交</el-button>
+        <el-button type="primary" class="submit_button colorfix" @click="submit()">注册</el-button>
         <el-button type="primary" class="clear_button colorfix" @click="resetSignUpForm">清空</el-button>
       </el-row>
 
@@ -112,42 +98,46 @@ export default {
   data() {
     const checkUsername = (rule, value, callback) => {
       if (!/^[a-zA-Z0-9_]{4,16}$/.test(value)) {
+        this.checkUsername = false
         callback(new Error('请正确输入用户名'))
+      }else{
+        this.checkUsername = true
+        callback();
       }
     }
 
     const checkPassword = (rule, value, callback) => {
       if (!/^(?=.*[A-Z])[A-Za-z\d]{6,20}$/.test(value)) {
+        this.checkPassword = false
         callback(new Error('6-20位英文字母或数字且至少有一个大写字母'))
+      }else{
+        this.checkPassword = true
+        callback();
       }
     }
 
     const checkPassword2 = (rule, value, callback) => {
       if (value !== this.signUpForm.password) {
-        console.log(value)
-        console.log(this.signUpForm.password)
+        this.checkPassword2 = false
         callback(new Error('两次输入密码不一致!'));
       } else {
+        this.checkPassword2 = true
         callback();
-      }
-    };
-
-    const checkst_number = (rule, value, callback) => {
-      if (!/^[0-9]*^\d{14}$/.test(value)) {
-        callback(new Error('请正确输入考号'))
       }
     }
 
     const checkst_rank = (rule, value, callback) => {
       if (!/^[0-9]*^\d{0,6}$/.test(value)) {
+        this.checkRank = false
         callback(new Error('请正确输入高考位次'))
+      }else{
+        this.checkRank = true
+        callback();
       }
     }
 
     return {
       labelPosition: 'right',
-
-
       signUpForm: {
         username: '',
         st_name: '',
@@ -156,8 +146,12 @@ export default {
         password: '',
         checkPass:'',
       },
+      checkUsername:false,
+      checkPassword:false,
+      checkPassword2:false,
+      checkRank:true,
       signUpFromRules: {
-        Username: [
+        username: [
           {required: true, message: "请输入用户名", trigger: "blur"},
           {validator: checkUsername, trigger: "blur"},
           {min: 3, max: 5, message: '长度在 3 到 15 个字符', trigger: 'blur'},
@@ -171,15 +165,10 @@ export default {
           {required: true, message: "请再次输入密码", trigger: "blur"},
           { validator: checkPassword2, trigger: 'blur' }
         ],
-        st_number: [
-          {required: true, message: "请输入考号", trigger: "blur"},
-          {validator: checkst_number, trigger: "blur"}
-        ],
         st_rank: [
           {validator: checkst_rank, trigger: "blur"}
         ],
       },
-      // subjects: subjectOptions
     }
   },
   methods: {
@@ -187,9 +176,16 @@ export default {
       this.$refs.signUpFormRef.resetFields();
     },
 
-//数据验证
     submit() {
-      console.log(this.signUpForm)
+      if (this.checkUsername&&this.checkPassword&&this.checkPassword2&&(this.checkRank||!this.signUpForm.st_rank)){
+        console.log("000")
+        this.sub()
+      }
+      else {
+        console.log("2222")
+      }
+    },
+    sub(){
       this.$http({
         method: 'post',
         url: '/User/SignUp',

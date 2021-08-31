@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <div class="body">
     <!-- 快捷导航栏 -->
     <div class="header">
@@ -95,11 +96,14 @@
       </div>
     </el-container>
   </div>
+  <Footer />
 </template>
 
 <script>
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
+import Footer from "../../components/Footer"
+import Header from "../../components/Header"
 export default {
   name: "MajorPublic",
 
@@ -172,6 +176,10 @@ export default {
 
     }
   },
+  components:{
+    Header,
+    Footer,
+  }
 }
 
 </script>

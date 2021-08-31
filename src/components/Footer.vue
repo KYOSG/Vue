@@ -7,27 +7,21 @@
             <div class="row">
               <div class="col-lg-6 col-md-12">
                 <div class="hedingh3 text_align_left">
-                  <h4>底部介绍栏一</h4>
+                  <h4>政府网站</h4>
                   <ul class="menu_footer">
                     <!-- 如果不登陆也可也通过这几个链接去访问我们的一些网页 -->
-                    <li> <a href=" # ">链接网页一</a></li>
-                    <li> <a href="# ">链接网页二</a></li>
-                    <li> <a href="# "> 链接网页三</a></li>
-                    <li> <a href="#"> 链接网页四</a></li>
-
+                    <li> <a href="http://www.moe.gov.cn/">中华人民共和国教育部</a></li>
+                    <li> <a href="https://www.sdzk.cn/">山东省教育招生考试院</a></li>
                   </ul>
                 </div>
               </div>
               <div class="col-lg-6 col-md-12">
                 <div class="hedingh3 text_align_left">
-                  <h4>底部介绍栏二</h4>
+                  <h4>友情链接</h4>
                   <ul class="menu_footer">
                     <!-- 如果不登陆也可也通过这几个链接去访问我们的一些网页 -->
-                    <li> <a href=" # ">链接网页一</a></li>
-                    <li> <a href="# ">链接网页二</a></li>
-                    <li> <a href="# "> 链接网页三</a></li>
-                    <li> <a href="#"> 链接网页四</a></li>
-
+                    <li> <a href=" https://gkcx.eol.cn/ ">阳光高考网</a></li>
+                    <li> <a href="https://gaokao.chsi.com.cn/">掌上高考网</a></li>
                   </ul>
                 </div>
               </div>

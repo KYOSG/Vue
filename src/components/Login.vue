@@ -5,8 +5,8 @@
       <div class="c">
         <div class="loginBox">
           <h1>登录</h1>
-          <input type="text" class="e" placeholder="用户名" v-model="loginForm.username">
-          <input type="password" class="e" placeholder="密码" v-model="loginForm.password">
+            <input type="text" class="e" placeholder="用户名" v-model="loginForm.username">
+            <input type="password" class="e" placeholder="密码" v-model="loginForm.password">>
           <a class="g" @click="login">登录</a>
           <a @click="signup">注册</a>
         </div>
@@ -24,19 +24,17 @@ export default {
         username:'',
         password:''
       },
-      //数据验证
-      loginFormRules:{
-        username: [
-          { required: true, message:"请输入用户名",trigger:"blur" },
-        ],
-        password: [
-          { required: true, message:"请输入密码",trigger:"blur" },
-        ]
-      },
     }
   },
   methods:{
     login(){
+      if (!this.loginForm.username||!this.loginForm.password){
+        this.$notify({
+          title: '登陆失败',
+          message: "用户名或密码不能为空",
+          type: 'warning'
+        })
+      }
       this.$http({
         method:'post',
         url:'/User/Login',
