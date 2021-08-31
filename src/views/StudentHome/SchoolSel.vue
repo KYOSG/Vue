@@ -1,5 +1,6 @@
 <template>
   <div class="body">
+    <!-- 快捷导航栏 -->
     <section class="shortcut">
       <div class="w">
         <img src="../../img/shortcut1.png" alt="">
@@ -12,22 +13,20 @@
           <ul>
             <li><a href="#">个人主页</a></li>
             <li></li>
-            <li class="arrow-icon"><a href="#">院校选择</a></li>
+            <li class="arrow-icon"><a @click="SchoolSell">院校选择</a></li>
             <li></li>
-            <li><a href="#">专业选择</a></li>
+            <li><a @click="MajorSell">专业选择</a></li>
             <li></li>
-            <li><a href="#">志愿选择</a></li>
+            <li class="arrow-icon"><a @click="School">院校信息查询</a></li>
             <li></li>
-            <li class="arrow-icon"><a href="#">院校查询</a></li>
+            <li class="arrow-icon"><a @click="Major">专业信息查询</a></li>
             <li></li>
-            <li class="arrow-icon"><a href="#">专业查询</a></li>
-            <li></li>
-            <li class="arrow-icon"><a href="#">高考信息可视化</a></li>
+            <li class="arrow-icon"><a @click="Application">查看已选专业</a></li>
           </ul>
         </div>
       </div>
     </section>
-    <!-- 快捷导航栏制作结束 -->
+    <!-- 快捷导航栏结束 -->
     <div class="header">
       <div class="w">
         <img src="../../img/header2.png" alt="">
@@ -284,6 +283,21 @@ export default {
     this.submit();
   },
   methods: {
+    School:function (){
+      this.$router.push('/SchoolInf');
+    },
+    Major:function (){
+      this.$router.push('/MajorInf');
+    },
+    SchoolSell:function (){
+      this.$router.push('/SchoolSel');
+    },
+    MajorSell:function (){
+      this.$router.push('/MajorSel');
+    },
+    Application:function (){
+      this.$router.push('/Applications');
+    },
     submit() {
       this.searchOption = false
       this.selForm.Position = []
@@ -472,6 +486,7 @@ h4 {
 }
 
 .fr {
+  cursor:pointer;
   margin-left: 50%;
 }
 
@@ -505,21 +520,11 @@ h4 {
   margin-right: 20px;
 }
 
-.footer {
-  height: 178px;
-  margin-top: 90px;
-  /* padding-top: 15px; */
-  padding-bottom: 15px;
-  background: #F49F0A;
-  text-align: center;
-}
-
 .hedingh3 h4 {
   color: #fff;
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 20px;
-  font-size: 18px;
   line-height: 23px;
   font-weight: 400;
   text-align: left;
@@ -556,8 +561,6 @@ ul.social_icon li a i:hover {
 
 ul.menu_footer {
   text-align: left;
-  /* margin-bottom: 15px; */
-
 }
 
 ul.menu_footer li a {

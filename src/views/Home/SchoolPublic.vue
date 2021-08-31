@@ -1,35 +1,9 @@
 <template >
   <div class="body">
-    <!-- 快捷导航栏 -->
-    <section class="shortcut">
-      <div class="w">
-        <img src="../../img/shortcut1.png" alt="">
-        <div class="fl">
-          <ul>
-            <li>欢迎使用高考志愿填报系统！&nbsp;</li>
-          </ul>
-        </div>
-        <div class="fr">
-          <ul>
-            <li><a href="#">个人主页</a></li>
-            <li></li>
-            <li class="arrow-icon"><a @click="SchoolSell">院校选择</a></li>
-            <li></li>
-            <li><a @click="MajorSell">专业选择</a></li>
-            <li></li>
-            <li class="arrow-icon"><a @click="School">院校信息查询</a></li>
-            <li></li>
-            <li class="arrow-icon"><a @click="Major">专业信息查询</a></li>
-            <li></li>
-            <li class="arrow-icon"><a @click="Application">查看已选专业</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <!-- 快捷导航栏结束 -->
+    <!-- 快捷导航栏制作结束 -->
     <div class="header">
       <div class="w">
-        <img src="../../img/header2.png" alt="">
+        <img src="../../img/header1.png" alt="">
         <h4 class="header_h4">院校信息查询</h4>
       </div>
     </div>
@@ -279,7 +253,7 @@ import * as echarts from "echarts";
 import { getProvinceMapInfo } from "../../../utils/mapNameExchange";
 import { Collection, LocationInformation, Medal, Notebook, Management, School, Crop, Link, Timer, Phone, Files } from '@element-plus/icons'
 export default {
-  name: "SchoolInf",
+  name: "SchoolPublic",
 
   data() {
     return {
@@ -314,21 +288,6 @@ export default {
     this.drawMap();
   },
   methods:{
-    School:function (){
-      this.$router.push('/SchoolInf');
-    },
-    Major:function (){
-      this.$router.push('/MajorInf');
-    },
-    SchoolSell:function (){
-      this.$router.push('/SchoolSel');
-    },
-    MajorSell:function (){
-      this.$router.push('/MajorSel');
-    },
-    Application:function (){
-      this.$router.push('/Applications');
-    },
     reset(){
       this.selForm.Position = []
       this.submit()
@@ -550,7 +509,6 @@ h4 {
 }
 
 .fr {
-  cursor:pointer;
   margin-left: 50%;
 }
 

@@ -1,39 +1,12 @@
 <template>
   <div class="body">
     <!-- 快捷导航栏 -->
-    <section class="shortcut">
-      <div class="w">
-        <img src="../../img/shortcut1.png" alt="">
-        <div class="fl">
-          <ul>
-            <li>欢迎使用高考志愿填报系统！&nbsp;</li>
-          </ul>
-        </div>
-        <div class="fr">
-          <ul>
-            <li><a href="#">个人主页</a></li>
-            <li></li>
-            <li class="arrow-icon"><a @click="SchoolSell">院校选择</a></li>
-            <li></li>
-            <li><a @click="MajorSell">专业选择</a></li>
-            <li></li>
-            <li class="arrow-icon"><a @click="School">院校信息查询</a></li>
-            <li></li>
-            <li class="arrow-icon"><a @click="Major">专业信息查询</a></li>
-            <li></li>
-            <li class="arrow-icon"><a @click="Application">查看已选专业</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <!-- 快捷导航栏结束 -->
     <div class="header">
       <div class="w">
         <img src="../../img/header1.png" alt="">
         <h4 class="header_h4">专业信息查询</h4>
       </div>
     </div>
-
     <el-container >
       <div class="w">
         <div>
@@ -128,7 +101,7 @@
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
 export default {
-  name: "MajorInf",
+  name: "MajorPublic",
 
   data() {
     return {
@@ -154,21 +127,6 @@ export default {
     this.submit();
   },
   methods:{
-    School:function (){
-      this.$router.push('/SchoolInf');
-    },
-    Major:function (){
-      this.$router.push('/MajorInf');
-    },
-    SchoolSell:function (){
-      this.$router.push('/SchoolSel');
-    },
-    MajorSell:function (){
-      this.$router.push('/MajorSel');
-    },
-    Application:function (){
-      this.$router.push('/Applications');
-    },
     submit(){
       this.selForm.type_detail = []
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
@@ -269,6 +227,7 @@ h4 {
 
 .shortcut {
   height: 40px;
+
   background-color: #f5f5f5;
   line-height: 40px;
 }
@@ -310,6 +269,7 @@ h4 {
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 20px;
+  font-size: 18px;
   line-height: 23px;
   font-weight: 400;
   text-align: left;
@@ -318,6 +278,7 @@ h4 {
 .hedingh3 p {
   color: #fff;
   text-align: left;
+
 }
 
 ul.social_icon li {
@@ -345,6 +306,8 @@ ul.social_icon li a i:hover {
 
 ul.menu_footer {
   text-align: left;
+
+
 }
 
 ul.menu_footer li a {
@@ -364,43 +327,46 @@ ul.menu_footer li a:hover {
   color: #dc2727;
 }
 
-.shortcut {
-  height: 40px;
-  background-color: #f5f5f5;
-  line-height: 40px;
-}
-
-.shortcut img {
+.text_align_left {
   float: left;
-  width: 50px;
-  height: 30px;
-  margin-right: 20px;
+  margin: 0;
+  padding-right: 256px;
 }
 
-.fr {
-  cursor:pointer;
-  margin-left: 50%;
-}
-
-.shortcut ul li {
+.text_align_left1 {
   float: left;
-  list-style: none;
-
+  margin: auto 0;
+  margin-right: 0;
 }
 
-.shortcut ul li a {
-  color: #666666;
+.content {
+
+  background-color: #fff;
+  padding: 10px;
 }
 
-.shortcut ul li a:hover {
-  color: #F49F0A;
+.kkk {
+  margin-top: -30px;
+  border: 1px solid;
 }
 
-.shortcut .fr ul li:nth-child(even) {
-  width: 1px;
-  height: 12px;
-  background-color: #666;
-  margin: 14px 15px 0;
+.el-button {
+  float: right;
+  margin-top: 10px;
+  margin-right: 5px;
 }
 
+.aaa {
+  padding: 0;
+}
+
+.el-button {
+  width: 56px;
+  margin-top: 0;
+  margin-left: -10px;
+}
+
+.el-pagination {
+  margin-top: 30px;
+}
 </style>

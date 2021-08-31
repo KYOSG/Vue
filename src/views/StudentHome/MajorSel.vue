@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-    <!-- 快捷导航栏制作开始 -->
+    <!-- 快捷导航栏开始 -->
     <section class="shortcut">
       <div class="w">
         <img src="../../img/shortcut1.png" alt="">
@@ -13,22 +13,20 @@
           <ul>
             <li><a href="#">个人主页</a></li>
             <li></li>
-            <li class="arrow-icon"><a href="#">院校选择</a></li>
+            <li class="arrow-icon"><a @click="SchoolSell">院校选择</a></li>
             <li></li>
-            <li><a href="#">专业选择</a></li>
+            <li><a @click="MajorSell">专业选择</a></li>
             <li></li>
-            <li><a href="#">志愿选择</a></li>
+            <li class="arrow-icon"><a @click="School">院校信息查询</a></li>
             <li></li>
-            <li class="arrow-icon"><a href="#">院校查询</a></li>
+            <li class="arrow-icon"><a @click="Major">专业信息查询</a></li>
             <li></li>
-            <li class="arrow-icon"><a href="#">专业查询</a></li>
-            <li></li>
-            <li class="arrow-icon"><a href="#">高考信息可视化</a></li>
+            <li class="arrow-icon"><a @click="Application">查看已选专业</a></li>
           </ul>
         </div>
       </div>
     </section>
-    <!-- 快捷导航栏制作结束 -->
+    <!-- 快捷导航栏结束 -->
     <div class="header">
       <div class="w">
         <img src="../../img/header1.png" alt="">
@@ -39,10 +37,9 @@
       <div class="content w">
         <div class="neirong">
           <el-space :size="33">
-            <el-space direction="vertical"  class="select" alignment="flex-start" :size="5">
+            <el-space direction="vertical"  class="select" alignment="flex-start" :size="15">
               <!--专业筛选-->
-              <div class="schoolPosition">
-                <!-- <el-space wrap :size="33"> -->
+                <el-space wrap :size="1">
                 <h4>专业类别：</h4>
                 <el-cascader
                     placeholder="试试搜索：计算机类"
@@ -53,40 +50,41 @@
                     ref="cascadeAddr"
                     clearable
                     @change="submit" class="float search"></el-cascader>
-                <!-- </el-space> -->
-              </div>
+            </el-space>
               <!--层级-->
-              <el-space  wrap :size="3">
+              <el-space  wrap :size="1">
                 <h4>院校层次：</h4>
-                <el-radio-group v-model="selForm.batch" @change="submit" class="float">
-                  <el-radio-button label="全部" class="float  three_box color"></el-radio-button>
-                  <el-radio-button label="本科" class="float  three_box color"></el-radio-button>
-                  <el-radio-button label="专科" class="float  three_box color"></el-radio-button>
-                </el-radio-group>
-                <el-switch v-model="Switch" active-text="查看所有学校" inactive-text="仅查看已选学校" @change="switchOption" class="margin2"></el-switch>
+                <el-space :size="10" :spacer="spacer">
+                  <el-radio-group v-model="selForm.batch" @change="submit" class="float">
+                    <el-radio-button label="全部" class="float  three_box color"></el-radio-button>
+                    <el-radio-button label="本科" class="float  three_box color"></el-radio-button>
+                    <el-radio-button label="专科" class="float  three_box color"></el-radio-button>
+                  </el-radio-group>
+                  <el-switch v-model="Switch" active-text="查看所有学校" inactive-text="仅查看已选学校" @change="switchOption" class="margin2"></el-switch>
+                </el-space>
               </el-space>
               <!--选课要求-->
-              <div>
-                <el-space  wrap :size="0">
+                <el-space  wrap :size="1">
                   <h4 >所选科目：</h4>
-                  <div>
-                    <el-checkbox-group v-model="selForm.subject" size="small" @change="submit">
-                      <el-checkbox-button v-for="major in majors" :label="major" :key="major">{{major}}</el-checkbox-button>
-                    </el-checkbox-group>
-                  </div>
-                  <h4 class="margin1">成绩排名：</h4>
-                  <el-input v-model.number="rank" placeholder="高考位次" @change="submit" class="float ranking"></el-input>
-
-                  <div class="position1">
-                    <el-button @click="showDrawer" type="primary" class="top_button float">查看已选专业</el-button>
-                    <el-button @click="showCreateForm" type="primary" class="top_button float">一键生成志愿</el-button>
-                  </div>
-
+                  <el-space :size="10" :spacer="spacer">
+                    <div>
+                      <el-checkbox-group v-model="selForm.subject" size="small" @change="submit">
+                        <el-checkbox-button v-for="major in majors" :label="major" :key="major">{{major}}</el-checkbox-button>
+                      </el-checkbox-group>
+                    </div>
+                    <el-space wrap :size="10">
+                      <h4 class="margin1">高考位次：</h4>
+                      <el-space wrap :size="40">
+                        <el-input v-model.number="rank" placeholder="高考位次" @change="submit" class="float ranking"></el-input>
+                        <div>
+                          <el-button @click="showDrawer" type="primary" class="top_button float">查看已选专业</el-button>
+                          <el-button @click="showCreateForm" type="primary" class="top_button float">生成志愿列表</el-button>
+                        </div>
+                      </el-space>
+                  </el-space>
+                  </el-space>
                 </el-space>
-
-              </div>
             </el-space>
-
           </el-space>
           <!--查询结果-->
           <div class="kkk">
@@ -140,27 +138,17 @@
 
           </el-drawer>
 
-          <!--分页-->
-          <el-pagination
-              @size-change="pageSizeChange"
-              @current-change="pageCurrentChange"
-              :current-page="selForm.pageNum"
-              :page-sizes="[5, 50, 100]"
-              :page-size= "selForm.pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="total"
-              background>
-          </el-pagination>
           <!--生成志愿-->
           <el-dialog
-              title="一键生成志愿"
+              title="生成志愿列表"
               v-model="dialogVisible"
               width="70%">
 
-            <space :size="25" :spacer="spacer" class="aaa">
-              <!--专业筛选-->
-              <div class="schoolPosition">
-                <el-space wrap :size="33">
+            <el-space :size="33">
+              <el-space direction="vertical"  class="select" alignment="flex-start" :size="15">
+                <!--专业筛选-->
+                <el-space wrap :size="1">
+                  <h4>专业类别：</h4>
                   <el-cascader
                       placeholder="试试搜索：计算机类"
                       :options="options"
@@ -169,37 +157,41 @@
                       collapse-tags
                       ref="cascadeAddr"
                       clearable
-                      @change="submit"></el-cascader>
+                      @change="submit" class="float search"></el-cascader>
                 </el-space>
-              </div>
-              <!--层级-->
-              <div>
-                <el-space  wrap :size="43">
-                  <el-radio-group v-model="selForm.batch">
-                    <el-radio-button label="全部"></el-radio-button>
-                    <el-radio-button label="本科"></el-radio-button>
-                    <el-radio-button label="专科"></el-radio-button>
-                  </el-radio-group>
+                <!--层级-->
+                <el-space  wrap :size="1">
+                  <h4>院校层次：</h4>
+                  <el-space :size="10" :spacer="spacer">
+                    <el-radio-group v-model="selForm.batch" @change="submit" class="float">
+                      <el-radio-button label="全部" class="float  three_box color"></el-radio-button>
+                      <el-radio-button label="本科" class="float  three_box color"></el-radio-button>
+                      <el-radio-button label="专科" class="float  three_box color"></el-radio-button>
+                    </el-radio-group>
+                    <el-switch v-model="Switch" active-text="查看所有学校" inactive-text="仅查看已选学校" @change="switchOption" class="margin2"></el-switch>
+                  </el-space>
                 </el-space>
-
-              </div>
-
-              <!--选课要求-->
-              <div>
-                <el-space  wrap :size="43">
-                  <div>
-                    <el-checkbox-group v-model="selForm.subject" size="small">
-                      <el-checkbox-button v-for="major in majors" :label="major" :key="major">{{major}}</el-checkbox-button>
-                    </el-checkbox-group>
-                  </div>
+                <!--选课要求-->
+                <el-space  wrap :size="1">
+                  <h4 >所选科目：</h4>
+                  <el-space :size="10" :spacer="spacer">
+                    <div>
+                      <el-checkbox-group v-model="selForm.subject" size="small" @change="submit">
+                        <el-checkbox-button v-for="major in majors" :label="major" :key="major">{{major}}</el-checkbox-button>
+                      </el-checkbox-group>
+                    </div>
+                    <el-space wrap :size="10">
+                      <h4 class="margin1">高考位次：</h4>
+                      <el-space wrap :size="40">
+                        <el-input v-model.number="rank" placeholder="高考位次" @change="submit" class="float ranking"></el-input>
+                        <el-button type="primary" @click="submitCreate">生成志愿</el-button>
+                      </el-space>
+                    </el-space>
+                  </el-space>
                 </el-space>
-              </div>
-              <!--高考位次-->
-
-              <el-input v-model.number="rank" placeholder="高考位次"></el-input>
-
-            </space>
-            <el-button type="primary" @click="submitCreate">提交</el-button>
+              </el-space>
+            </el-space>
+            <!--结果-->
             <el-table :data="majorCreateList"
                       highlight-current-row
                       @change="submit"
@@ -223,6 +215,17 @@
             </span>
             </template>
           </el-dialog>
+          <!--分页-->
+          <el-pagination
+              @size-change="pageSizeChange"
+              @current-change="pageCurrentChange"
+              :current-page="selForm.pageNum"
+              :page-sizes="[5, 50, 100]"
+              :page-size= "selForm.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"
+              background>
+          </el-pagination>
         </div>
       </div>
     </el-container>
@@ -272,6 +275,21 @@ export default {
     this.submit();
   },
   methods: {
+    School:function (){
+      this.$router.push('/SchoolInf');
+    },
+    Major:function (){
+      this.$router.push('/MajorInf');
+    },
+    SchoolSell:function (){
+      this.$router.push('/SchoolSel');
+    },
+    MajorSell:function (){
+      this.$router.push('/MajorSel');
+    },
+    Application:function (){
+      this.$router.push('/Applications');
+    },
     submit() {
       this.selForm.lowLevel = this.rank
       if (this.selForm.lowLevel === ''){
@@ -521,7 +539,6 @@ h4 {
 
 .shortcut {
   height: 40px;
-
   background-color: #f5f5f5;
   line-height: 40px;
 }
@@ -534,6 +551,7 @@ h4 {
 }
 
 .fr {
+  cursor:pointer;
   margin-left: 50%;
 }
 
