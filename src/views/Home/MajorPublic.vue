@@ -1,13 +1,12 @@
 <template>
-  <Header />
   <div class="body">
-    <!-- 快捷导航栏 -->
     <div class="header">
       <div class="w">
         <img src="../../img/header1.png" alt="">
         <h4 class="header_h4">专业信息查询</h4>
       </div>
     </div>
+
     <el-container >
       <div class="w">
         <div>
@@ -96,14 +95,11 @@
       </div>
     </el-container>
   </div>
-  <Footer />
 </template>
 
 <script>
 import { h } from 'vue'
 import { ElDivider } from 'element-plus'
-import Footer from "../../components/Footer"
-import Header from "../../components/Header"
 export default {
   name: "MajorPublic",
 
@@ -131,6 +127,21 @@ export default {
     this.submit();
   },
   methods:{
+    School:function (){
+      this.$router.push('/SchoolInf');
+    },
+    Major:function (){
+      this.$router.push('/MajorInf');
+    },
+    SchoolSell:function (){
+      this.$router.push('/SchoolSel');
+    },
+    MajorSell:function (){
+      this.$router.push('/MajorSel');
+    },
+    Application:function (){
+      this.$router.push('/Applications');
+    },
     submit(){
       this.selForm.type_detail = []
       for(let i=0;i<this.$refs['cascadeAddr'].getCheckedNodes().length;i++){
@@ -176,10 +187,6 @@ export default {
 
     }
   },
-  components:{
-    Header,
-    Footer,
-  }
 }
 
 </script>
@@ -235,7 +242,6 @@ h4 {
 
 .shortcut {
   height: 40px;
-
   background-color: #f5f5f5;
   line-height: 40px;
 }
@@ -277,7 +283,6 @@ h4 {
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 20px;
-  font-size: 18px;
   line-height: 23px;
   font-weight: 400;
   text-align: left;
@@ -286,7 +291,6 @@ h4 {
 .hedingh3 p {
   color: #fff;
   text-align: left;
-
 }
 
 ul.social_icon li {
@@ -314,8 +318,6 @@ ul.social_icon li a i:hover {
 
 ul.menu_footer {
   text-align: left;
-
-
 }
 
 ul.menu_footer li a {
@@ -335,46 +337,43 @@ ul.menu_footer li a:hover {
   color: #dc2727;
 }
 
-.text_align_left {
+.shortcut {
+  height: 40px;
+  background-color: #f5f5f5;
+  line-height: 40px;
+}
+
+.shortcut img {
   float: left;
-  margin: 0;
-  padding-right: 256px;
+  width: 50px;
+  height: 30px;
+  margin-right: 20px;
 }
 
-.text_align_left1 {
+.fr {
+  cursor:pointer;
+  margin-left: 50%;
+}
+
+.shortcut ul li {
   float: left;
-  margin: auto 0;
-  margin-right: 0;
+  list-style: none;
+
 }
 
-.content {
-
-  background-color: #fff;
-  padding: 10px;
+.shortcut ul li a {
+  color: #666666;
 }
 
-.kkk {
-  margin-top: -30px;
-  border: 1px solid;
+.shortcut ul li a:hover {
+  color: #F49F0A;
 }
 
-.el-button {
-  float: right;
-  margin-top: 10px;
-  margin-right: 5px;
+.shortcut .fr ul li:nth-child(even) {
+  width: 1px;
+  height: 12px;
+  background-color: #666;
+  margin: 14px 15px 0;
 }
 
-.aaa {
-  padding: 0;
-}
-
-.el-button {
-  width: 56px;
-  margin-top: 0;
-  margin-left: -10px;
-}
-
-.el-pagination {
-  margin-top: 30px;
-}
 </style>

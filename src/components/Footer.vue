@@ -12,6 +12,7 @@
                     <!-- 如果不登陆也可也通过这几个链接去访问我们的一些网页 -->
                     <li> <a href="http://www.moe.gov.cn/">中华人民共和国教育部</a></li>
                     <li> <a href="https://www.sdzk.cn/">山东省教育招生考试院</a></li>
+
                   </ul>
                 </div>
               </div>
@@ -22,6 +23,8 @@
                     <!-- 如果不登陆也可也通过这几个链接去访问我们的一些网页 -->
                     <li> <a href=" https://gkcx.eol.cn/ ">阳光高考网</a></li>
                     <li> <a href="https://gaokao.chsi.com.cn/">掌上高考网</a></li>
+
+
                   </ul>
                 </div>
               </div>
@@ -47,7 +50,7 @@
 
 <script>
 export default {
-  name: "footer"
+  name: "Footer"
 }
 </script>
 
@@ -71,6 +74,7 @@ a {
 
 h4 {
   float: left;
+  width: 400px;
 }
 
 .header img {
@@ -145,12 +149,12 @@ h4 {
   font-size: 18px;
   line-height: 23px;
   font-weight: 400;
-  text-align: left;
+  text-align: center;
 }
 
 .hedingh3 p {
   color: #fff;
-  text-align: left;
+  text-align: center;
 }
 
 ul.social_icon li {
@@ -177,7 +181,8 @@ ul.social_icon li a i:hover {
 }
 
 ul.menu_footer {
-  text-align: left;
+  width: 400px;
+  text-align: center;
 
 }
 
@@ -201,7 +206,8 @@ ul.menu_footer li a:hover {
 .text_align_left {
   float: left;
   margin: 0;
-  padding-right: 256px;
+  text-align: center;
+  /* padding-right: 256px; */
 }
 
 .text_align_left1 {
